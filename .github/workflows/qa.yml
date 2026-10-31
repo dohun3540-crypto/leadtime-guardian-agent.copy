@@ -1,0 +1,16 @@
+name: Independent QA
+on:
+  push:
+    branches: [feat/independent-qa-integration, feat/qa-source-restore-20261031]
+  pull_request:
+jobs:
+  qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install pytest ruff
+      - run: PYTHONPATH=src python -m pytest -q tests/test_qa_independent.py tests/test_qa_portfolio.py
+      - run: python -m ruff check src/leadtime_guardian/qa scripts/qa_audit.py tests/test_qa_independent.py tests/test_qa_portfolio.py
