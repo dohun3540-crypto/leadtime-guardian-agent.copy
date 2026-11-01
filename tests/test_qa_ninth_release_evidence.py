@@ -191,3 +191,61 @@ def test_markdown_report_cannot_overwrite_existing_pdf_evidence(tmp_path):
     assert proc.returncode == 1, proc.stderr
     assert out["status"] == "FAIL"
     assert pdf.read_bytes() == original_pdf_bytes
+
+
+
+def _run_reports(manifest_path, json_path, markdown_path):
+    proc = subprocess.run(
+        [sys.executable, str(CLI), "--manifest", str(manifest_path),
+         "--json-report", str(json_path),
+         "--markdown-report", str(markdown_path)],
+        cwd=ROOT, capture_output=True, text=True, check=False, timeout=30,
+    )
+    return proc, json.loads(proc.stdout)
+
+
+def test_identical_json_and_markdown_report_paths_are_rejected_before_creation(
+    tmp_path,
+):
+    source = manifest(tmp_path)
+    output = tmp_path / "same_report.txt"
+    proc, report = _run_reports(source, output, output)
+    assert proc.returncode == 1, proc.stderr
+    assert report["status"] == "FAIL"
+    assert "REPORT_OUTPUT_NOT_WRITABLE" in {
+        issue["issue_code"] for issue in report["blocking_issues"]
+    }
+    assert not output.exists()
+    assert source.is_file()
+
+
+def test_preexisting_second_report_rolls_back_first_without_touching_original(
+    tmp_path,
+):
+    source = manifest(tmp_path)
+    first = tmp_path / "new_report.json"
+    second = tmp_path / "existing_source.pdf"
+    original = b"UNTOUCHED ORIGINAL BYTES"
+    second.write_bytes(original)
+    proc, report = _run_reports(source, first, second)
+    assert proc.returncode == 1, proc.stderr
+    assert report["status"] == "FAIL"
+    assert not first.exists()
+    assert second.read_bytes() == original
+
+
+def test_reports_with_alias_paths_resolve_to_same_file_and_are_rejected(
+    tmp_path,
+):
+    source = manifest(tmp_path)
+    target = tmp_path / "reports"
+    target.mkdir()
+    alias = tmp_path / "alias"
+    alias.symlink_to(target, target_is_directory=True)
+    output = target / "same.json"
+    proc, report = _run_reports(
+        source, output, alias / "same.json",
+    )
+    assert proc.returncode == 1, proc.stderr
+    assert report["status"] == "FAIL"
+    assert not output.exists()

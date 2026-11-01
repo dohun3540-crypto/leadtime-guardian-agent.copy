@@ -13,6 +13,33 @@ sys.path.insert(0, str(ROOT / "src"))
 from leadtime_guardian.qa.release_inventory import audit_release_folder, render_markdown
 
 
+def _write_reports_exclusively(
+    reports: list[tuple[Path, str]],
+) -> None:
+    """All-or-rollback output creation; never overwrite original evidence.
+
+    The paths must be distinct even when one uses a symlinked parent.
+    Exclusively create each file and remove only files created in this call
+    if a subsequent create/write fails. No existing source is touched.
+    """
+    if len({path.resolve(strict=False) for path, _ in reports}) != len(reports):
+        raise FileExistsError("JSON and Markdown report paths must differ")
+
+    created: list[Path] = []
+    try:
+        for path, body in reports:
+            with path.open("x", encoding="utf-8") as output:
+                created.append(path)
+                output.write(body)
+    except OSError:
+        for path in reversed(created):
+            try:
+                path.unlink()
+            except OSError:
+                pass
+        raise
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--manifest", required=True, type=Path)
@@ -22,12 +49,12 @@ def main() -> int:
     result = audit_release_folder(args.manifest)
     rendered = json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     try:
+        reports = []
         if args.json_report is not None:
-            with args.json_report.open("x", encoding="utf-8") as output:
-                output.write(rendered)
+            reports.append((args.json_report, rendered))
         if args.markdown_report is not None:
-            with args.markdown_report.open("x", encoding="utf-8") as output:
-                output.write(render_markdown(result))
+            reports.append((args.markdown_report, render_markdown(result)))
+        _write_reports_exclusively(reports)
     except OSError:
         result["status"] = "FAIL"
         result["release_authorized"] = False
