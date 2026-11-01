@@ -2,8 +2,8 @@
 
 Synthetic local contract tests; not Studio live-input authentication.
 """
-from copy import deepcopy
 import json
+from copy import deepcopy
 
 import pytest
 
