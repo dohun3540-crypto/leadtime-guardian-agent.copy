@@ -6,6 +6,7 @@ Uses OOXML ZIP/XML directly to preserve original cell types without Excel APIs.
 import argparse
 import hashlib
 import json
+import re
 import sys
 import zipfile
 from decimal import Decimal, InvalidOperation
@@ -46,6 +47,7 @@ def inspect_workbook(data):
                       for si in xml.iter(XML + "si")]
         for sheet in names:
             matches = []
+            coordinate_values = {}
             root = ET.fromstring(archive.read(sheet))
             for cell in root.iter(XML + "c"):
                 kind = cell.get("t", "n")
@@ -60,6 +62,9 @@ def inspect_workbook(data):
                     value = "".join(t.text or "" for t in inline.iter(XML + "t")) if inline is not None else None
                 else:
                     value = raw
+                coordinate = cell.get("r")
+                if coordinate:
+                    coordinate_values[coordinate] = value
                 category = classify(value, kind)
                 formula = cell.find(XML + "f")
                 has_formula = formula is not None
@@ -74,6 +79,41 @@ def inspect_workbook(data):
                                     "match_type": (
                                         "FORMULA_CACHED_49" if has_formula else category
                                     )})
+            # The first row is only a candidate header; do not infer an
+            # authoritative Studio JSON mapping without a real export schema.
+            for match in matches:
+                coordinate = match["cell"] or ""
+                letters = "".join(ch for ch in coordinate if ch.isalpha())
+                match["column_header_row1_candidate"] = (
+                    coordinate_values.get(letters + "1") if letters else None
+                )
+                match["json_field_mapping_verified"] = False
+                # The actual table header can start lower than row 1. Expose
+                # candidate cells only; never assume they map to Studio JSON.
+                coordinate_parts = re.fullmatch(r"([A-Z]+)([1-9][0-9]*)", coordinate)
+                near = {}
+                above = []
+                if coordinate_parts:
+                    col, row = coordinate_parts.group(1), int(coordinate_parts.group(2))
+                    col_number = sum((ord(ch) - 64) * (26 ** pos)
+                                     for pos, ch in enumerate(reversed(col)))
+                    for other_coordinate, other_value in coordinate_values.items():
+                        other = re.fullmatch(r"([A-Z]+)([1-9][0-9]*)", other_coordinate)
+                        if other is None:
+                            continue
+                        other_col, other_row = other.group(1), int(other.group(2))
+                        other_col_number = sum((ord(ch) - 64) * (26 ** pos)
+                                               for pos, ch in enumerate(reversed(other_col)))
+                        if (other_row == row and other_coordinate != coordinate
+                                and abs(other_col_number - col_number) <= 2):
+                            near[other_coordinate] = other_value
+                        if other_col == col and other_row < row and other_value is not None:
+                            above.append({"cell": other_coordinate, "value": other_value})
+                match["same_row_context_unverified"] = near
+                match["potential_header_cells_above"] = sorted(
+                    above, key=lambda item: int(re.search(r"[0-9]+$", item["cell"]).group()),
+                    reverse=True,
+                )[:3]
             sheets.append({"worksheet_xml": sheet, "matches": matches})
     return sheets
 

@@ -74,3 +74,37 @@ def test_formula_cached_49_is_not_a_literal_number(tmp_path):
     assert match["formula_expression"] == "7*7"
     assert match["has_formula"] is True
     assert data["causal_origin"] == "UNKNOWN"
+
+
+
+def test_excel_49_row_context_does_not_invent_json_mapping(tmp_path):
+    workbook = tmp_path / "synthetic_context.xlsx"
+    xml = (
+        '<worksheet xmlns="http://schemas.openxmlformats.org/'
+        'spreadsheetml/2006/main"><sheetData>'
+        '<row r="1"><c r="C1" t="inlineStr"><is><t>Quantity'
+        '</t></is></c></row>'
+        '<row r="2"><c r="B2" t="inlineStr"><is><t>PO1</t></is></c>'
+        '<c r="C2" t="n"><v>49</v></c>'
+        '<c r="D2" t="n"><v>100</v></c></row>'
+        '</sheetData></worksheet>'
+    )
+    with zipfile.ZipFile(workbook, "w") as bundle:
+        bundle.writestr("xl/worksheets/sheet1.xml", xml)
+    proc = subprocess.run(
+        [sys.executable, str(CLI), "--xlsx", str(workbook)],
+        capture_output=True, text=True, check=False, cwd=ROOT, timeout=30,
+    )
+    result = json.loads(proc.stdout)
+    assert proc.returncode == 2, proc.stderr
+    match = result["xlsx_matches"][0]
+    assert match["cell"] == "C2"
+    assert match["column_header_row1_candidate"] == "Quantity"
+    assert match["potential_header_cells_above"] == [
+        {"cell": "C1", "value": "Quantity"},
+    ]
+    assert match["same_row_context_unverified"] == {
+        "B2": "PO1", "D2": "100",
+    }
+    assert match["json_field_mapping_verified"] is False
+    assert result["causal_origin"] == "UNKNOWN"

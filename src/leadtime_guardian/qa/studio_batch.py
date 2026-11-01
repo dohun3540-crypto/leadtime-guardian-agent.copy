@@ -130,11 +130,19 @@ def audit_studio_case_batch(
         types = [s.get("document_type") for s in sources]
         if (not all(isinstance(x, str) and x.endswith(".pdf") for x in file_names)
                 or len({x for x in file_names if isinstance(x, str)}) != 3
-                or not all(isinstance(x, str) and x.startswith("file_") for x in file_ids)
-                or len({x for x in file_ids if isinstance(x, str)}) != 3
                 or not all(isinstance(x, str) for x in types)
                 or Counter(x for x in types if isinstance(x, str)) != Counter(REQUIRED_TYPES)):
             flag("SINGLE_JOB_SOURCE_SET_INCONSISTENT", "jobs[0].source_files")
+            answer["qa_status"] = "FAIL"
+            return answer
+        # Missing file IDs in a user-reported new Job are missing evidence,
+        # not a confirmed Studio file-ID mismatch. Do NOT fabricate them.
+        if all(x is None for x in file_ids):
+            flag("SINGLE_JOB_SOURCE_FILE_IDS_NOT_OBSERVED",
+                 "jobs[0].source_files", "WARNING")
+        elif (not all(isinstance(x, str) and x.startswith("file_") for x in file_ids)
+                or len({x for x in file_ids if isinstance(x, str)}) != 3):
+            flag("SINGLE_JOB_SOURCE_FILE_IDS_INCONSISTENT", "jobs[0].source_files")
             answer["qa_status"] = "FAIL"
             return answer
     answer["single_case_grouping_status"] = "REPORTED_SINGLE_JOB_UNAUTHENTICATED"
