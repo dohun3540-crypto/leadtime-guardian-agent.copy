@@ -7,6 +7,7 @@ report the path/encoding, without authenticating the Studio provider.
 from __future__ import annotations
 
 import json
+import math
 from typing import Any
 
 from leadtime_guardian.strict_json import loads_strict
@@ -52,9 +53,29 @@ def _read_documents(value: Any, *, qa_side: bool) -> tuple[Any, str | None, str,
     return None, "WRAPPER_DEPTH_EXCEEDED", path, encodings
 
 
+def _strict_json_value(value: Any) -> bool:
+    """Reject in-memory Python types silently coerced by json.dumps.
+
+    In particular, tuple becomes JSON array and integer dict keys stringify.
+    This check does not alter native input bytes or the Studio provider status.
+    """
+    if value is None or type(value) in (str, int, bool):
+        return True
+    if type(value) is float:
+        return math.isfinite(value)
+    if type(value) is list:
+        return all(_strict_json_value(item) for item in value)
+    if type(value) is dict:
+        return all(type(key) is str and _strict_json_value(item)
+                   for key, item in value.items())
+    return False
+
+
 def _typed_json_equal(left: Any, right: Any) -> bool:
-    """Preserve JSON primitive type; Python False==0 is unsafe for source QA."""
+    """Compare exact valid JSON types; never coerce Python-only structures."""
     try:
+        if not _strict_json_value(left) or not _strict_json_value(right):
+            return False
         return json.dumps(
             left, sort_keys=True, separators=(",", ":"),
             ensure_ascii=False, allow_nan=False,
