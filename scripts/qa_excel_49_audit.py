@@ -118,6 +118,89 @@ def inspect_workbook(data):
     return sheets
 
 
+
+def shared_string_index_49_diagnostics(data):
+    """Disambiguate <c t="s"><v>49</v></c> from a literal string "49".
+
+    XLSX shared-string references use zero-based indices. This scan is raw
+    OOXML evidence, without guessing Extract/Merge/Normalize origin.
+    """
+    references = []
+    with zipfile.ZipFile(BytesIO(data)) as archive:
+        filenames = set(archive.namelist())
+        shared = []
+        if "xl/sharedStrings.xml" in filenames:
+            root = ET.fromstring(archive.read("xl/sharedStrings.xml"))
+            shared = [
+                "".join(node.text or "" for node in item.iter(XML + "t"))
+                for item in root.iter(XML + "si")
+            ]
+        for filename in sorted(
+            name for name in filenames
+            if name.startswith("xl/worksheets/sheet") and name.endswith(".xml")
+        ):
+            root = ET.fromstring(archive.read(filename))
+            headers = {}
+            rows = list(root.iter(XML + "c"))
+            for cell in rows:
+                coord = cell.get("r", "")
+                match = re.fullmatch(r"([A-Z]+)1", coord)
+                if match is None:
+                    continue
+                v = cell.find(XML + "v")
+                raw = v.text if v is not None else None
+                if cell.get("t") == "s":
+                    if raw is None or not raw.isdigit() or int(raw) >= len(shared):
+                        raise ValueError("invalid shared-string header index")
+                    headers[match.group(1)] = shared[int(raw)]
+                elif cell.get("t") == "inlineStr":
+                    inline = cell.find(XML + "is")
+                    headers[match.group(1)] = (
+                        "".join(x.text or "" for x in inline.iter(XML + "t"))
+                        if inline is not None else None
+                    )
+                else:
+                    headers[match.group(1)] = raw
+            for cell in rows:
+                if cell.get("t") != "s":
+                    continue
+                v = cell.find(XML + "v")
+                raw = v.text if v is not None else None
+                if raw != "49":
+                    continue
+                if len(shared) <= 49:
+                    raise ValueError("shared-string index 49 out of bounds")
+                coord = cell.get("r")
+                col = re.match(r"^[A-Z]+", coord or "")
+                value = shared[49]
+                references.append({
+                    "worksheet_xml": filename,
+                    "cell": coord,
+                    "header_row1": headers.get(col.group()) if col else None,
+                    "raw_cell_type": "s",
+                    "raw_v": "49",
+                    "shared_string_index": 49,
+                    "resolved_value": value,
+                    "resolved_category": (
+                        "EMPTY_STRING" if value == "" else
+                        "STRING_49" if value == "49" else "OTHER_STRING"
+                    ),
+                    "has_formula": cell.find(XML + "f") is not None,
+                    "json_field_mapping_verified": False,
+                })
+    return {
+        "shared_index_49_reference_count": len(references),
+        "shared_index_49_resolved_blank_count": sum(
+            item["resolved_category"] == "EMPTY_STRING" for item in references
+        ),
+        "shared_index_49_resolved_string_49_count": sum(
+            item["resolved_category"] == "STRING_49" for item in references
+        ),
+        "shared_index_49_references": references,
+        "raw_v_49_in_shared_string_cell_is_literal_49": False,
+    }
+
+
 def stage_matches(value, trail="$"):
     found = []
     if isinstance(value, dict):
@@ -143,6 +226,7 @@ def main() -> int:
     try:
         raw = args.xlsx.read_bytes()
         sheets = inspect_workbook(raw)
+        shared_index = shared_string_index_49_diagnostics(raw)
         matches = []
         for sheet in sheets:
             for item in sheet["matches"]:
@@ -166,6 +250,8 @@ def main() -> int:
             "xlsx_sha256": hashlib.sha256(raw).hexdigest(),
             "xlsx_49_count": len(matches),
             "xlsx_matches": matches,
+            **shared_index,
+            "xlsx_cell_interpretation_status": "VERIFIED_OOXML_SHARED_STRINGS",
             "stage_evidence": stages,
             "causal_origin": "UNKNOWN",
             "source_pdf_verified": False,
