@@ -6,19 +6,37 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from leadtime_guardian.qa.audit import load_json_strict
-from leadtime_guardian.qa.experiment_compare import audit_b0_e1_readiness
+from leadtime_guardian.qa.experiment_compare import (
+    audit_b0_e1_readiness,
+    compare_normalized_field_values,
+)
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--b0", required=True, type=Path)
     parser.add_argument("--e1", required=True, type=Path)
+    parser.add_argument("--b0-normalize", type=Path)
+    parser.add_argument("--e1-normalize", type=Path)
     args = parser.parse_args()
     try:
         result = audit_b0_e1_readiness(
             load_json_strict(args.b0.read_bytes()),
             load_json_strict(args.e1.read_bytes()),
         )
+        if args.b0_normalize is not None or args.e1_normalize is not None:
+            if args.b0_normalize is None or args.e1_normalize is None:
+                result["field_comparison"] = {
+                    "field_comparison_status": "BLOCKED",
+                    "issues": ["BOTH_NORMALIZE_RAW_REQUIRED"],
+                    "human_gold_accuracy": "NOT_MEASURED",
+                }
+            else:
+                result["field_comparison"] = compare_normalized_field_values(
+                    load_json_strict(args.b0_normalize.read_bytes()),
+                    load_json_strict(args.e1_normalize.read_bytes()),
+                    result,
+                )
     except (ValueError, TypeError, UnicodeDecodeError, OSError):
         result = {
             "eligibility": "FAIL",

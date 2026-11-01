@@ -129,3 +129,96 @@ def audit_b0_e1_readiness(b0: Any, e1: Any) -> dict[str, Any]:
     # Equal self-asserted SHA values cannot authenticate actual Studio uploads.
     result["eligibility"] = status
     return result
+
+
+
+def compare_normalized_field_values(
+    b0_raw: Any, e1_raw: Any, readiness: dict,
+) -> dict[str, Any]:
+    """Safe local field diff only; never assert Gold accuracy or improvement.
+
+    A same-hash *manifest claim* is necessary, but insufficient to authenticate
+    actual Upstage upload bytes. Changes are therefore CHANGED_UNVERIFIED.
+    """
+    from leadtime_guardian.qa.input_delivery import _read_documents
+
+    result: dict[str, Any] = {
+        "field_comparison_status": "BLOCKED",
+        "fields_compared": 0,
+        "changed_field_count": 0,
+        "changes": [],
+        "human_gold_accuracy": "NOT_MEASURED",
+        "studio_comparison_authenticated": False,
+        "improvement_verdict": "NOT_MEASURED",
+        "release_or_merge_authorized": False,
+        "issues": [],
+    }
+
+    def issue(code: str) -> dict[str, Any]:
+        result["issues"].append(code)
+        return result
+
+    if (not isinstance(readiness, dict)
+            or readiness.get("case_id") != "C001"
+            or readiness.get("pdf_sha256_sets_equal") is not True
+            or readiness.get("eligibility") != "BLOCKED"
+            or any(x.get("severity") == "ERROR"
+                   for x in readiness.get("issues", []))):
+        return issue("B0_E1_READINESS_NOT_ESTABLISHED")
+    rows = {}
+    for side, content in (("B0", b0_raw), ("E1", e1_raw)):
+        if not isinstance(content, dict):
+            return issue(side + "_NORMALIZED_RAW_NOT_OBJECT")
+        if "case_id" in content and content["case_id"] != "C001":
+            return issue(side + "_NORMALIZED_CASE_ID_MISMATCH")
+        docs, error, _, layers = _read_documents(content, qa_side=False)
+        if error or layers > 1 or not isinstance(docs, list) or len(docs) != 3:
+            return issue(side + "_DOCUMENTS_NOT_VALIDATED")
+        if (not all(isinstance(d, dict)
+                    and isinstance(d.get("document_id"), str)
+                    and d["document_id"]
+                    and d.get("document_type") in REQUIRED_TYPES for d in docs)):
+            return issue(side + "_DOCUMENTS_NOT_VALIDATED")
+        kinds = [d["document_type"] for d in docs]
+        ids = [d["document_id"] for d in docs]
+        if (set(kinds) != REQUIRED_TYPES or len(set(ids)) != 3):
+            return issue(side + "_DOCUMENTS_DUPLICATE_OR_MISSING")
+        rows[side] = {d["document_type"]: d for d in docs}
+    if any(rows["B0"][k]["document_id"] != rows["E1"][k]["document_id"]
+           for k in REQUIRED_TYPES):
+        return issue("DOCUMENT_IDENTITY_CHANGED")
+    sentinel = object()
+
+    def flat(value: Any, path: str) -> dict[str, Any]:
+        if isinstance(value, dict):
+            return {key: member
+                    for k, item in value.items()
+                    for key, member in flat(item, f"{path}.{k}").items()}
+        if isinstance(value, list):
+            if not value:
+                return {path: []}
+            return {key: member
+                    for i, item in enumerate(value)
+                    for key, member in flat(item, f"{path}[{i}]").items()}
+        return {path: value}
+
+    for kind in sorted(REQUIRED_TYPES):
+        left = flat(rows["B0"][kind], kind)
+        right = flat(rows["E1"][kind], kind)
+        for field in sorted(set(left) | set(right)):
+            a, b = left.get(field, sentinel), right.get(field, sentinel)
+            a_type = "MISSING" if a is sentinel else type(a).__name__
+            b_type = "MISSING" if b is sentinel else type(b).__name__
+            result["fields_compared"] += 1
+            if a_type != b_type or a != b:
+                result["changes"].append({
+                    "path": field, "b0_type": a_type, "e1_type": b_type,
+                    "b0_value": None if a is sentinel else a,
+                    "e1_value": None if b is sentinel else b,
+                    "evidence_label": "LOCAL_RAW_FIELD_DIFF_ONLY",
+                })
+    result["changed_field_count"] = len(result["changes"])
+    result["field_comparison_status"] = (
+        "CHANGED_UNVERIFIED" if result["changes"] else "UNCHANGED"
+    )
+    return result

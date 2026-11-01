@@ -279,6 +279,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--operational-native", required=True, type=Path)
     parser.add_argument("--studio-batch-report", type=Path)
+    parser.add_argument("--stage-intake-manifest", type=Path)
     parser.add_argument("--team2-provenance", type=Path)
     parser.add_argument("--qa-pdf-receipt", type=Path)
     parser.add_argument("--operational-pdf-receipt", type=Path)
@@ -319,7 +320,48 @@ def main() -> int:
                                            if args.operational_pdf_receipt else None),
             pdf_root=args.pdf_root,
         )
-    except OSError:
+        if args.stage_intake_manifest is not None:
+            # Optional local evidence preflight is additive and fail closed.
+            # Existing Team2 Python / QA / provenance execution stays untouched.
+            from qa_stage_intake_check import inspect_manifest_path
+
+            from leadtime_guardian.qa.stage_trace import canonical_documents_sha256
+
+            stage = inspect_manifest_path(args.stage_intake_manifest)
+            result["stage_intake"] = stage
+            result["stage_intake_status"] = stage["status"]
+            if stage["status"] == "FAIL":
+                result["status"] = "FAIL"
+                result["issues"].append({
+                    "issue_code": "RAW_STAGE_INTAKE_FAILED", "stage": "stage_intake",
+                })
+            elif (stage.get("case_id") != args.case_id
+                  or stage.get("operational_job_id") != args.operational_job_id):
+                result["status"] = "FAIL"
+                result["issues"].append({
+                    "issue_code": "STAGE_AND_OPERATIONAL_JOB_IDENTITY_CONFLICT",
+                    "stage": "stage_intake",
+                })
+            else:
+                normalized = stage["stages"]["NormalizeDocuments"]
+                if normalized.get("document_content_sha256") is not None:
+                    op = load_json_strict(args.operational_native.read_bytes())
+                    docs = documents_from_export(
+                        op, expected_job_id=args.operational_job_id,
+                    )
+                    if (canonical_documents_sha256(docs)
+                            != normalized["document_content_sha256"]):
+                        result["status"] = "FAIL"
+                        result["issues"].append({
+                            "issue_code": "NATIVE_AND_NORMALIZE_CONTENT_MISMATCH",
+                            "stage": "stage_intake",
+                        })
+                else:
+                    result["issues"].append({
+                        "issue_code": "NORMALIZE_STAGE_RAW_NOT_VERIFIED",
+                        "stage": "stage_intake",
+                    })
+    except (OSError, TypeError, ValueError, KeyError, UnicodeDecodeError):
         result = {
             "status": "FAIL", "release_or_merge_authorized": False,
             "issues": [{"issue_code": "INPUT_FILE_NOT_READABLE", "stage": "cli"}],
