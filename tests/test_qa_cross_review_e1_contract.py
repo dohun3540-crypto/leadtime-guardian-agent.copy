@@ -10,9 +10,6 @@ from leadtime_guardian.qa.input_delivery import audit_normalize_qa_input
 from leadtime_guardian.qa.studio_qa_adapter import normalize_studio_qa_report
 
 
-DOCS = [{"document_id": "PO-DOC", "document_type": "purchase_order"}]
-
-
 def studio_report():
     return {
         "case_id": "C001",
