@@ -5,7 +5,31 @@ that the exact documents were transmitted. This is a read-only local checker.
 """
 from __future__ import annotations
 
+import math
 from typing import Any
+
+
+def _same_json_value(left: Any, right: Any) -> bool:
+    """값을 변환하지 않고 JSON 값과 타입을 재귀 비교한다. 클라우드 출처 증명은 아니다."""
+    if type(left) is not type(right):
+        return False
+    if type(left) is dict:
+        if not all(type(key) is str for key in left):
+            return False
+        if not all(type(key) is str for key in right):
+            return False
+        return left.keys() == right.keys() and all(
+            _same_json_value(value, right[key]) for key, value in left.items()
+        )
+    if type(left) is list:
+        return len(left) == len(right) and all(
+            _same_json_value(a, b) for a, b in zip(left, right, strict=True)
+        )
+    if type(left) is float:
+        return math.isfinite(left) and math.isfinite(right) and left == right
+    if left is None or type(left) in (str, int, bool):
+        return left == right
+    return False
 
 
 def audit_normalize_qa_input(
@@ -36,7 +60,7 @@ def audit_normalize_qa_input(
                 delivered = qa_step_input.get("normalized_documents")
                 if not isinstance(delivered, list):
                     note("QA_NORMALIZED_DOCUMENTS_FIELD_NOT_OBSERVED")
-                elif delivered == payload["documents"]:
+                elif _same_json_value(delivered, payload["documents"]):
                     status = "LOCAL_CONTENT_MATCH"
                 else:
                     status = "LOCAL_CONTENT_MISMATCH"
