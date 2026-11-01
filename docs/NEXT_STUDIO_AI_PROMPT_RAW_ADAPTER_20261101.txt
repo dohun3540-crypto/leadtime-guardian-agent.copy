@@ -1,0 +1,33 @@
+[LeadTime Guardian / Team 1 / Copied QA Sandbox / RAW EVIDENCE HANDOFF]
+
+이번 메시지는 기존 C001 QA Sandbox 사본에 대한 추가 확인 항목입니다. 이전에 이미 확인한 Agent/Config/노드 설명을 장황하게 반복하지 마세요. 새로운 Job 실행이나 설정 수정을 무단으로 진행하지 말고 실제 원본 증거를 읽기 전용으로 회수하세요.
+
+현재 QA 작업 대상: agt_HdtUJPQPXir9rGKgPWSyZG / cfg_X2xXakDtmDTHh2RoqVysvL / v1 / 기존 C001 Job job_9DmRWeQsSShHgWUugkELtk.
+원본 QA 워크플로우 및 운영 Studio는 변경 금지입니다. 새 Config v2+가 이미 만들어졌다면 새 Config ID/version/변경 diff를 알려 주되, 현재 Python v1 검증에 자동으로 합격시켜서는 안 됩니다.
+
+1) C001 NormalizeDocuments 실행 완료 및 3 documents 존재는 확인되었습니다. 그러나 IndependentQA의 NORMALIZED_OUTPUT_NOT_PROVIDED는 실제 입력 누락의 확정 증거가 아닙니다. IndependentQA Step에 전달된 실제 input payload(가능하면 다운로드 가능한 원본 JSON)와 필드 키/경로, NormalizeDocuments 원본 output JSON을 확보해 해당 3 documents가 바이트/값 수준에서 입력에 포함되었는지 확인하세요. 입력 원본을 볼 수 없으면 전달 상태 UNKNOWN으로 남기세요.
+2) IndependentQA 원본 QA report 전체 JSON의 실제 keys/type을 제출하세요: case_id, qa_status, checked_document_ids, issues(원본 issue_code/code, severity, scope, requires_human_review), evidence_status, field_checks 각 항목의 실제 status 키와 값, workflow_version, execution_provenance. 기존 관찰치 NOT_VERIFIED/PARTIAL/field_checks 20(17 VERIFIED, 3 SOURCE_NOT_VERIFIED)을 다른 실행의 PASS로 바꾸지 마세요. workflow_id/config_id/job_id/source_files가 null이라면 그대로 보존하세요.
+3) 동일 QA Job의 실제 외부/내부 식별자 충돌이 확인된 경우에만 EXECUTION_PROVENANCE_MISMATCH warning과 requires_human_review=true를 기록하세요. null은 결측/미검증이지 자동으로 불일치가 아닙니다. 별개 과거 운영 예측 Job은 그 ID가 다르다는 사실만으로 이슈가 아닙니다.
+4) 기존 C001 Job의 RAW Normalize Native JSON, RAW IndependentQA report JSON, 입력 Step JSON, 각 Step/Job 메타데이터, 실제 saved native config export를 별도 파일로 제공하고 각 원본 파일 SHA-256을 기록하세요. 설정 kind=studio.workflow-config-draft는 실측 Job Native가 아닙니다. 불가능하면 ACCESS_BLOCKED 및 정확한 실패 위치/권한만 기록하고 파일을 임의 생성하지 마세요.
+5) C001 실제 업로드 3 PDF 이름, source file_id, 원본 PDF SHA-256(계산한 원본 파일 경로/방법 포함), 실행 Job/Step ID/Config version/시간을 제출하세요. Excel job-list-agt_HdtU-2026-11-01T06-53-15.xlsx에 관찰된 49는 raw Extract/Merge/Normalize 값과 대조하고 숫자 49·문자열 "49"를 구별하세요. 원본이 없으면 생성 원인 UNKNOWN입니다.
+6) C013 PO1/PO999 자동 연결 금지. C017 날짜 추측 금지. C008 Receipt 중복 배분 금지. 추가 유료 Job 실행, 자동 재시도, 원본 수정, PDF/Gold 변경을 하지 마세요.
+
+RETURN:
+ACTUAL_AGENT_ID, SAVED_CONFIG_ID/VERSION/KIND,
+CASE_ID, EXISTING_JOB_ID/STEP_ID/EXECUTION_KIND,
+NORMALIZE_OUTPUT_RAW_FILE+SHA, INDEPENDENTQA_INPUT_RAW_FILE+SHA,
+INDEPENDENTQA_REPORT_RAW_FILE+SHA, FIELD_CHECKS_SOURCE,
+PROVENANCE_FIELD_VALUES+MISMATCH_EVIDENCE,
+INPUT_FILES{name,file_id,original_pdf_sha256,hash_source},
+EXCEL_49_SOURCE_COMPARISON, MISSING_RAW_FILES, ACCESS_BLOCKER,
+DOCUMENT_QA_STATUS, PYTHON_QA_STATUS=NOT_VERIFIED(unless independent evidence),
+NEXT_ACTION.
+
+ChatGPT GitHub 측에서는 raw QA report에 별도의 STUDIO_INDEPENDENT_QA_V1 변환 경로, 원본 SHA 검증과 현재 사본 identity 핀, 문서/Python 분리 Gate를 구현했습니다. manifest=leadtime-cross-agent/v1은 Studio Native 출력과 별개입니다. 실제 파일을 전달하면 원본 SHA와 변환 verdict를 비교합니다. 기존 완료 Job을 NEW_LIVE_STUDIO로 표시하지 마세요.
+
+[추가: 전체 파이프라인 정적 감사에서 확인한 최신 요청]
+- 운영 Studio v5의 'workflow-config-draft'는 실제 saved/live Config가 아닙니다. 운영 담당자의 확인 없이 v5를 수정하지 마세요. 이전 Extract schema에 'Null when/Null if'라는 명시적 결측 지시와 primitive-only type이 함께 있는 필드를 실제 saved Config 및 branch별 output과 대조하고, 필드명·schema 경로·원문 null 사례를 팀원2에게 인계하세요. 변경 제안은 별도 diff로만 제시하세요.
+- QA Sandbox E3(IndependentQA 입력 전달 개선)라 하더라도 동일 PDF 3개/실제 Config ID/version/Job/Step 및 IndependentQA 원본 input/output이 있어야 개선으로 판정합니다. B0/E1/E2/E3/E4는 Config ID가 아니라 실험 별칭입니다. 검증할 수 없는 실험은 NOT_VERIFIED로 유지하세요.
+- 동일 실행의 누락된 provenance null은 데이터 결측이지 자동으로 실행 식별자 충돌이 아닙니다. 실제 서로 다른 비-null 값이 같은 실행에 연결되어 충돌할 때만 EXECUTION_PROVENANCE_MISMATCH warning+requires_human_review=true.
+- Excel 셀 49는 숫자/문자열뿐 아니라 수식의 캐시값인지 구분하고, Extract·Merge·Normalize 단계별 원본에 나타나는지 추적하세요. 원본 Step이 없으면 원인 UNKNOWN.
+- 새 유료 Job, 원본 운영/QA 설정 변경, Gold 수정, 외부 제출, 반복 실행 금지. 읽기 전용 접근 불가 시 정확한 권한/Export 경로 오류만 기록하세요.

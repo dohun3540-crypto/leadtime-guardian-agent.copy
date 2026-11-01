@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+from leadtime_guardian.qa.cross_agent import APPROVED_SANDBOX_AGENTS, SANDBOX_AGENT_ID
 from leadtime_guardian.qa.gate import build_integration_gate
 
 
@@ -14,6 +15,8 @@ def main() -> int:
     parser.add_argument("--studio-handoff", type=Path)
     parser.add_argument("--studio-native", type=Path)
     parser.add_argument("--studio-qa-report", type=Path)
+    parser.add_argument("--expected-agent-id", choices=sorted(APPROVED_SANDBOX_AGENTS),
+                        default=SANDBOX_AGENT_ID)
     parser.add_argument("--expected-config-id")
     parser.add_argument("--expected-github-sha")
     parser.add_argument(
@@ -24,6 +27,7 @@ def main() -> int:
     result = build_integration_gate(
         args.root, studio_handoff=args.studio_handoff,
         studio_native=args.studio_native, studio_qa_report=args.studio_qa_report,
+        expected_agent_id=args.expected_agent_id,
         expected_config_id=args.expected_config_id,
         expected_github_sha=args.expected_github_sha,
     )

@@ -10,7 +10,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from leadtime_guardian.qa.audit import load_json_strict
-from leadtime_guardian.qa.cross_agent import audit_cross_agent_handoff
+from leadtime_guardian.qa.cross_agent import (
+    APPROVED_SANDBOX_AGENTS,
+    SANDBOX_AGENT_ID,
+    audit_cross_agent_handoff,
+)
 
 
 def main() -> int:
@@ -18,6 +22,8 @@ def main() -> int:
     parser.add_argument("--manifest", required=True, type=Path)
     parser.add_argument("--native", type=Path)
     parser.add_argument("--qa-report", type=Path)
+    parser.add_argument("--expected-agent-id", choices=sorted(APPROVED_SANDBOX_AGENTS),
+                        default=SANDBOX_AGENT_ID)
     parser.add_argument("--expected-config-id")
     parser.add_argument("--expected-github-sha")
     parser.add_argument("--require-contract", action="store_true")
@@ -36,6 +42,7 @@ def main() -> int:
 
     result = audit_cross_agent_handoff(
         manifest, native_bytes=native, report_bytes=qa_report,
+        expected_agent_id=args.expected_agent_id,
         expected_config_id=args.expected_config_id,
         expected_github_sha=args.expected_github_sha,
     )

@@ -118,3 +118,47 @@ def test_gate_cli_optional_handoff_stays_blocked(tmp_path):
                             "--require-release")
     assert rc == 2
     assert output["release_or_merge_authorized"] is False
+
+
+def test_cli_selects_pinned_copy_without_allowing_original_by_default(tmp_path):
+    (manifest_file, native, report), manifest = fixture(tmp_path)
+    manifest["studio"].update({
+        "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+        "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+        "config_version": 1,
+    })
+    manifest_file.write_text(json.dumps(manifest), encoding="utf-8")
+    rc, result = run_script(CLI, "--manifest", manifest_file, "--native", native,
+                            "--qa-report", report)
+    assert rc == 1
+    assert "SANDBOX_AGENT_ID_MISMATCH" in {
+        x["issue_code"] for x in result["issues"]
+    }
+    rc, result = run_script(
+        CLI, "--manifest", manifest_file, "--native", native,
+        "--qa-report", report,
+        "--expected-agent-id", "agt_HdtUJPQPXir9rGKgPWSyZG",
+        "--expected-config-id", "cfg_X2xXakDtmDTHh2RoqVysvL",
+    )
+    assert rc == 0
+    assert result["qa_status"] == "BLOCKED"
+    assert result["release_or_merge_authorized"] is False
+
+
+def test_gate_cli_selects_pinned_copy_but_never_releases(tmp_path):
+    (manifest_file, native, report), manifest = fixture(tmp_path)
+    manifest["studio"].update({
+        "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+        "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+        "config_version": 1,
+    })
+    manifest_file.write_text(json.dumps(manifest), encoding="utf-8")
+    rc, result = run_script(
+        GATE_CLI, "--root", ROOT, "--studio-handoff", manifest_file,
+        "--studio-native", native, "--studio-qa-report", report,
+        "--expected-agent-id", "agt_HdtUJPQPXir9rGKgPWSyZG",
+        "--require-release",
+    )
+    assert rc == 2
+    assert result["overall_status"] == "BLOCKED"
+    assert result["release_or_merge_authorized"] is False

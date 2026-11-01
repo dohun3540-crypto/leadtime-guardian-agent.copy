@@ -9,6 +9,8 @@ import pytest
 from leadtime_guardian.qa.cross_agent import (
     HANDOFF_VERSION,
     SANDBOX_AGENT_ID,
+    SANDBOX_COPY_AGENT_ID,
+    SANDBOX_COPY_CONFIG_ID,
     audit_cross_agent_handoff,
 )
 
@@ -219,3 +221,98 @@ def test_invalid_native_file_identifier_fails_closed():
     result = check(manifest, native, report)
     assert result["qa_status"] == "FAIL"
     assert "NATIVE_INPUT_FILE_MISMATCH" in codes(result)
+
+
+def test_copy_agent_is_explicitly_selected_and_pinned():
+    manifest, native, report = fixture()
+    manifest["studio"].update({
+        "agent_id": SANDBOX_COPY_AGENT_ID,
+        "config_id": SANDBOX_COPY_CONFIG_ID,
+        "config_version": 1,
+    })
+    default_result = check(manifest, native, report)
+    assert "SANDBOX_AGENT_ID_MISMATCH" in codes(default_result)
+    selected = check(manifest, native, report, expected_agent_id=SANDBOX_COPY_AGENT_ID)
+    assert selected["qa_status"] == "BLOCKED"  # Python NOT_VERIFIED
+    assert selected["document_qa_status"] == "PASS"
+    assert selected["release_or_merge_authorized"] is False
+
+
+@pytest.mark.parametrize(("field", "invalid", "expected"), [
+    ("config_id", "cfg_WRONG", "COPIED_CONFIG_ID_MISMATCH"),
+    ("config_version", 5, "COPIED_CONFIG_VERSION_MISMATCH"),
+])
+def test_copied_sandbox_identity_fails_closed(field, invalid, expected):
+    manifest, native, report = fixture()
+    manifest["studio"].update({
+        "agent_id": SANDBOX_COPY_AGENT_ID,
+        "config_id": SANDBOX_COPY_CONFIG_ID,
+        "config_version": 1,
+    })
+    manifest["studio"][field] = invalid
+    assert expected in codes(check(
+        manifest, native, report, expected_agent_id=SANDBOX_COPY_AGENT_ID,
+    ))
+
+
+def test_arbitrary_agent_id_cannot_be_whitelisted_by_argument():
+    manifest, native, report = fixture()
+    manifest["studio"]["agent_id"] = "agt_UNTRUSTED"
+    result = check(manifest, native, report, expected_agent_id="agt_UNTRUSTED")
+    assert "UNAPPROVED_SANDBOX_AGENT" in codes(result)
+    assert result["qa_status"] == "FAIL"
+
+
+def test_copied_historical_job_not_promoted_to_fresh_live():
+    manifest, native, report = fixture()
+    manifest["studio"].update({
+        "agent_id": SANDBOX_COPY_AGENT_ID,
+        "config_id": SANDBOX_COPY_CONFIG_ID,
+        "config_version": 1,
+        "job_id": "job_9DmRWeQsSShHgWUugkELtk",
+        "execution_kind": "NEW_LIVE_STUDIO",
+    })
+    result = check(manifest, native, report, expected_agent_id=SANDBOX_COPY_AGENT_ID)
+    assert "ARCHIVED_JOB_REUSED_AS_NEW" in codes(result)
+
+
+def test_explicit_provenance_mismatch_is_warning_needing_human_review():
+    manifest, native, report = fixture()
+    manifest["verdict"]["issues"].append({
+        "code": "EXECUTION_PROVENANCE_MISMATCH",
+        "scope": "provenance",
+        "severity": "ERROR",  # Normalize sender classification to a review warning.
+    })
+    result = check(manifest, native, report)
+    flagged = [x for x in result["issues"]
+               if x["issue_code"] == "EXECUTION_PROVENANCE_MISMATCH"]
+    assert len(flagged) == 1
+    assert flagged[0]["severity"] == "WARNING"
+    assert result["requires_human_review"] is True
+    assert result["qa_status"] == "BLOCKED"
+    assert result["studio_live_execution_authenticated"] is False
+    assert result["release_or_merge_authorized"] is False
+
+
+def test_distinct_historical_prediction_is_not_automatically_provenance_error():
+    manifest, native, report = fixture()
+    # The QA Job is bound to native metadata. No undocumented equality between
+    # an explicitly separate historical operational prediction and the QA Job.
+    result = check(manifest, native, report)
+    assert "EXECUTION_PROVENANCE_MISMATCH" not in codes(result)
+    assert result["requires_human_review"] is False
+
+
+@pytest.mark.parametrize("missing", ["absent", "empty"])
+def test_native_source_evidence_missing_fails_closed(missing):
+    manifest, native, report = fixture()
+    obj = json.loads(native)
+    if missing == "absent":
+        del obj["metadata"]["source_files"]
+    else:
+        obj["metadata"]["source_files"] = []
+    native = json.dumps(obj).encode()
+    manifest["studio"]["native_sha256"] = hashlib.sha256(native).hexdigest()
+    outcome = check(manifest, native, report)
+    assert outcome["qa_status"] == "FAIL"
+    assert "NATIVE_SOURCE_FILE_EVIDENCE_MISSING" in codes(outcome)
