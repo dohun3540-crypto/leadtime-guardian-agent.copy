@@ -344,6 +344,36 @@ def main() -> int:
     ), default="ARCHIVED_STUDIO")
     args = parser.parse_args()
     try:
+        if args.execution_kind == "NEW_LIVE_STUDIO":
+            missing = []
+            for label, value in (
+                ("STAGE_INTAKE_MANIFEST", args.stage_intake_manifest),
+                ("QA_NATIVE", args.qa_native),
+                ("QA_REPORT", args.qa_report),
+                ("TEAM2_PROVENANCE", args.team2_provenance),
+                ("QA_PDF_RECEIPT", args.qa_pdf_receipt),
+                ("OPERATIONAL_PDF_RECEIPT", args.operational_pdf_receipt),
+                ("PDF_ROOT", args.pdf_root),
+                ("QA_AGENT_ID", args.qa_agent_id),
+                ("QA_CONFIG_ID", args.qa_config_id),
+                ("QA_CONFIG_VERSION", args.qa_config_version),
+            ):
+                if value is None:
+                    missing.append(label)
+            if missing:
+                result = {
+                    "status": "BLOCKED",
+                    "python_safety_status": "NOT_RUN",
+                    "actual_studio_e2e_status": "NOT_VERIFIED",
+                    "release_or_merge_authorized": False,
+                    "missing_inputs": missing,
+                    "issues": [
+                        {"issue_code": "NEW_LIVE_EVIDENCE_NOT_PROVIDED",
+                         "stage": "preflight"}
+                    ],
+                }
+                print(json.dumps(result, indent=2, ensure_ascii=False, sort_keys=True))
+                return 2
         original_bytes = args.operational_native.read_bytes()
         preflight = (
             preflight_stage_before_python(
@@ -355,6 +385,22 @@ def main() -> int:
         )
         if preflight is not None and preflight["status"] == "FAIL":
             result = preflight
+        elif (args.execution_kind == "NEW_LIVE_STUDIO"
+              and (preflight is None
+                   or not preflight["stage_intake"].get(
+                       "all_expected_raw_stages_present", False
+                   ))):
+            # Archived offline replay remains possible with partial inputs.
+            # An expressly NEW_LIVE claim never reaches V6 without the full
+            # original Stage and actual IndependentQA Input/Report evidence.
+            result = preflight if preflight is not None else {
+                "status": "BLOCKED", "issues": [],
+            }
+            result["python_safety_status"] = "NOT_RUN"
+            result["issues"].append({
+                "issue_code": "NEW_LIVE_RAW_STAGES_INCOMPLETE",
+                "stage": "preflight",
+            })
         else:
             result = audit_combined_bytes(
                 original_bytes, args.trusted_base.read_bytes(),
