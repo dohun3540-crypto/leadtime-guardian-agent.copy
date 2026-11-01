@@ -77,3 +77,41 @@ def test_cli_blocks_missing_real_qa_input(tmp_path):
     assert process.returncode == 2
     assert answer["input_delivery_status"] == "UNKNOWN"
     assert answer["actual_cloud_input_authenticated"] is False
+
+
+
+def test_normalize_and_qa_boolean_false_not_equal_to_numeric_zero():
+    normalize = [
+        {"document_id": "PO-DOC", "document_type": "purchase_order",
+         "items": [{"quantity": 0}]},
+    ]
+    qa = [
+        {"document_id": "PO-DOC", "document_type": "purchase_order",
+         "items": [{"quantity": False}]},
+    ]
+    report = audit_normalize_qa_input(
+        {"status": "COMPLETED", "case_id": "C001",
+         "output": {"documents": normalize}},
+        {"case_id": "C001", "normalized_documents": qa},
+        expected_case_id="C001",
+    )
+    assert report["qa_status"] == "FAIL"
+    assert report["input_delivery_status"] == "LOCAL_CONTENT_MISMATCH"
+    assert report["actual_cloud_input_authenticated"] is False
+
+
+def test_boolean_true_not_equal_to_numeric_one_in_existing_qa_checker():
+    normalize = [
+        {"document_id": "PO-DOC", "document_type": "purchase_order",
+         "items": [{"quantity": 1}]},
+    ]
+    qa = [
+        {"document_id": "PO-DOC", "document_type": "purchase_order",
+         "items": [{"quantity": True}]},
+    ]
+    report = audit_normalize_qa_input(
+        {"status": "COMPLETED", "output": {"documents": normalize}},
+        {"normalized_documents": qa},
+    )
+    assert report["qa_status"] == "FAIL"
+    assert report["input_delivery_status"] == "LOCAL_CONTENT_MISMATCH"

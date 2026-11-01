@@ -96,3 +96,44 @@ def test_original_combined_cli_keeps_backward_compatibility():
     assert out["python_safety_status"] == "PASS_LOCAL"
     assert out["status"] == "BLOCKED"
     assert "stage_intake_status" not in out
+
+
+
+def test_bad_stage_sha_is_rejected_before_python_safety_execution(tmp_path):
+    path = create_manifest(tmp_path)
+    meta = json.loads(path.read_text())
+    meta["stages"]["NormalizeDocuments"]["sha256"] = "a" * 64
+    path.write_text(json.dumps(meta))
+    proc, out = run(path)
+    assert proc.returncode == 1
+    assert out["status"] == "FAIL"
+    assert out["python_safety_status"] == "NOT_RUN"
+    assert "python_summary" not in out
+    assert out["actual_studio_e2e_status"] == "NOT_VERIFIED"
+    assert out["release_or_merge_authorized"] is False
+
+
+def test_stage_job_mismatch_is_rejected_before_python_execution(tmp_path):
+    path = create_manifest(tmp_path, job_override="job_WRONG")
+    proc, out = run(path)
+    assert proc.returncode == 1
+    assert out["python_safety_status"] == "NOT_RUN"
+    assert "python_summary" not in out
+
+
+def test_normalize_same_document_values_different_array_order_stays_blocked(tmp_path):
+    path = create_manifest(tmp_path)
+    meta = json.loads(path.read_text())
+    source = tmp_path / "normalized.json"
+    parsed = json.loads(source.read_text())
+    parsed["documents"].reverse()
+    raw = json.dumps(parsed).encode()
+    source.write_bytes(raw)
+    meta["stages"]["NormalizeDocuments"]["sha256"] = hashlib.sha256(raw).hexdigest()
+    path.write_text(json.dumps(meta))
+    proc, out = run(path)
+    assert proc.returncode == 2, proc.stderr
+    assert out["status"] == "BLOCKED"
+    assert out["python_safety_status"] == "PASS_LOCAL"
+    assert out["stage_intake_status"] == "BLOCKED"
+    assert out["release_or_merge_authorized"] is False

@@ -1,5 +1,6 @@
 """No experimental improvement metrics without original B0 AND E1 evidence."""
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -32,10 +33,16 @@ def main() -> int:
                     "human_gold_accuracy": "NOT_MEASURED",
                 }
             else:
+                b0_bytes = args.b0_normalize.read_bytes()
+                e1_bytes = args.e1_normalize.read_bytes()
                 result["field_comparison"] = compare_normalized_field_values(
-                    load_json_strict(args.b0_normalize.read_bytes()),
-                    load_json_strict(args.e1_normalize.read_bytes()),
+                    load_json_strict(b0_bytes),
+                    load_json_strict(e1_bytes),
                     result,
+                    original_raw_sha256_by_side={
+                        "B0": hashlib.sha256(b0_bytes).hexdigest(),
+                        "E1": hashlib.sha256(e1_bytes).hexdigest(),
+                    },
                 )
     except (ValueError, TypeError, UnicodeDecodeError, OSError):
         result = {

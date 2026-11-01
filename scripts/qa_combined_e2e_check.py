@@ -275,6 +275,50 @@ def audit_combined_bytes(
     return result
 
 
+def preflight_stage_before_python(
+    manifest_path: Path, operational_raw_bytes: bytes,
+    *, case_id: str, operational_job_id: str,
+) -> dict:
+    """Reject corrupt or mismatched evidence BEFORE running V6 calculations."""
+    from qa_stage_intake_check import inspect_manifest_path
+
+    from leadtime_guardian.qa.stage_trace import canonical_documents_sha256
+
+    stage = inspect_manifest_path(manifest_path)
+    result = {
+        "status": "BLOCKED", "stage_intake": stage,
+        "stage_intake_status": stage["status"],
+        "release_or_merge_authorized": False,
+        "actual_studio_e2e_status": "NOT_VERIFIED",
+        "python_safety_status": "NOT_RUN",
+        "issues": [],
+    }
+
+    def fail(code: str) -> None:
+        result["status"] = "FAIL"
+        result["issues"].append({"issue_code": code, "stage": "stage_intake"})
+
+    if stage["status"] == "FAIL":
+        fail("RAW_STAGE_INTAKE_FAILED")
+    elif (stage.get("case_id") != case_id
+          or stage.get("operational_job_id") != operational_job_id):
+        fail("STAGE_AND_OPERATIONAL_JOB_IDENTITY_CONFLICT")
+    else:
+        normalized = stage["stages"]["NormalizeDocuments"]
+        if normalized.get("document_content_sha256") is None:
+            result["issues"].append({
+                "issue_code": "NORMALIZE_STAGE_RAW_NOT_VERIFIED",
+                "stage": "stage_intake",
+            })
+        else:
+            op = load_json_strict(operational_raw_bytes)
+            docs = documents_from_export(op, expected_job_id=operational_job_id)
+            if (canonical_documents_sha256(docs)
+                    != normalized["document_content_sha256"]):
+                fail("NATIVE_AND_NORMALIZE_CONTENT_MISMATCH")
+    return result
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--operational-native", required=True, type=Path)
@@ -300,67 +344,44 @@ def main() -> int:
     ), default="ARCHIVED_STUDIO")
     args = parser.parse_args()
     try:
-        result = audit_combined_bytes(
-            args.operational_native.read_bytes(), args.trusted_base.read_bytes(),
-            args.schema.read_bytes(),
-            operational_job_id=args.operational_job_id,
-            case_id=args.case_id, github_sha=args.github_sha,
-            qa_native_bytes=args.qa_native.read_bytes() if args.qa_native else None,
-            qa_report_bytes=args.qa_report.read_bytes() if args.qa_report else None,
-            qa_agent_id=args.qa_agent_id, qa_config_id=args.qa_config_id,
-            qa_config_version=args.qa_config_version,
-            execution_kind=args.execution_kind,
-            studio_batch_report_bytes=(args.studio_batch_report.read_bytes()
-                                       if args.studio_batch_report else None),
-            team2_provenance_bytes=(args.team2_provenance.read_bytes()
-                                    if args.team2_provenance else None),
-            qa_pdf_receipt_bytes=(args.qa_pdf_receipt.read_bytes()
-                                  if args.qa_pdf_receipt else None),
-            operational_pdf_receipt_bytes=(args.operational_pdf_receipt.read_bytes()
-                                           if args.operational_pdf_receipt else None),
-            pdf_root=args.pdf_root,
+        original_bytes = args.operational_native.read_bytes()
+        preflight = (
+            preflight_stage_before_python(
+                args.stage_intake_manifest, original_bytes,
+                case_id=args.case_id,
+                operational_job_id=args.operational_job_id,
+            )
+            if args.stage_intake_manifest is not None else None
         )
-        if args.stage_intake_manifest is not None:
-            # Optional local evidence preflight is additive and fail closed.
-            # Existing Team2 Python / QA / provenance execution stays untouched.
-            from qa_stage_intake_check import inspect_manifest_path
-
-            from leadtime_guardian.qa.stage_trace import canonical_documents_sha256
-
-            stage = inspect_manifest_path(args.stage_intake_manifest)
-            result["stage_intake"] = stage
-            result["stage_intake_status"] = stage["status"]
-            if stage["status"] == "FAIL":
-                result["status"] = "FAIL"
-                result["issues"].append({
-                    "issue_code": "RAW_STAGE_INTAKE_FAILED", "stage": "stage_intake",
-                })
-            elif (stage.get("case_id") != args.case_id
-                  or stage.get("operational_job_id") != args.operational_job_id):
-                result["status"] = "FAIL"
-                result["issues"].append({
-                    "issue_code": "STAGE_AND_OPERATIONAL_JOB_IDENTITY_CONFLICT",
-                    "stage": "stage_intake",
-                })
-            else:
-                normalized = stage["stages"]["NormalizeDocuments"]
-                if normalized.get("document_content_sha256") is not None:
-                    op = load_json_strict(args.operational_native.read_bytes())
-                    docs = documents_from_export(
-                        op, expected_job_id=args.operational_job_id,
-                    )
-                    if (canonical_documents_sha256(docs)
-                            != normalized["document_content_sha256"]):
-                        result["status"] = "FAIL"
-                        result["issues"].append({
-                            "issue_code": "NATIVE_AND_NORMALIZE_CONTENT_MISMATCH",
-                            "stage": "stage_intake",
-                        })
-                else:
-                    result["issues"].append({
-                        "issue_code": "NORMALIZE_STAGE_RAW_NOT_VERIFIED",
-                        "stage": "stage_intake",
-                    })
+        if preflight is not None and preflight["status"] == "FAIL":
+            result = preflight
+        else:
+            result = audit_combined_bytes(
+                original_bytes, args.trusted_base.read_bytes(),
+                args.schema.read_bytes(),
+                operational_job_id=args.operational_job_id,
+                case_id=args.case_id, github_sha=args.github_sha,
+                qa_native_bytes=args.qa_native.read_bytes() if args.qa_native else None,
+                qa_report_bytes=args.qa_report.read_bytes() if args.qa_report else None,
+                qa_agent_id=args.qa_agent_id, qa_config_id=args.qa_config_id,
+                qa_config_version=args.qa_config_version,
+                execution_kind=args.execution_kind,
+                studio_batch_report_bytes=(args.studio_batch_report.read_bytes()
+                                           if args.studio_batch_report else None),
+                team2_provenance_bytes=(args.team2_provenance.read_bytes()
+                                        if args.team2_provenance else None),
+                qa_pdf_receipt_bytes=(args.qa_pdf_receipt.read_bytes()
+                                      if args.qa_pdf_receipt else None),
+                operational_pdf_receipt_bytes=(
+                    args.operational_pdf_receipt.read_bytes()
+                    if args.operational_pdf_receipt else None
+                ),
+                pdf_root=args.pdf_root,
+            )
+            if preflight is not None:
+                result["stage_intake"] = preflight["stage_intake"]
+                result["stage_intake_status"] = preflight["stage_intake_status"]
+                result["issues"].extend(preflight["issues"])
     except (OSError, TypeError, ValueError, KeyError, UnicodeDecodeError):
         result = {
             "status": "FAIL", "release_or_merge_authorized": False,

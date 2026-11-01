@@ -254,3 +254,102 @@ def test_cli_three_extract_branch_files(tmp_path):
     assert out["status"] == "BLOCKED"
     assert out["stages"]["Extract"]["document_count"] == 3
     assert out["normalize_qa_input_status"] == "NOT_VERIFIED"
+
+
+
+def test_false_quantity_is_not_equal_to_numeric_zero_in_qa_input():
+    manifest, raw = evidence()
+    for stage, key, value in (
+        ("NormalizeDocuments", "documents", 0),
+        ("IndependentQA_Input", "normalized_documents", False),
+    ):
+        parsed = json.loads(raw[stage])
+        parsed[key][0]["items"][0]["quantity"] = value
+        content = json.dumps(parsed).encode("utf-8")
+        raw[stage] = content
+        manifest["stages"][stage]["sha256"] = hashlib.sha256(content).hexdigest()
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "FAIL"
+    assert result["normalize_qa_input_status"] == "LOCAL_CONTENT_MISMATCH"
+    assert any(i["issue_code"] == "QA_NORMALIZED_CONTENT_MISMATCH"
+               for i in result["issues"])
+
+
+def test_unknown_stage_and_unknown_extract_branch_fail_closed():
+    manifest, raw = evidence()
+    manifest["stages"]["UnauthorizedStep"] = {"path": "other.json"}
+    report = audit_stage_evidence(manifest, raw)
+    assert report["status"] == "FAIL"
+    assert "UNEXPECTED_STAGE_NAME" in {i["issue_code"] for i in report["issues"]}
+
+    manifest, raw = evidence()
+    manifest["stages"]["Extract"] = {
+        "branches": {"unknown_document": {"job_id": JOB}},
+    }
+    report = audit_stage_evidence(manifest, raw)
+    assert report["status"] == "FAIL"
+    assert "UNEXPECTED_EXTRACT_BRANCH" in {
+        i["issue_code"] for i in report["issues"]
+    }
+
+
+def test_duplicate_job_and_step_run_identity_fails():
+    manifest, raw = evidence()
+    parsed = json.loads(raw["MergeDocuments"])
+    parsed["step_run_id"] = "step_Extract"
+    value = json.dumps(parsed).encode()
+    raw["MergeDocuments"] = value
+    manifest["stages"]["MergeDocuments"]["step_run_id"] = "step_Extract"
+    manifest["stages"]["MergeDocuments"]["sha256"] = hashlib.sha256(value).hexdigest()
+    out = audit_stage_evidence(manifest, raw)
+    assert out["status"] == "FAIL"
+    assert "DUPLICATE_JOB_STEP_ID" in {i["issue_code"] for i in out["issues"]}
+
+
+def test_qa_input_report_mixed_sandbox_jobs_fails():
+    manifest, raw = evidence()
+    parsed = json.loads(raw["IndependentQA_Report"])
+    parsed["job_id"] = "job_DIFFERENT_SANDBOX"
+    value = json.dumps(parsed).encode()
+    raw["IndependentQA_Report"] = value
+    manifest["stages"]["IndependentQA_Report"]["job_id"] = "job_DIFFERENT_SANDBOX"
+    manifest["stages"]["IndependentQA_Report"]["sha256"] = (
+        hashlib.sha256(value).hexdigest()
+    )
+    out = audit_stage_evidence(manifest, raw)
+    assert out["status"] == "FAIL"
+    assert "QA_INPUT_REPORT_JOB_MISMATCH" in {
+        i["issue_code"] for i in out["issues"]
+    }
+
+
+def test_excessive_manifest_size_is_safely_rejected(tmp_path):
+    m, _ = evidence()
+    m["padding"] = "x" * (1024 * 1024)
+    path = tmp_path / "manifest.json"
+    path.write_text(json.dumps(m), encoding="utf-8")
+    proc = subprocess.run(
+        [sys.executable, str(CLI), "--manifest", str(path)],
+        cwd=ROOT, capture_output=True, text=True, check=False, timeout=30,
+    )
+    assert proc.returncode == 1
+    assert json.loads(proc.stdout)["status"] == "FAIL"
+
+
+def test_stage_path_symlink_outside_evidence_directory_is_rejected(tmp_path):
+    evidence_dir = tmp_path / "evidence"
+    evidence_dir.mkdir()
+    outside = tmp_path / "outside.json"
+    outside.write_text("{}")
+    symlink = evidence_dir / "linked.json"
+    symlink.symlink_to(outside)
+    m, _ = evidence()
+    m["stages"]["Extract"]["path"] = "linked.json"
+    manifest = evidence_dir / "manifest.json"
+    manifest.write_text(json.dumps(m))
+    proc = subprocess.run(
+        [sys.executable, str(CLI), "--manifest", str(manifest)],
+        cwd=ROOT, capture_output=True, text=True, check=False, timeout=30,
+    )
+    assert proc.returncode == 1
+    assert json.loads(proc.stdout)["status"] == "FAIL"

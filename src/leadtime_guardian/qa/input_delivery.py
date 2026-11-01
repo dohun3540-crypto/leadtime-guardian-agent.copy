@@ -6,6 +6,7 @@ report the path/encoding, without authenticating the Studio provider.
 """
 from __future__ import annotations
 
+import json
 from typing import Any
 
 from leadtime_guardian.strict_json import loads_strict
@@ -51,6 +52,20 @@ def _read_documents(value: Any, *, qa_side: bool) -> tuple[Any, str | None, str,
     return None, "WRAPPER_DEPTH_EXCEEDED", path, encodings
 
 
+def _typed_json_equal(left: Any, right: Any) -> bool:
+    """Preserve JSON primitive type; Python False==0 is unsafe for source QA."""
+    try:
+        return json.dumps(
+            left, sort_keys=True, separators=(",", ":"),
+            ensure_ascii=False, allow_nan=False,
+        ) == json.dumps(
+            right, sort_keys=True, separators=(",", ":"),
+            ensure_ascii=False, allow_nan=False,
+        )
+    except (TypeError, ValueError, RecursionError):
+        return False
+
+
 def audit_normalize_qa_input(
     normalize_step: Any, qa_step_input: Any = None, qa_report: Any = None,
     *, expected_case_id: str | None = None,
@@ -89,7 +104,7 @@ def audit_normalize_qa_input(
             elif qa_string_layers > 1:
                 status = "QA_INPUT_WRAPPING_UNVERIFIED"
                 note("QA_INPUT_DOUBLE_JSON_WRAPPED")
-            elif qa_docs != normalize_docs:
+            elif not _typed_json_equal(qa_docs, normalize_docs):
                 status = "LOCAL_CONTENT_MISMATCH"
                 note("QA_NORMALIZED_DOCUMENTS_MISMATCH", "ERROR")
             elif not (isinstance(normalize_docs, list)

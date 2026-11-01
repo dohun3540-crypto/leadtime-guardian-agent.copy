@@ -29,6 +29,8 @@ def audit_b0_e1_readiness(b0: Any, e1: Any) -> dict[str, Any]:
         "eligibility": "BLOCKED",
         "case_id": None,
         "pdf_sha256_sets_equal": False,
+        "normalized_original_sha256_by_side": {},
+        "normalized_job_metadata_by_side": {},
         "local_pdf_bytes_verified": False,
         "studio_job_authenticity_verified": False,
         "exact_saved_config_verified": False,
@@ -102,6 +104,24 @@ def audit_b0_e1_readiness(b0: Any, e1: Any) -> dict[str, Any]:
                         or not isinstance(data.get("original_sha256"), str)
                         or not HEX64.fullmatch(data["original_sha256"])):
                     add("RAW_STEP_ARTIFACT_NOT_VERIFIED:" + step, side)
+        if isinstance(steps, dict):
+            norm = steps.get("NormalizeDocuments")
+            if (isinstance(norm, dict)
+                    and isinstance(norm.get("original_sha256"), str)
+                    and HEX64.fullmatch(norm["original_sha256"])):
+                result["normalized_original_sha256_by_side"][side] = (
+                    norm["original_sha256"].lower()
+                )
+        result["normalized_job_metadata_by_side"][side] = {
+            "job_id": job, "config_id": config,
+            "config_version": version,
+            "normalize_step_run_id": (
+                steps.get("NormalizeDocuments", {}).get("step_run_id")
+                if isinstance(steps, dict)
+                and isinstance(steps.get("NormalizeDocuments"), dict)
+                else None
+            ),
+        }
         if not isinstance(raw.get("execution_conditions"), dict):
             add("EXECUTION_CONDITIONS_NOT_RECORDED", side)
         return case, mapping
@@ -134,6 +154,7 @@ def audit_b0_e1_readiness(b0: Any, e1: Any) -> dict[str, Any]:
 
 def compare_normalized_field_values(
     b0_raw: Any, e1_raw: Any, readiness: dict,
+    *, original_raw_sha256_by_side: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     """Safe local field diff only; never assert Gold accuracy or improvement.
 
@@ -165,12 +186,38 @@ def compare_normalized_field_values(
             or any(x.get("severity") == "ERROR"
                    for x in readiness.get("issues", []))):
         return issue("B0_E1_READINESS_NOT_ESTABLISHED")
+    if original_raw_sha256_by_side is not None:
+        expected = readiness.get("normalized_original_sha256_by_side")
+        if (not isinstance(expected, dict)
+                or set(expected) != {"B0", "E1"}
+                or not isinstance(original_raw_sha256_by_side, dict)
+                or set(original_raw_sha256_by_side) != {"B0", "E1"}):
+            return issue("ORIGINAL_NORMALIZE_SHA_BINDING_MISSING")
+        for side in ("B0", "E1"):
+            if original_raw_sha256_by_side[side] != expected[side]:
+                return issue(side + "_NORMALIZE_RAW_SHA_MISMATCH")
     rows = {}
     for side, content in (("B0", b0_raw), ("E1", e1_raw)):
         if not isinstance(content, dict):
             return issue(side + "_NORMALIZED_RAW_NOT_OBJECT")
         if "case_id" in content and content["case_id"] != "C001":
             return issue(side + "_NORMALIZED_CASE_ID_MISMATCH")
+        if original_raw_sha256_by_side is not None:
+            expected_binding = readiness["normalized_job_metadata_by_side"][side]
+            metadata = content.get("metadata")
+            if metadata is not None and not isinstance(metadata, dict):
+                return issue(side + "_NORMALIZE_METADATA_INVALID")
+            observed = content if metadata is None else metadata
+            for field, expected_field in (
+                ("job_id", "job_id"),
+                ("job_execution_id", "job_id"),
+                ("step_run_id", "normalize_step_run_id"),
+                ("config_id", "config_id"),
+                ("config_version", "config_version"),
+            ):
+                if (field in observed
+                        and observed[field] != expected_binding[expected_field]):
+                    return issue(side + "_NORMALIZE_IDENTITY_MISMATCH:" + field)
         docs, error, _, layers = _read_documents(content, qa_side=False)
         if error or layers > 1 or not isinstance(docs, list) or len(docs) != 3:
             return issue(side + "_DOCUMENTS_NOT_VALIDATED")

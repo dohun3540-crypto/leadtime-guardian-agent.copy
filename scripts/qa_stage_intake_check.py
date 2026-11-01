@@ -12,11 +12,16 @@ sys.path.insert(0, str(ROOT / "src"))
 from leadtime_guardian.qa.audit import load_json_strict
 from leadtime_guardian.qa.stage_trace import STAGES, audit_stage_evidence
 
+MAX_MANIFEST_BYTES = 1024 * 1024  # Identity + relative paths; no raw PDFs.
+MAX_STAGE_BYTES = 32 * 1024 * 1024  # Bounded offline JSON intake per Stage.
+
 
 def inspect_manifest_path(provided_path: Path) -> dict:
     """Reuse exact same stage intake in standalone and combined E2E CLI."""
     try:
         manifest_path = provided_path.resolve(strict=True)
+        if manifest_path.stat().st_size > MAX_MANIFEST_BYTES:
+            raise ValueError("stage manifest exceeds bounded metadata limit")
         manifest = load_json_strict(manifest_path.read_bytes())
         if not isinstance(manifest, dict):
             raise TypeError("manifest must be a JSON object")
@@ -30,6 +35,8 @@ def inspect_manifest_path(provided_path: Path) -> dict:
             path = (manifest_path.parent / relative).resolve(strict=True)
             if not path.is_relative_to(manifest_path.parent):
                 raise ValueError("path escapes manifest directory")
+            if path.stat().st_size > MAX_STAGE_BYTES:
+                raise ValueError("Stage JSON exceeds offline evidence size limit")
             return path.read_bytes()
 
         artifacts = {}
@@ -46,7 +53,7 @@ def inspect_manifest_path(provided_path: Path) -> dict:
             if item.get("path") is not None:
                 artifacts[name] = read_relative(item["path"])
         result = audit_stage_evidence(manifest, artifacts)
-    except (OSError, TypeError, ValueError, UnicodeDecodeError):
+    except (OSError, TypeError, ValueError, UnicodeDecodeError, RecursionError):
         result = {
             "status": "FAIL", "release_or_merge_authorized": False,
             "studio_live_execution_authenticated": False,

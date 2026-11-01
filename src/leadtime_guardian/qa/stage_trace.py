@@ -140,6 +140,18 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
     result["config_version"] = manifest["config_version"]
     op_job = manifest["operational_job_id"]
     all_metadata = manifest["stages"]
+    unknown = set(all_metadata) - set(STAGES)
+    for name in sorted(unknown):
+        note("UNEXPECTED_STAGE_NAME", name, "ERROR")
+    stage_identities: set[tuple[str, str]] = set()
+
+    def bind_step(job: str, step: str, stage: str) -> None:
+        identity = (job, step)
+        if identity in stage_identities:
+            note("DUPLICATE_JOB_STEP_ID", stage, "ERROR")
+        else:
+            stage_identities.add(identity)
+
     for stage in STAGES:
         meta = all_metadata.get(stage)
         raw = raw_artifacts.get(stage)
@@ -150,6 +162,9 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         if (stage == "Extract" and isinstance(meta, dict)
                 and isinstance(meta.get("branches"), dict)):
             branches = meta["branches"]
+            unexpected_branches = set(branches) - set(DOC_TYPES)
+            for branch_name in sorted(unexpected_branches):
+                note("UNEXPECTED_EXTRACT_BRANCH", branch_name, "ERROR")
             raw_branches = raw if isinstance(raw, dict) else {}
             observed = {}
             observations = {}
@@ -176,9 +191,10 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
                         or not branch_meta["step_run_id"].strip()):
                     note("EXTRACT_BRANCH_SHA_OR_RUN_BINDING_MISMATCH", kind, "ERROR")
                     continue
+                bind_step(op_job, branch_meta["step_run_id"], kind)
                 try:
                     raw_doc = load_json_strict(payload)
-                except (ValueError, TypeError, UnicodeDecodeError):
+                except (ValueError, TypeError, UnicodeDecodeError, RecursionError):
                     note("STRICT_JSON_FAILED", kind, "ERROR")
                     continue
                 if not isinstance(raw_doc, dict):
@@ -257,6 +273,7 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         if meta.get("case_id") != manifest["case_id"]:
             note("STAGE_CASE_ID_MISMATCH", stage, "ERROR")
             continue
+        bind_step(job, step_id, stage)
         try:
             parsed = load_json_strict(raw)
         except (ValueError, TypeError, UnicodeDecodeError):
@@ -302,10 +319,22 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         observation["document_ids"] = ids
         observation["document_content_sha256"] = canonical_documents_sha256(docs)
         observation["status"] = "LOCAL_RAW_PARSED"
+    # Two independent QA steps may differ from the operational Job, but
+    # cannot silently represent two different QA Sandbox Jobs.
+    qa_input = stages_out["IndependentQA_Input"]
+    qa_report = stages_out["IndependentQA_Report"]
+    if (qa_input["status"] == "LOCAL_RAW_PARSED"
+            and qa_report["status"] == "LOCAL_RAW_PARSED"
+            and qa_input["job_id"] != qa_report["job_id"]):
+        note("QA_INPUT_REPORT_JOB_MISMATCH", "IndependentQA_Report", "ERROR")
     result["normalize_qa_input_status"] = "NOT_VERIFIED"
     if ("NormalizeDocuments" in docs_by_stage
             and "IndependentQA_Input" in docs_by_stage):
-        if docs_by_stage["NormalizeDocuments"] == docs_by_stage["IndependentQA_Input"]:
+        if (canonical_documents_sha256(
+                list(docs_by_stage["NormalizeDocuments"].values())
+            ) == canonical_documents_sha256(
+                list(docs_by_stage["IndependentQA_Input"].values())
+            )):
             result["normalize_qa_input_status"] = "LOCAL_CONTENT_MATCH"
         else:
             result["normalize_qa_input_status"] = "LOCAL_CONTENT_MISMATCH"

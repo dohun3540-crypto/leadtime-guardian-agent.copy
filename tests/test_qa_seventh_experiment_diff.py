@@ -1,4 +1,5 @@
 """Actual B0/E1 E1 has NOT been provided. All scenarios are synthetic."""
+import hashlib
 import json
 import subprocess
 import sys
@@ -114,10 +115,15 @@ def test_cli_synthetic_pair_with_normalize_files_is_not_live_success(tmp_path):
     paths = {}
     for kind in ("B0", "E1"):
         path = tmp_path / (kind + ".json")
-        path.write_text(json.dumps(manifest(kind)))
         paths[kind] = path
         norm = tmp_path / (kind + "-normalize.json")
-        norm.write_text(json.dumps(normalized(altered=kind == "E1")))
+        value = json.dumps(normalized(altered=kind == "E1")).encode("utf-8")
+        norm.write_bytes(value)
+        meta = manifest(kind)
+        meta["step_artifacts"]["NormalizeDocuments"]["original_sha256"] = (
+            hashlib.sha256(value).hexdigest()
+        )
+        path.write_text(json.dumps(meta))
         paths[kind + "_NORMALIZE"] = norm
     proc = subprocess.run([
         sys.executable, str(CLI),
@@ -130,3 +136,74 @@ def test_cli_synthetic_pair_with_normalize_files_is_not_live_success(tmp_path):
     assert out["comparison_status"] == "NOT_MEASURED"
     assert out["field_comparison"]["field_comparison_status"] == "CHANGED_UNVERIFIED"
     assert out["eligibility"] == "BLOCKED"
+
+
+
+def _pair_on_disk(tmp_path):
+    paths = {}
+    for side in ("B0", "E1"):
+        raw = json.dumps(normalized(altered=side == "E1")).encode("utf-8")
+        p = tmp_path / (side + "-normalize.json")
+        p.write_bytes(raw)
+        meta = manifest(side)
+        meta["step_artifacts"]["NormalizeDocuments"]["original_sha256"] = (
+            hashlib.sha256(raw).hexdigest()
+        )
+        m = tmp_path / (side + "-manifest.json")
+        m.write_text(json.dumps(meta))
+        paths[side] = (m, p)
+    return paths
+
+
+def _compare_files(paths):
+    return subprocess.run(
+        [sys.executable, str(CLI), "--b0", str(paths["B0"][0]),
+         "--e1", str(paths["E1"][0]),
+         "--b0-normalize", str(paths["B0"][1]),
+         "--e1-normalize", str(paths["E1"][1])],
+        cwd=ROOT, capture_output=True, text=True, check=False, timeout=30,
+    )
+
+
+def test_comparison_rejects_changed_normalize_bytes_not_manifest_bound(tmp_path):
+    paths = _pair_on_disk(tmp_path)
+    payload = json.loads(paths["E1"][1].read_text())
+    payload["documents"][0]["supplier_id"] = "UNVERIFIED_SUPPLIER"
+    paths["E1"][1].write_text(json.dumps(payload))
+    proc = _compare_files(paths)
+    out = json.loads(proc.stdout)
+    assert proc.returncode == 2, proc.stderr
+    assert out["field_comparison"]["field_comparison_status"] == "BLOCKED"
+    assert "E1_NORMALIZE_RAW_SHA_MISMATCH" in out["field_comparison"]["issues"]
+    assert out["release_or_merge_authorized"] is False
+
+
+def test_comparison_rejects_b0_job_identity_conflict_even_with_matching_sha(tmp_path):
+    paths = _pair_on_disk(tmp_path)
+    payload = json.loads(paths["B0"][1].read_text())
+    payload["job_id"] = "job_INJECTED_OTHER_RUN"
+    raw = json.dumps(payload).encode()
+    paths["B0"][1].write_bytes(raw)
+    meta = json.loads(paths["B0"][0].read_text())
+    meta["step_artifacts"]["NormalizeDocuments"]["original_sha256"] = (
+        hashlib.sha256(raw).hexdigest()
+    )
+    paths["B0"][0].write_text(json.dumps(meta))
+    proc = _compare_files(paths)
+    out = json.loads(proc.stdout)
+    assert proc.returncode == 2
+    assert out["field_comparison"]["field_comparison_status"] == "BLOCKED"
+    assert "B0_NORMALIZE_IDENTITY_MISMATCH:job_id" in (
+        out["field_comparison"]["issues"]
+    )
+
+
+def test_comparison_real_sha_bound_synthetic_null_diff_still_unverified(tmp_path):
+    paths = _pair_on_disk(tmp_path)
+    proc = _compare_files(paths)
+    out = json.loads(proc.stdout)
+    assert proc.returncode == 2, proc.stderr
+    assert out["field_comparison"]["field_comparison_status"] == "CHANGED_UNVERIFIED"
+    assert out["field_comparison"]["human_gold_accuracy"] == "NOT_MEASURED"
+    assert out["studio_job_authenticity_verified"] is False
+    assert out["release_or_merge_authorized"] is False
