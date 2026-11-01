@@ -39,3 +39,10 @@ GitHub QA copy의 새 통합 후보 PR #4에서 팀원2 PR#12 Python + QA 시스
 (3) Extract null 타입 실험은 필드별 '부재', null, 빈 문자열, "null", 0, 숫자 문자열과 타입을 함께 제공하고 정상/차단 여부를 보고하세요. 저장 설정을 변경했다면 새 Config diff를 명시하세요.
 (4) E1/E2/E3/B0/E4 비교는 같은 PDF SHA/동일 Case/Gold 및 실제 Config/Job/Step이 있을 때만 결과 지표를 제시하세요. Excel 49는 원본 Extract/Merge/Normalize/Export bytes가 없으면 발생 원인 UNKNOWN.
 (5) 신규 유료 실행, 운영 워크플로우 직접 수정, PDF/Gold 임의변경, 원본 결과 덮어쓰기, 비승인 PR merge를 하지 마세요. 불가한 원본은 NOT_ACCESSIBLE 또는 ACCESS_BLOCKED로 정확히 표시하세요.
+
+
+[4차 개발 이후 — B0-C001 실측의 새 확인 사실과 최소 후속 요청]
+이번 B0 v1은 C001 발주서, 납기통보서, 견적서의 파일별 독립 Job 세 개(job_DUdK8NzKasoTvDxGEW9XRY, job_5LX7RWd8SfSUADEfq5MCDL, job_9osC3yrPWtTt2oDjJuSdde)가 완료되었으나 단일 C001 Job이 아니었습니다. 따라서 B0 통합 기준선 FAIL, E1 NOT_RUN, QA 실제 판정 UNKNOWN, E1/B0 비교 NOT_MEASURED를 유지하세요.
+이미 완료된 세 Job 삭제/재실행/모조 통합을 하지 마세요. 똑같은 use_agent 선택 방식으로 3개 Job을 반복 생성하지 말고, Studio UI에서 세 원본 PDF를 하나의 케이스에 포함한 화면을 구성할 수 있는지 확인한 후 단일 Job에 세 문서가 입력된다는 것을 먼저 검증하세요. UI 메뉴를 확인하지 못했다면 메뉴 이름을 추정하지 마세요. 이미 selectedSplitResultMatched:false로 실패한 Extract·QA 본문 조회를 동일 방법으로 반복하지 마세요.
+원본 export가 가능할 때만, 새 단일 Job의 Native 원본, Normalize documents 3개, QA 실제 입력 원본, IndependentQA 원본 report, Agent/Config/version/Job/Step ID, 원본 PDF byte SHA-256 및 각 file_id(upload receipt)를 다운로드·보존하세요. 조회 불가 항목은 UNKNOWN/NOT_ACCESSIBLE로 표시하세요.
+GitHub 측의 qa_studio_batch_check.py, qa_combined_e2e_check.py는 split job의 부당한 통합과 PDF/Job/Sidecar SHA 불일치를 차단하도록 개발됐습니다. E1/B0 비교는 동일 PDF 바이트, 동일 Case, 적합한 실험 구성, Saved Config와 실제 Job이 확인된 후에만 실행·평가하세요. 이미 받은 Large 사용량 승인만으로 재시도 필요성을 추정하지 마세요.
