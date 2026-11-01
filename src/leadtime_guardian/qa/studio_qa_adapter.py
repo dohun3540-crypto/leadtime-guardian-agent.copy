@@ -118,6 +118,12 @@ def normalize_studio_qa_report(
             if not isinstance(code, str) or not code.strip():
                 error("STUDIO_INVALID_ISSUE_CODE", f"issues[{i}]")
                 continue
+            # Studio may emit lowercase known vocabulary; retain raw report unchanged.
+            # The adapter transformation must be visible to downstream reviewers.
+            if isinstance(severity, str) and severity in ("info", "warning", "error"):
+                severity = severity.upper()
+                human_review = True
+                advisory("STUDIO_ISSUE_SEVERITY_CASE_NORMALIZED", f"issues[{i}].severity")
             if not isinstance(severity, str) or severity not in SEVERITIES:
                 error("STUDIO_INVALID_ISSUE_SEVERITY", f"issues[{i}]")
                 continue
@@ -142,7 +148,12 @@ def normalize_studio_qa_report(
     if not isinstance(report.get("recommended_action"), str):
         error("STUDIO_INVALID_RECOMMENDATION", "recommended_action")
     version = report.get("workflow_version")
-    if not isinstance(version, (str, int)) or isinstance(version, bool) or not version:
+    if version is None and "workflow_version" in report:
+        # Structurally present, but no authenticated version: accept non-PASS
+        # report for triage, never invent a version or authorize a PASS.
+        human_review = True
+        advisory("STUDIO_WORKFLOW_VERSION_NOT_VERIFIED", "workflow_version")
+    elif not isinstance(version, (str, int)) or isinstance(version, bool) or not version:
         error("STUDIO_INVALID_WORKFLOW_VERSION", "workflow_version")
     provenance = report.get("execution_provenance")
     if provenance is not None and not isinstance(provenance, dict):
