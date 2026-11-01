@@ -2,8 +2,6 @@
 
 All observations are synthetic regression contracts, NOT authenticated E1 raw.
 """
-from __future__ import annotations
-
 from copy import deepcopy
 
 import pytest
