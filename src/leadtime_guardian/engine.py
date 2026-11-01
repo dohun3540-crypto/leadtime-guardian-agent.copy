@@ -92,6 +92,8 @@ def prepare(case):
         quantity(row, "quantity")
     for row in quotes:
         nonempty(row, "supplier_id")
+        if row.get("currency", "KRW") != "KRW":
+            raise ValueError("quote: unsupported currency")
         if nonempty(row, "product_id") not in known:
             raise ValueError("quote: unknown product")
         date_value(row.get("arrival_date"), "arrival_date")
@@ -227,22 +229,29 @@ def quote_draft(orders, revised, quotes):
     return lines, uncovered, str(total)
 
 
-def analyze_portfolio(payload):
-    """Return safe, reproducible JSON. Never send purchases or email."""
-    result = {
-        "schema_version": VERSION, "case_id": "UNKNOWN", "status": "NEEDS_REVIEW",
+def blocked_result(payload, flags):
+    """Build a blocked response without attempting any allocation or quote calculation."""
+    case_id = payload.get("case_id") if isinstance(payload, dict) else None
+    return {
+        "schema_version": VERSION,
+        "case_id": case_id if isinstance(case_id, str) and case_id.strip() else "UNKNOWN",
+        "status": "NEEDS_REVIEW",
         "execution_status": "BLOCKED", "needs_review": True,
-        "review_flags": [], "delays": [], "impacted_orders": [],
+        "review_flags": flags, "delays": [], "impacted_orders": [],
         "supplier_options": [], "uncovered_quantity": None,
         "baseline_shortage_quantity": None, "changed_shortage_quantity": None,
         "additional_shortage_quantity": None, "estimated_quote_cost_krw": None,
         "evidence_document_ids": [], "evidence_verified_against_pdf": False,
         "external_action_taken": False,
     }
+
+
+def analyze_portfolio(payload):
+    """Return safe, reproducible JSON. Never send purchases or email."""
+    result = blocked_result(payload, [])
     try:
         if not isinstance(payload, dict):
             raise TypeError("payload must be object")
-        result["case_id"] = payload.get("case_id", "UNKNOWN")
         inventory, orders, inbound, quotes, docs = prepare(deepcopy(payload))
         flags = evidence_flags(inbound, docs)
         result["evidence_document_ids"] = [d["document_id"] for d in docs]

@@ -36,3 +36,9 @@ See `docs/TEAM2_INTERFACE_REQUEST_20261101.md`. Do not silently modify the engin
 ## CI reality
 
 Independent QA CI validates the QA copy **own tree** (historical PR #11-like core), not PR #12 + QA merged. Team2 PR #12 CI validates the original branch without QA PR #3. Independent PASS + team2 PASS is not combined E2E PASS.
+
+## Third-pass actual isolated combined candidate (2026-11-01)
+
+**Implemented, not merely proposed:** QA copy `feat/qa-team2-v6-combined-20261101` / Draft PR #4, based on unchanged QA PR#3 `f2aeb848eed0d72893073896898fcaa7154b52a1`. All six primary Python source Blob SHA **equal** original Team2 PR#12 `e9b9992b593a42d427ff1bbadeb9a9866ca593bd` after explicit staging. No production or original GitHub repository modification was needed. Exact combined tree CI `bdcdac48`: 315 QA / 504 total Python pytest, two Ruff suites, offline replay and local Integration Gate; GitHub Actions #41291094905 SUCCESS, Release BLOCKED.
+
+The next move is not to merge QA PR #4 into original main. A future authorized release candidate should start from currently approved original PR#12 (or a new owner-updated SHA), then **selectively port QA-only modules/tests/scripts/QA CI/docs**. Run a fresh whole-tree test and official integrated CI; retest raw actual Jobs, source PDF hashes and human Gold. PR#4's historical overlay is for compatibility verification only; if Team2 updates PR#12, the six Blob SHAs must be re-fetched and compatibility rerun. Do not merge PR#4's entire tree back onto Team2 code.

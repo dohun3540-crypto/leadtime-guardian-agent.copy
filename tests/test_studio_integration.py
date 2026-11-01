@@ -98,7 +98,7 @@ def test_quote_value_conflict_with_trusted_data_blocks(inputs):
 
 def test_native_documented_output_envelope(inputs):
     _, docs, _ = inputs
-    raw = {"status": "completed", "output": [
+    raw = {"id": "job_SYNTHETIC", "status": "completed", "output": [
         {"type": "message", "status": "completed", "content": [
             {"type": "output_text", "text": json.dumps({"documents": docs})}]}]}
     assert documents_from_export(raw) == docs
@@ -106,7 +106,7 @@ def test_native_documented_output_envelope(inputs):
 
 def test_multiple_final_messages_require_observed_mapping():
     with pytest.raises(AdapterError, match="ambiguous"):
-        documents_from_export({"status": "completed", "output": [
+        documents_from_export({"id": "job_SYNTHETIC", "status": "completed", "output": [
             {"type": "message", "status": "completed", "content": [
                 {"type": "output_text", "text": "[]"}]}] * 2})
 

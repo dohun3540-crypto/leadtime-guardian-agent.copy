@@ -161,3 +161,51 @@ def test_invalid_poll_interval_blocks_before_upload(tmp_path):
     with pytest.raises(ValueError, match="polling"):
         execute(client, tmp_path / "run", poll_seconds=0)
     assert client.uploads == []
+
+
+def test_poll_job_id_conflict_preserves_original_job_and_stops(tmp_path):
+    client = FakeClient()
+    original_retrieve = client.responses.retrieve
+
+    def retrieve(job_id, **kwargs):
+        reply = original_retrieve(job_id, **kwargs)
+        reply.data["id"] = "job-WRONG"
+        return reply
+
+    client.responses.retrieve = retrieve
+    meta = execute(client, tmp_path / "run")
+    assert meta["status"] == "NEEDS_REVIEW"
+    assert meta["job_id"] == "job-CONTRACT"
+    assert len(client.submissions) == 1
+    assert len(client.retrievals) == 1
+    assert (tmp_path / "run/job-0001.json").is_file()
+
+
+@pytest.mark.parametrize("change", [{"id": "job-WRONG"}, {"status": "in_progress"},
+                                    {"error": {"message": "history failed"}}])
+def test_conflicting_history_is_archived_without_claiming_success(tmp_path, change):
+    client = FakeClient(statuses=["completed"])
+    original_retrieve = client.responses.retrieve
+
+    def retrieve(job_id, **kwargs):
+        reply = original_retrieve(job_id, **kwargs)
+        if kwargs["include"] == ["all"]:
+            reply.data.update(change)
+        return reply
+
+    client.responses.retrieve = retrieve
+    meta = execute(client, tmp_path / "run")
+    assert meta["status"] == "NEEDS_REVIEW"
+    assert meta["job_id"] == "job-CONTRACT"
+    assert (tmp_path / "run/studio_all_steps.json").is_file()
+    assert len(client.submissions) == 1
+
+
+def test_input_order_is_preserved_in_uploaded_file_ids(tmp_path):
+    client = FakeClient(statuses=["completed"])
+    paths = [PDFS[2], PDFS[0], PDFS[1]]
+    run_agent(client, paths, AGENT_ID, tmp_path / "run", case_id="SYNTHETIC-ORDER",
+              config_version="mock", prompt_version="mock")
+    assert [upload["bytes"] for upload in client.uploads] == [path.read_bytes() for path in paths]
+    metadata = json.loads((tmp_path / "run/run_metadata.json").read_text())
+    assert [row["filename"] for row in metadata["uploaded_files"]] == [p.name for p in paths]

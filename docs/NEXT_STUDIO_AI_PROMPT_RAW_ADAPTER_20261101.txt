@@ -31,3 +31,11 @@ ChatGPT GitHub 측에서는 raw QA report에 별도의 STUDIO_INDEPENDENT_QA_V1 
 - 동일 실행의 누락된 provenance null은 데이터 결측이지 자동으로 실행 식별자 충돌이 아닙니다. 실제 서로 다른 비-null 값이 같은 실행에 연결되어 충돌할 때만 EXECUTION_PROVENANCE_MISMATCH warning+requires_human_review=true.
 - Excel 셀 49는 숫자/문자열뿐 아니라 수식의 캐시값인지 구분하고, Extract·Merge·Normalize 단계별 원본에 나타나는지 추적하세요. 원본 Step이 없으면 원인 UNKNOWN.
 - 새 유료 Job, 원본 운영/QA 설정 변경, Gold 수정, 외부 제출, 반복 실행 금지. 읽기 전용 접근 불가 시 정확한 권한/Export 경로 오류만 기록하세요.
+
+[팀원 1 — 3차 GitHub 결합 개발 이후 추가 전달]
+GitHub QA copy의 새 통합 후보 PR #4에서 팀원2 PR#12 Python + QA 시스템을 단일 트리로 결합해 504 Python/315 QA 테스트와 Ruff를 통과했습니다. 운영 Studio/QA Studio의 실제 새 Job은 생성하지 않았습니다. 당신은 기존 Studio 병렬 작업을 계속하되, 실패했던 Config/Step 본문 조회를 같은 방식으로 반복하지 마세요.
+(1) 실제 saved QA Config ID/version(v1 또는 새 v2+), 운영 V5 saved Config, 각 Job/Step 원본을 구분해서 내보내세요. User-supplied draft config로 live run을 증명하지 마세요.
+(2) C001 및 C013의 Normalize 출력 ↔ IndependentQA 실제 입력 payload 차이, 원본 SHA, filename, file_id, 원본 PDF SHA, 실행 kind와 시간, QA report의 실제 필드·provenance 누락과 값 충돌을 구분해서 제공하세요.
+(3) Extract null 타입 실험은 필드별 '부재', null, 빈 문자열, "null", 0, 숫자 문자열과 타입을 함께 제공하고 정상/차단 여부를 보고하세요. 저장 설정을 변경했다면 새 Config diff를 명시하세요.
+(4) E1/E2/E3/B0/E4 비교는 같은 PDF SHA/동일 Case/Gold 및 실제 Config/Job/Step이 있을 때만 결과 지표를 제시하세요. Excel 49는 원본 Extract/Merge/Normalize/Export bytes가 없으면 발생 원인 UNKNOWN.
+(5) 신규 유료 실행, 운영 워크플로우 직접 수정, PDF/Gold 임의변경, 원본 결과 덮어쓰기, 비승인 PR merge를 하지 마세요. 불가한 원본은 NOT_ACCESSIBLE 또는 ACCESS_BLOCKED로 정확히 표시하세요.

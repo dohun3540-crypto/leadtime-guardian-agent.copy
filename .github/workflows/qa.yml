@@ -1,7 +1,7 @@
 name: Independent QA
 on:
   push:
-    branches: [feat/independent-qa-integration, feat/qa-source-restore-20261031, feat/qa-sandbox-copy-validation-20261101]
+    branches: [feat/independent-qa-integration, feat/qa-source-restore-20261031, feat/qa-sandbox-copy-validation-20261101, feat/qa-team2-v6-combined-20261101]
   pull_request:
 jobs:
   qa:

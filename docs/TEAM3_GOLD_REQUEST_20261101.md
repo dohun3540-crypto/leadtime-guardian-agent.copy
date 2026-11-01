@@ -13,3 +13,7 @@ Please provide per case:
 - Complete 20-case table of labels: document class, field support/ambiguity, expected safe block, human review status and excluded comparison items.
 
 Return three categories distinctly: `DRAFT`, `HUMAN_VERIFIED_GOLD`, `NOT_VERIFIED`. No accuracy metric should include non-human-verified fields. The QA code and Studio generated outputs must not be edited to match Gold.
+
+## 3차 통합 후보와 Gold 검수 상태
+
+QA PR #4는 C001 보관 Native, C013·C017·C008 DRAFT fixture를 팀원 2 엔진과 QA 참조 계산기로 실제 회귀 검증했습니다. 결과 315 QA/504 전체 Python PASS는 **PDF 추출 정확도 검증이 아닙니다**. C013 PO999 차단, C017 한글 날짜 근거 여부, C008 R1/R2 분리 배분을 독립적으로 정확도 측정할 수 있도록 원본 3 PDF SHA, field-level page/evidence, human review/version/date/adjudication status를 사례별로 전달해 주세요. 현재 Human Gold Gate는 BLOCKED입니다.

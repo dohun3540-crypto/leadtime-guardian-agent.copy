@@ -111,10 +111,13 @@ def run_agent(client, paths, agent_id, destination, *, case_id, config_version,
         while True:
             write_json(destination / f"job-{index:04d}.json", response)
             meta["studio_status"] = response.get("status")
-            meta["job_id"] = response.get("id")
-            write_json(destination / "run_metadata.json", meta)
-            if not isinstance(meta["job_id"], str) or not meta["job_id"]:
+            response_id = response.get("id")
+            if not isinstance(response_id, str) or not response_id.strip():
                 raise ValueError("job response is missing ID")
+            if meta["job_id"] is not None and response_id != meta["job_id"]:
+                raise ValueError("job ID changed during polling")
+            meta["job_id"] = response_id
+            write_json(destination / "run_metadata.json", meta)
             if meta["studio_status"] not in ACTIVE:
                 break
             remaining = timeout_seconds - (clock() - started)
@@ -129,6 +132,9 @@ def run_agent(client, paths, agent_id, destination, *, case_id, config_version,
         # Keep all Parse/Classify/Extract steps for later provenance inspection.
         all_steps = snapshot(client.responses.retrieve(meta["job_id"], include=["all"]))
         write_json(destination / "studio_all_steps.json", all_steps)
+        if (all_steps.get("id") != meta["job_id"] or all_steps.get("status") != "completed"
+                or all_steps.get("error")):
+            raise ValueError("job history ID/status conflicts with completed job")
         meta["status"] = "COMPLETED"
     except handled_errors as exc:
         # SDK exception strings can contain request details; never persist them blindly.
