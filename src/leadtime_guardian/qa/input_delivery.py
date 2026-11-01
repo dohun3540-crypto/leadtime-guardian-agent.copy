@@ -6,7 +6,7 @@ report the path/encoding, without authenticating the Studio provider.
 """
 from __future__ import annotations
 
-import json
+import math
 from typing import Any
 
 from leadtime_guardian.strict_json import loads_strict
@@ -53,17 +53,32 @@ def _read_documents(value: Any, *, qa_side: bool) -> tuple[Any, str | None, str,
 
 
 def _typed_json_equal(left: Any, right: Any) -> bool:
-    """Preserve JSON primitive type; Python False==0 is unsafe for source QA."""
-    try:
-        return json.dumps(
-            left, sort_keys=True, separators=(",", ":"),
-            ensure_ascii=False, allow_nan=False,
-        ) == json.dumps(
-            right, sort_keys=True, separators=(",", ":"),
-            ensure_ascii=False, allow_nan=False,
-        )
-    except (TypeError, ValueError, RecursionError):
+    """Compare valid JSON values exactly, preserving Python JSON types.
+
+    Only dicts with string keys and JSON primitives/arrays are accepted. A
+    Python tuple must not silently compare equal to a JSON list, nor should
+    non-string dict keys be coerced to strings by serialization. This remains
+    local content evidence, not authentication of Studio cloud delivery.
+    """
+    if type(left) is not type(right):
         return False
+    if type(left) is dict:
+        if any(type(key) is not str for key in left):
+            return False
+        if any(type(key) is not str for key in right):
+            return False
+        return left.keys() == right.keys() and all(
+            _typed_json_equal(value, right[key]) for key, value in left.items()
+        )
+    if type(left) is list:
+        return len(left) == len(right) and all(
+            _typed_json_equal(a, b) for a, b in zip(left, right, strict=True)
+        )
+    if type(left) is float:
+        return math.isfinite(left) and math.isfinite(right) and left == right
+    if left is None or type(left) in (str, int, bool):
+        return left == right
+    return False
 
 
 def audit_normalize_qa_input(
