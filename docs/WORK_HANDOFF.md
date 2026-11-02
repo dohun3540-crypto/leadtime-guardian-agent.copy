@@ -1,3 +1,13 @@
+# CURRENT FINAL HANDOFF — Team1 E2E evidence audit / integration sync
+
+- **Individual PR:** [#19 Draft](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/19); personal verified code SHA `af66a2d9c1b093558c3e7dc534ecbe66621d2657`, GitHub QA/full Python **467/716 passed** [run 41463679425](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679425), Team3 **57** and source PDFs **60/60** [run 41463679568](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679568).
+- **Integrated PR read-only:** [yuseok_integration #2 Draft](https://github.com/dohun3540-crypto/yuseok_integration/pull/2), observed SHA `5a7d4df070a7607585b5c1adb4847a1b79f8c2e7`: [CI 41464994396](https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41464994396) **SUCCESS, 778 full passed, Ruff PASS, 60/60 source PDFs**. Earlier 8 QA failures and missing `pytest` import are repaired at this checkpoint. Team1 QA source no longer needs re-import; integration `audit.py` delegates to the already fixed shared strict JSON, `studio_batch.py` Blob matches, and recursive input document compare remains an intentionally strengthened integrated variant.
+- **Read-only data check:** C001 100 EA vs alternate quote 60 EA retained, C013 original PO999 conflict, C008 receipt R1 40 / R2 60, C017 ISO DRAFT; archived C013 three-document Native available in earlier user Library but not authentic current B0/E1. Human Gold's latest reviewed original XLSX and approval remain unavailable. CI 60/60 is a *machine* check, not full semantic review.
+- **Real E2E not verified:** no authenticated current B0/E1 Native/step/job/config/upload PDF-hash chain with matching V6/QA raw reports and human Gold; current B0 C001 three separate file Jobs remain invalid as single run evidence. Overall release **BLOCKED**, improvement **NOT_MEASURED**. The source of truth for required exact inputs is `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md`.
+- **Action:** keep personal QA source frozen, do not push to the separate integration repository or modify Studio. When real evidence arrives, use `docs/integration_20261102/NATIVE_AND_GOLD_REQUEST.md` in the integration PR for the `python -m qa.integration` offline input contract, then run case/step/provenance/Gold gates and request human approval. New personal documentation HEAD/CI will be visible in PR #19; do not recursively amend an embedded SHA.
+
+---
+
 # CURRENT — Team1 personal QA final branch, 2026-11-02 KST
 
 - **Write repository:** `dohun3540-crypto/leadtime-guardian-agent.copy` only.
