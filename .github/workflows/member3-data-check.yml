@@ -1,0 +1,53 @@
+name: 팀원3 원본 기계 검사
+on:
+  push:
+    branches: [feat/all-team-final-integration-20261102]
+  pull_request:
+    branches: [feat/qa-pr13-pr14-final-selective-freeze-20261101]
+permissions:
+  contents: read
+jobs:
+  member3-data-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: 검사 의존성 설치
+        run: python -m pip install -r qa/requirements.txt
+      - name: 실행 버전 기록
+        run: |
+          mkdir -p qa-run/logs
+          git rev-parse HEAD > qa-run/logs/git-sha.txt
+          python --version > qa-run/logs/python.txt
+          python -m pip freeze > qa-run/logs/dependencies.txt
+      - name: Ruff 검사
+        id: lint
+        run: |
+          set -o pipefail
+          python -m ruff check qa tests/qa 2>&1 | tee qa-run/logs/ruff.txt
+      - name: 검사 도구 단위 테스트
+        if: always() && steps.lint.outcome != 'skipped'
+        run: |
+          set -o pipefail
+          python -m pytest tests/qa -q --junitxml=qa-run/logs/pytest.xml 2>&1 | tee qa-run/logs/pytest.txt
+      - name: 실제 PDF 원본 기계 검사
+        if: always() && steps.lint.outcome != 'skipped'
+        run: |
+          set -o pipefail
+          python -m qa.inventory --root . --out qa-run/inventory 2>&1 | tee qa-run/logs/inventory.txt
+      - name: 로그와 인벤토리 보존
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: member3-data-check-${{ github.sha }}-${{ github.run_attempt }}
+          path: qa-run/
+          if-no-files-found: warn
+          retention-days: 14

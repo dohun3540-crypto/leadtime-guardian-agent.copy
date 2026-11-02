@@ -1,0 +1,56 @@
+{
+  "handoff_version": 1,
+  "recorded_date_kst": "2026-11-02",
+  "role": "팀원3 데이터·원문 근거·Gold 검수·정량평가",
+  "repository": "https://github.com/dohun3540-crypto/leadtime-guardian-agent",
+  "branch": "feat/qa-ground-truth-evaluation",
+  "last_development_sha": "90e2faa479412934fdd1bd4b0550871f90487050",
+  "handoff_commit_sha": null,
+  "handoff_commit_note": "이 파일을 포함한 커밋은 저장 후 Git 이력에서 확인",
+  "pr_number_seen_in_ci": 13,
+  "ci_verified_date": "2026-11-02",
+  "ci": [
+    {"name":"lint-test","sha":"90e2faa479412934fdd1bd4b0550871f90487050","status":"PASS","run_id":41295817959,"job_id":124816335386,"url":"https://github.com/dohun3540-crypto/leadtime-guardian-agent/actions/runs/41295817959/job/124816335386","exact_test_counts_verified":false},
+    {"name":"member3-data-check","sha":"90e2faa479412934fdd1bd4b0550871f90487050","status":"PASS","run_id":41295813181,"job_id":124816321009,"url":"https://github.com/dohun3540-crypto/leadtime-guardian-agent/actions/runs/41295813181/job/124816321009","exact_test_counts_verified":false}
+  ],
+  "historical_verified_log": {"sha":"daf8ddfe17843106bd7c7eff893a62e842903cd4","qa_tests_passed":52,"pdf_machine_checks_passed":60,"ruff_status":"FAIL","ruff_errors":1,"note":"後続コードで修正済みという推測ではなく最新CIは別記録。本文は過去実行の数値。"},
+  "components": {
+    "inventory_tool":"IMPLEMENTED",
+    "csv_review_record_checker":"IMPLEMENTED",
+    "xlsx_snapshot_reader":"IMPLEMENTED",
+    "xlsx_to_review_semantic_comparator":"NOT_IMPLEMENTED",
+    "full_extraction_evaluator":"NOT_IMPLEMENTED",
+    "c001_candidate":"AI_CANDIDATE",
+    "other_case_candidates":"NOT_RUN",
+    "holdout":"NOT_RUN"
+  },
+  "review": {
+    "user_reported_c001_review":true,
+    "corrected_xlsx_received":true,
+    "latest_xlsx_original_name":"PDF_EVIDENCE_MATRIX.xlsx",
+    "latest_xlsx_legacy_chat_file_id":"file_QKwTprxhzUNRKSsf3Bfo8Z",
+    "older_xlsx_legacy_chat_file_id":"file_cV7k4WhpiZ5skhWV6sZLnB",
+    "legacy_file_ids_portable":false,
+    "xlsx_sha256":null,
+    "exact_cells_validated":false,
+    "exact_cells_status":"BLOCKED",
+    "reason":"직접 셀 읽기 도구 내부 오류 및 채팅 첨부 바이트의 실행 환경 전달 미확보",
+    "frozen_gold":false,
+    "team_approved":false,
+    "official_accuracy":null
+  },
+  "new_studio_jobs_executed_in_this_chat":0,
+  "config_exports_are_run_outputs":false,
+  "configuration_identities": [
+    {"filename":"261101_기록.json","kind":"studio.workflow-config-draft","workflow_id":"agt_SmKMnrWFekYJeDGeiiDfTQ","config_id":"cfg_kaFWnBY3sSJcZxEyY8KduS","config_version":1,"raw_backup_in_this_package":false},
+    {"filename":"LeadTime Guardian - B+C3 V1.json","kind":"studio.workflow-config-draft","workflow_id":"agt_bXRXFSAgFmBayPjZF7VqRQ","config_id":"cfg_0645qH9hDUgVnkrjw7Vets","config_version":5,"raw_backup_in_this_package":false},
+    {"filename":"Studio_QA_Sandbox_Config_v5.export.json","kind":"studio.workflow-config-draft","workflow_id":"agt_GhP9GywhbcDWquFqWTsmtq","config_id":"cfg_43nxsWfWPhGSQmsaFByYCq","config_version":5,"raw_backup_in_this_package":false}
+  ],
+  "archive_sha256_observed":"a3f4ed1cefee4ebea3a4b94f9408f8a039bf042bd651a3a9222a5162c22149dc",
+  "backup_complete":false,
+  "deletion_performed":false,
+  "account_migration_performed":false,
+  "secrets_included":false,
+  "next_priority":"사용자 최신 XLSX 원본 보존과 실제 셀 검사, 승인 기록의 명시적 검증",
+  "limitations":["기계 검사 성공을 사람 검수 또는 실제 성능 평가 성공으로 해석 금지","채팅 첨부 원본은 체크리스트에 따라 별도 다운로드 필요","이 상태 JSON은 Studio 설정이나 실제 예측 JSON이 아님"]
+}
