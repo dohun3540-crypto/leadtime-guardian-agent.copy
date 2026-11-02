@@ -214,6 +214,7 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
             if sidecar.get("evidence_verified_against_pdf") is not False:
                 flag("UNSUPPORTED_TEAM2_PDF_VERIFICATION",
                      "team2_provenance")
+                results["local_team2_sidecar_binding"] = False
 
     qa_native = read_checked("qa_native")
     if qa_native is not None:
