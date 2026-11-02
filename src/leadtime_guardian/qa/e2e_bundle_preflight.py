@@ -16,6 +16,7 @@ from .release_inventory import PDF_KINDS, audit_release_folder
 from .studio_contract import audit_native_envelope
 
 HEX64 = re.compile(r"^[0-9a-fA-F]{64}$")
+CASE_PREFIX = re.compile(r"^(?:SYN-)?(C[0-9]{3})[-_]")
 MAX_JSON_BYTES = 16 * 1024 * 1024
 
 
@@ -105,6 +106,7 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
     case = header.get("case_id")
     job = header.get("operational_job_id")
     expected_pdf = {}
+    pdf_by_kind: dict[str, str] = {}
     for kind in PDF_KINDS:
         name = "source_pdfs." + kind
         data = checked.get(name)
@@ -113,6 +115,7 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
             if filename in expected_pdf:
                 flag("DUPLICATE_SOURCE_PDF_FILENAME", name, conflict=True)
             expected_pdf[filename] = data["sha256"]
+            pdf_by_kind[kind] = filename
 
     def receipt(name: str) -> dict[str, tuple[str, str]] | None:
         payload = read_checked(name)
@@ -176,6 +179,44 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
                  "operational_native")
         else:
             meta = native["metadata"]
+            # Optional provider-supplied identity must agree with the
+            # saved operational manifest. Missing metadata is not invented.
+            for field in ("config_id", "config_version"):
+                if field in meta and (
+                    type(meta[field]) is not type(header.get(field))
+                    or meta[field] != header.get(field)
+                ):
+                    flag(
+                        "OPERATIONAL_NATIVE_" + field.upper() + "_CONFLICT",
+                        "operational_native", conflict=True,
+                    )
+            # Actual archived Native can use PO-DOC/NOTICE-DOC IDs; only
+            # explicit C###-prefixed document identities are case-bound.
+            normalized = load_json_strict(native["content"])
+            for document in normalized["documents"]:
+                document_id = document.get("document_id")
+                match = CASE_PREFIX.match(document_id)
+                if match is not None and match.group(1) != case:
+                    flag("OPERATIONAL_DOCUMENT_CASE_CONFLICT",
+                         "operational_native", conflict=True)
+            merge = meta.get("merge")
+            if isinstance(merge, dict):
+                items = merge.get("items")
+                if isinstance(items, list):
+                    for item in items:
+                        if not isinstance(item, dict):
+                            continue
+                        expected_name = pdf_by_kind.get(item.get("document_type"))
+                        references = item.get("source_files")
+                        if expected_name is None or not isinstance(references, list):
+                            continue
+                        if any(
+                            isinstance(ref, dict)
+                            and ref.get("file_name") != expected_name
+                            for ref in references
+                        ):
+                            flag("MERGE_SOURCE_DOCUMENT_TYPE_MISMATCH",
+                                 "operational_native", conflict=True)
             sources = meta.get("source_files")
             if operational_receipt is None:
                 pass  # Receipt absence is already a BLOCKED inventory issue.
@@ -194,7 +235,10 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
                 if len(native_ids) != 3 or native_ids != op_ids:
                     flag("NATIVE_RECEIPT_FILE_ID_MISMATCH",
                          "operational_native", conflict=True)
-                elif results["local_pdf_receipt_match"]:
+                elif (results["local_pdf_receipt_match"]
+                      and not any(
+                          x["source"] == "operational_native" for x in issues
+                      )):
                     results["local_operational_native_binding"] = True
 
     sidecar = read_checked("team2_provenance")
@@ -256,8 +300,12 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
                         flag("QA_NATIVE_RECEIPT_ID_MISMATCH",
                              "qa_native", conflict=True)
                         results["local_qa_native_checked"] = False
-    # QA report schema requires expected IDs and an explicit QA handoff.
-    # The existing Cross-Agent CLI validates it; local receipt alone cannot.
+    # A supplied raw QA report must at least be strict JSON, not just a
+    # file with matching declared hash. Full schema is the Cross-Agent CLI's job.
+    qa_report = read_checked("qa_report")
+    results["local_qa_report_json_checked"] = qa_report is not None
+    # The existing Cross-Agent CLI separately validates report semantics and
+    # original QA Input; never treat parseable content as a trusted QA verdict.
 
     b0 = read_checked("b0_manifest")
     e1 = read_checked("e1_manifest")
