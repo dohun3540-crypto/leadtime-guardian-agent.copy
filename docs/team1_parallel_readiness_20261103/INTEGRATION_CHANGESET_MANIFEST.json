@@ -1,0 +1,75 @@
+{
+  "schema_version": "leadtime-team1-parallel-transfer/v1",
+  "source_repo": "dohun3540-crypto/leadtime-guardian-agent.copy",
+  "source_branch": "feat/team1-parallel-e2e-readiness-20261103",
+  "protected_base_pr": 19,
+  "protected_base_sha": "5d3172deaeecafec0056b48c92f0f0f6bb08297a",
+  "candidate_code_verified_head": "4d3311dc7b895cbdac94b9901b6690e6d7126fe9",
+  "candidate_code_verified_ci": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41469262893",
+  "candidate_code_pytest": {
+    "full": 740,
+    "qa": 491,
+    "team3_subset_from_baseline": 57,
+    "baseline_full": 716,
+    "baseline_qa": 467,
+    "new_regressions": 24
+  },
+  "destination_repo_read_only": "dohun3540-crypto/yuseok_integration",
+  "destination_pr": 2,
+  "destination_last_observed_sha": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "destination_last_observed_ci": "https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41465445285",
+  "transfer_files": [
+    {
+      "path": "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+      "git_blob_sha": "bb123026c0641c3b83be64b9155974fe2ac7b10f",
+      "sequence": 1
+    },
+    {
+      "path": "scripts/team1_e2e_preflight.py",
+      "git_blob_sha": "7968fffbe93be4e67175baa09786dccbe751cdde",
+      "sequence": 2
+    },
+    {
+      "path": "tests/test_qa_parallel_e2e_bundle.py",
+      "git_blob_sha": "2d092f2bcb81a55713a42d0629a0113942b02eb1",
+      "sequence": 3
+    },
+    {
+      "path": "docs/team1_parallel_readiness_20261103/README.md",
+      "git_blob_sha": "56dea32f35f9d9d6de06bc7bab921b376f24277b",
+      "sequence": 4
+    }
+  ],
+  "final_branch_sha": "SEE_DRAFT_PR_EXACT_HEAD",
+  "never_overwrite": [
+    "src/leadtime_guardian/qa/audit.py",
+    "src/leadtime_guardian/qa/input_delivery.py",
+    "src/leadtime_guardian/strict_json.py",
+    "src/leadtime_guardian/engine.py",
+    "src/leadtime_guardian/studio_adapter.py",
+    "qa/",
+    "data/",
+    "configs/studio_native/"
+  ],
+  "dependency_changes": [],
+  "static_integration_contract": {
+    "release_inventory_blob": "fb8982edb23078cb98a333ac4f9c581ad219ef47",
+    "experiment_compare_blob": "0c0bbf2c38456019d891625e7486e379e1f96ecf",
+    "studio_contract_blob": "08b23233ce12575c1c18f654e3ae296b8efa3e7c",
+    "audit_source_differs_by_design": true,
+    "merge_simulation": "STATIC_COMPATIBILITY_ONLY"
+  },
+  "gates": {
+    "source_code_readiness": "PASS_LOCAL",
+    "live_e2e": "BLOCKED",
+    "human_gold": "PENDING",
+    "official_b0_e1_improvement": "NOT_MEASURED",
+    "release": "BLOCKED"
+  },
+  "prohibited_actions": [
+    "push_to_integration",
+    "modify_source_pdf_or_gold",
+    "paid_studio_run",
+    "merge_existing_pr"
+  ]
+}
