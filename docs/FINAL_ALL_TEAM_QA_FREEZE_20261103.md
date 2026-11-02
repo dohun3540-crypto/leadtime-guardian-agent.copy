@@ -86,3 +86,50 @@ Needed: original B0/E1 PDFs and SHA; operational/QA file upload receipts; workfl
 | OVERALL_RELEASE_GATE | BLOCKED | all required live evidences and human approval |
 
 **TEAM1_CODE_TASK_COMPLETE** may be PASS only on exact final-HEAD CI and evidence-preserving docs. **FULL_PRODUCT_RELEASE_READY=BLOCKED** until externally verified; do not approve merge or deployment.
+
+
+---
+
+## 7. Team1 private QA deep audit addendum (2026-11-02, PR #19)
+
+### Exact working scope
+This addendum supersedes the **pre-CI decision** and baseline information in section 6 only for the private Team1 QA audit. The only writable repository was `dohun3540-crypto/leadtime-guardian-agent.copy`; `dohun3540-crypto/yuseok_integration`, original `leadtime-guardian-agent`, both mains, and PR #15/#17/#18 stayed read-only. Continue PR #19, do not start a new PR.
+
+Starting exact HEAD `955a3c5e247aa2771498a3c48b8f21350c9bdcd6` was independently verified Draft/Open, unmerged, mergeable with two successful GitHub Actions:
+- [QA 41461412396](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41461412396): whole 704, QA 455, Ruff pass, local gate BLOCKED.
+- [Team3 41461412385](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41461412385): Team3 57, original PDF 60/60, hash duplicates 0.
+
+### Reproduced, scoped code defects
+
+First wrote regression tests to pre-existing Team1 files `tests/test_qa_independent.py` and `tests/test_qa_studio_batch.py`. The **failing test-only checkpoint** [GitHub Actions 41463094361](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463094361) on `bdca9eac21bbb8f7d73fbcecaad94e0da20c7dbc` reported **10 failed / 456 passed** in QA-only pytest: the failures demonstrated actual unhandled exceptions and silent data conversion, not a regression caused by production-code changes.
+
+1. `audit_provenance({"provenance": []})` and dictionary/list variants raised `TypeError: unhashable type` while testing frozenset membership instead of returning `UNKNOWN_PROVENANCE` with `qa_status=FAIL`.
+2. `audit_studio_case_batch` with user-reported `provenance_level` supplied as list/dict raised the same exception instead of rejecting an invalid source.
+3. `audit.load_json_strict` used the default Python float parser, accepting `1e999` or `-1e999` as infinities, and converting nonzero `1e-9999` or `-1e-9999` to 0.0; a nested JSON number was likewise accepted.
+
+**Minimal scoped fixes**, no Team2 source/Team3 data rewrite:
+- `src/leadtime_guardian/qa/audit.py`: type-check the provenance vocabulary before frozenset membership; reject JSON floating-point overflow/nonzero underflow by testing its decimal original before accepting the parsed finite Python float. Oversized exponent strings producing `decimal.InvalidOperation` are converted to deterministic `ValueError` rather than leaking parser internals.
+- `src/leadtime_guardian/qa/studio_batch.py`: type-check `provenance_level` before allow-list membership and emit existing `UNVERIFIED_BATCH_OBSERVATION_SOURCE` as a fail-closed error.
+- Existing `tests/test_qa_independent.py`: parametrized invalid provenance, exponent overflow, nonzero underflow, excessively long exponent, and valid finite/explicit zero compatibility.
+- Existing `tests/test_qa_studio_batch.py`: test list/dict observation provenance rejection.
+- No test removed, skipped, downgraded, no required metadata newly made mandatory, no Studio Live claim invented.
+
+### Data and execution-contract audit
+
+Using repository source text and previously verified PDF inventory:
+- C001: candidate source SHA entries matched its manifest and 40-row evidence matrix under the existing 5 source-consistency tests; purchase/notice 100 EA vs quote 60 EA, price decimal-string `1000.00`, shipping `500` KRW retained. All approval fields in the candidate remain unreviewed.
+- C013: DRAFT PO `PO1`, delivery notice `PO999`, quote `PO1`, deliberately inconsistent; do NOT autofix or claim current live Studio error detection from DRAFT.
+- C008: DRAFT purchase receipt R1 40 EA + R2 60 EA, and notice changes only R2 60 EA; distinct allocation and transport roles, no duplicate receipt counting.
+- C017: DRAFT fields stored normalized ISO date strings; any localized Korean date extraction is an input contract concern and cannot be reported as independently validated live.
+- Original 60/60 PDF machine checks verify SHA/structure, not PDF field accuracy, independent reviewer approval or authenticated Upload receipts.
+- User-reported B0 C001 one-file Job triplet remains `INVALID_SPLIT_JOBS`; separately running IndependentQA is normal and should not be rejected just because its Job differs.
+
+### Known external / other-team boundary
+
+`src/leadtime_guardian/strict_json.py` belongs to Team2 and was deliberately not changed. Its current default float parsing combined with `validate_json_value` rejects **infinite overflow** but may still treat a nonzero extremely small exponent as zero. This is a **proposed Team2 contract follow-up**, not a claim of a changed or failed Team2 engine. Team1's own `audit.load_json_strict` now explicitly prevents both nonfinite overflow and nonzero underflow. Existing JSON integer and finite float behavior remains intact.
+
+There is **no claim of actual provider live Step/Job authentication, B0/E1 numerical measurement, original latest reviewed XLSX approval or human Gold**. Preserve original source and log all external evidence requests in `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md`.
+
+### Final checks and freeze criteria
+
+Because source changes followed the baseline 704-pass CI, a new exact-HEAD GitHub Actions success is mandatory before `CODE_FREEZE_CONFIRMED=PASS`. The final commit SHA, counts, CI URLs and evidence-based final decisions are recorded in **PR #19 body**, not embedded recursively into this file. Keep a Draft PR; `OVERALL_RELEASE_GATE=BLOCKED` even if local code tests pass.
