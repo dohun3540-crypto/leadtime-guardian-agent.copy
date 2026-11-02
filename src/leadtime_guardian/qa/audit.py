@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 import re
 from datetime import date
 from decimal import Decimal, InvalidOperation
@@ -27,7 +28,20 @@ def load_json_strict(data: str | bytes) -> Any:
     def constant(value: str) -> None:
         raise ValueError(f"non-finite JSON constant: {value}")
 
-    return json.loads(data, object_pairs_hook=pairs, parse_constant=constant)
+    def number(value: str) -> float:
+        # Python json.loads may silently turn 1e999 into infinity or a
+        # nonzero 1e-9999 into zero; both destroy supplied numeric evidence.
+        parsed = float(value)
+        if not math.isfinite(parsed) or (
+            parsed == 0.0 and Decimal(value) != 0
+        ):
+            raise ValueError(f"non-representable JSON numeric value: {value}")
+        return parsed
+
+    return json.loads(
+        data, object_pairs_hook=pairs, parse_constant=constant,
+        parse_float=number,
+    )
 
 
 def issue(code: str, field: str, reason: str, severity: str = "ERROR") -> dict[str, str]:
@@ -161,7 +175,7 @@ def audit_provenance(record: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(record, dict):
         return {"qa_status": "FAIL", "issues": [issue("INVALID_PROVENANCE", "$", "object required")]}
     kind = record.get("provenance")
-    if kind not in PROVENANCE:
+    if not isinstance(kind, str) or kind not in PROVENANCE:
         issues.append(issue("UNKNOWN_PROVENANCE", "provenance", "unrecognized source type"))
     if kind == "REAL_STUDIO_RUN":
         for field in ("agent_id", "config_id", "job_id"):
