@@ -1,4 +1,18 @@
-# Copy PR #17 — 2026-11-02 integration checkpoint (current GitHub code handoff)
+# CURRENT — Team1 personal QA final branch, 2026-11-02 KST
+
+- **Write repository:** `dohun3540-crypto/leadtime-guardian-agent.copy` only.
+- **Current Draft PR:** [#19](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/19), branch `feat/all-team-qa-final-freeze-20261103`. Keep Draft, no main merge.
+- **Task:** User-directed independent audit of Team1 Independent QA / Cross-Agent / provenance / strict JSON parser / B0 grouping, while preserving Team2 Python V6 and Team3 PDF/Gold.
+- **Baseline exact HEAD:** `955a3c5e247aa2771498a3c48b8f21350c9bdcd6`, historical 704 overall/455 QA/57 Team3 and 60/60 PDF inventory, both GitHub CI SUCCESS.
+- **New reproduced defects:** invalid provenance as list/dict previously raised unhashable TypeError in QA audit and Studio batch; JSON exponent could silently become infinity or falsely become zero. Failing tests first demonstrated the errors ([run 41463094361](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463094361)), followed by minimal source fixes and regression tests; exact **new final HEAD/CI are recorded in PR #19**, not recursively stored here.
+- **Source changes:** only `src/leadtime_guardian/qa/audit.py`, `src/leadtime_guardian/qa/studio_batch.py`; tests `tests/test_qa_independent.py`, `tests/test_qa_studio_batch.py`. Team2/Team3 code, original PDFs, Gold, Studio and `dohun3540-crypto/yuseok_integration` are unchanged by this task.
+- **Evidence:** `docs/FINAL_ALL_TEAM_QA_FREEZE_20261103.md` contains source and regression audit. `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md` lists current inputs required for Studio E2E, Team2 Sidecar and Human Gold. The latter are blocked, not inferred from passing CI.
+- **Code freeze:** only declare final Team1 CODE_FREEZE PASS after exact-HEAD whole Python + QA + Team3 workflows + Ruff + PDF inventory succeed; do not confuse Python local gate PASS with product Release approval.
+- **Separate full-team work:** `dohun3540-crypto/yuseok_integration` is read-only here; communicate QA changes as PR #19 commit IDs to its maintainer, never push to that repository from Team1 task.
+
+---
+
+# Historical Copy PR #17 — 2026-11-02 integration checkpoint (superseded for Team1 code task)
 
 This **new copy-branch checkpoint supersedes the 2026-10-30 source handoff for code integration status only**. The historical source Studio V4 facts and original run IDs below remain valid archived evidence, not new tests.
 
