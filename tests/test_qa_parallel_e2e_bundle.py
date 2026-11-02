@@ -224,11 +224,12 @@ def test_cli_missing_inputs_exit_two_and_no_overwrite(tmp_path):
     assert proc.returncode == 2, proc.stderr
     assert json.loads(proc.stdout)["status"] == "BLOCKED"
     assert json.loads(report.read_text())["release_authorized"] is False
+    original_report = report.read_bytes()
     second = subprocess.run(args, cwd=ROOT, capture_output=True, text=True,
                             timeout=40, check=False)
     assert second.returncode == 1
     assert json.loads(second.stdout)["status"] == "FAIL"
-    assert report.read_bytes() == report.read_bytes()
+    assert report.read_bytes() == original_report
 
 
 def test_cli_output_cannot_overwrite_input_manifest(tmp_path):
@@ -240,3 +241,130 @@ def test_cli_output_cannot_overwrite_input_manifest(tmp_path):
     ], cwd=ROOT, capture_output=True, text=True, timeout=40, check=False)
     assert proc.returncode == 1
     assert manifest.read_bytes() == original
+
+
+def _experiment(alias, job, hashes):
+    return {
+        "schema_version": "leadtime-experiment-compare/v1",
+        "experiment": alias, "case_id": "C001",
+        "single_case_job_count": 1, "job_id": job,
+        "config_id": "cfg_" + alias, "config_version": 1,
+        "saved_config_evidence": True,
+        "source_pdfs": [
+            {"filename": f"SYN-C001_{kind}.pdf",
+             "sha256": hashes[f"SYN-C001_{kind}.pdf"],
+             "file_id": f"file_{alias}_{kind}",
+             "document_type": kind}
+            for kind in TYPES
+        ],
+        "step_artifacts": {
+            name: {"step_run_id": f"step_{alias}_{name}",
+                   "original_sha256": "d" * 64}
+            for name in ("Extract", "MergeDocuments",
+                         "NormalizeDocuments", "IndependentQA")
+        },
+        "execution_conditions": {"site": "SYNTHETIC", "batch_mode": "test"},
+    }
+
+
+def test_same_pdf_b0_e1_manifests_only_allow_local_readiness(tmp_path):
+    manifest = make_bundle(tmp_path)
+    hashes = {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in tmp_path.glob("*.pdf")
+    }
+    write_json(tmp_path / "b0.json", _experiment("B0", "job_B0", hashes))
+    write_json(tmp_path / "e1.json", _experiment("E1", "job_E1", hashes))
+    update_json(manifest, lambda x: x["sources"].update({
+        "b0_manifest": "b0.json", "e1_manifest": "e1.json",
+    }))
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["b0_e1_eligibility"] == "BLOCKED"
+    assert result["status"] == "BLOCKED"
+    assert result["official_metrics_eligible"] is False
+    assert result["improvement_status"] == "NOT_MEASURED"
+    assert result["studio_execution_authenticated"] is False
+
+
+def test_b0_e1_different_pdf_bytes_cannot_compare(tmp_path):
+    manifest = make_bundle(tmp_path)
+    hashes = {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in tmp_path.glob("*.pdf")
+    }
+    write_json(tmp_path / "b0.json", _experiment("B0", "job_B0", hashes))
+    e1 = _experiment("E1", "job_E1", hashes)
+    e1["source_pdfs"][0]["sha256"] = "b" * 64
+    write_json(tmp_path / "e1.json", e1)
+    update_json(manifest, lambda x: x["sources"].update({
+        "b0_manifest": "b0.json", "e1_manifest": "e1.json",
+    }))
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert result["release_authorized"] is False
+    assert "B0_E1_SOURCE_CONTRACT_CONFLICT" in codes(result)
+
+
+def test_b0_without_e1_remains_blocked(tmp_path):
+    manifest = make_bundle(tmp_path)
+    hashes = {
+        p.name: hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in tmp_path.glob("*.pdf")
+    }
+    write_json(tmp_path / "b0.json", _experiment("B0", "job_B0", hashes))
+    update_json(
+        manifest, lambda x: x["sources"].update({"b0_manifest": "b0.json"})
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "BLOCKED"
+    assert result["b0_e1_eligibility"] == "BLOCKED"
+    assert result["improvement_status"] == "NOT_MEASURED"
+
+
+def test_qa_verdict_native_is_not_required_to_be_normalize_documents(tmp_path):
+    manifest = make_bundle(tmp_path)
+    qa_native = {
+        "content": json.dumps({
+            "qa_status": "NOT_VERIFIED", "issues": [],
+            "evidence_status": "UNVERIFIED",
+        }),
+        "metadata": {
+            "job_execution_id": "job_INDEPENDENT_QA",
+            "step_run_id": "step_QA_VERDICT",
+        },
+    }
+    write_json(tmp_path / "qa_native.json", qa_native)
+    update_json(
+        manifest,
+        lambda x: x["sources"].update({"qa_native": "qa_native.json"}),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "BLOCKED"
+    assert result["local_qa_native_checked"] is True
+    assert result["studio_execution_authenticated"] is False
+
+
+def test_qa_native_file_ids_must_match_qa_receipt_when_supplied(tmp_path):
+    manifest = make_bundle(tmp_path)
+    qa_native = json.loads(
+        (tmp_path / "operational_native.json").read_text()
+    )
+    qa_native["metadata"]["job_execution_id"] = "job_QA"
+    qa_native["metadata"]["source_files"][0]["file_id"] = "file_WRONG_QA"
+    write_json(tmp_path / "qa_native.json", qa_native)
+    update_json(
+        manifest, lambda x: x["sources"].update({"qa_native": "qa_native.json"})
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert "QA_NATIVE_RECEIPT_ID_MISMATCH" in codes(result)
+    assert result["local_qa_native_checked"] is False
+
+
+@pytest.mark.parametrize("bad", ["null", "[]", '{"x":1,"x":2}', '{"n":1e999}'])
+def test_invalid_or_nonobject_source_json_fails_closed(tmp_path, bad):
+    manifest = make_bundle(tmp_path)
+    (tmp_path / "op_receipt.json").write_text(bad)
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert result["release_authorized"] is False
