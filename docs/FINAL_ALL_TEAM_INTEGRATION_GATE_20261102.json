@@ -16,7 +16,8 @@
     "source_integration_changed_files": 29,
     "original_operational_code_changed": false,
     "original_pdf_case_data_changed": false,
-    "independent_qa_source_changed": false
+    "independent_qa_source_changed": false,
+    "pr_changed_files_at_documentation_checkpoint": 30
   },
   "ci_at_source_integration_sha": {
     "independent_qa_run": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41456845894",
@@ -57,5 +58,20 @@
   "no_paid_studio_execution": true,
   "no_original_or_main_changes": true,
   "no_merge_authorized": true,
-  "note": "Verified CI SHA refers to source integration commit. Any later documentation-only HEAD must receive its own CI before it is called the latest verified HEAD."
+  "note": "Historical source commit 1054a2e and verified docs checkpoint eead3d7 have separate, independently successful CI records. Later docs-only commits need their own GitHub Actions success at exact HEAD, recorded in PR metadata, without a recursive on-commit self-SHA update. E2E and Gold remain blocked.",
+  "ci_at_documentation_checkpoint_sha": {
+    "sha": "eead3d7f55226dfdc059c28fcf94b2ad89650788",
+    "independent_qa_run": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242166",
+    "member3_run": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242202",
+    "github_actions_conclusion": "SUCCESS",
+    "full_pytest_passed": 690,
+    "independent_qa_passed": 441,
+    "team3_tests_passed": 57,
+    "cross_team_smoke_tests_passed": 3,
+    "ruff": "PASS",
+    "source_pdf_inventory_passed": 60,
+    "archived_c001_replay": "PASS_LOCAL",
+    "local_integration_gate": "PASS_LOCAL_WITH_OVERALL_BLOCKED",
+    "source_integration_sha_is_distinct": true
+  }
 }

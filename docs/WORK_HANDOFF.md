@@ -1,3 +1,20 @@
+# Copy PR #17 — 2026-11-02 integration checkpoint (current GitHub code handoff)
+
+This **new copy-branch checkpoint supersedes the 2026-10-30 source handoff for code integration status only**. The historical source Studio V4 facts and original run IDs below remain valid archived evidence, not new tests.
+
+- **Repository/branch:** `dohun3540-crypto/leadtime-guardian-agent.copy` / `feat/all-team-final-integration-20261102`.
+- **Draft PR:** https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/17 (do not merge).
+- **Source integration SHA:** `1054a2e2d9b0900c75ea28694ca5a1c6f93c91b7`; **last pre-stabilization verified SHA:** `eead3d7f55226dfdc059c28fcf94b2ad89650788`.
+- **Original upstream:** Team 2 PR #12 six core Blob SHAs unchanged; Team 3 PR #13 25/25 source blobs unchanged, one member3 GitHub Actions YAML adapted for copy branch; no original case PDF, production code or existing Team 1 QA source changed.
+- **Last verified CI:** [690 full / 441 Independent QA](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242166), [57 Team 3 / 60 source PDF inventory](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242202), all Ruff PASS. These test counts overlap.
+- **Reproduction:** `python -m pip install -r requirements-agents.txt -r qa/requirements.txt`; `PYTHONPATH=src python -m pytest -q`; `python -m ruff check .`. Team 3 inventory: `python -m qa.inventory --root . --out NEW_OUTPUT_DIRECTORY`. The actual workflow CI uses identical contracts.
+- **Current status:** Source integration PASS, local CI PASS; actual Studio three-PDF B0→E1 and Python live sidecar NOT_VERIFIED; human source-reviewed Gold PENDING; release BLOCKED.
+- **Action for next session:** Read `docs/FINAL_ALL_TEAM_INTEGRATION_REPORT_20261102.md` and `docs/FINAL_ALL_TEAM_INTEGRATION_GATE_20261102.json`; retrieve real B0/E1 Native and approved human Gold before any live release claim. C001 separate three Job IDs are invalid for single integrated case evidence.
+- **Responsibilities:** 구도훈—Studio and Cross-Agent live evidence; 윤현준—same-job Python Safety V6 sidecar; 김민주—original XLSX/PDF evidence and human Gold approval. Preserve provenance, do not authorize merge.
+- **Final HEAD note:** The current code HEAD after this doc update is verified via its GitHub Actions run and PR body, not self-embedded into a source file (avoids infinite SHA/CI recursion).
+
+---
+
 # Chrome Work checkpoint - 2026-10-30 KST (latest, supersedes historical status below)
 
 **User requested a preservation checkpoint due to remaining usage. Stop expanding features.**
