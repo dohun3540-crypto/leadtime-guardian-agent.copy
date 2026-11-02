@@ -458,3 +458,77 @@ def test_merge_source_role_swaps_rejected_with_real_file_ids(tmp_path):
     result = audit_parallel_e2e_bundle(manifest)
     assert result["status"] == "FAIL"
     assert "MERGE_SOURCE_DOCUMENT_TYPE_MISMATCH" in codes(result)
+
+
+def test_matching_explicit_config_and_merge_roles_remain_locally_valid(tmp_path):
+    manifest = make_bundle(tmp_path)
+
+    def attach_valid_metadata(native):
+        native["metadata"]["config_id"] = "cfg_SYNTHETIC"
+        native["metadata"]["config_version"] = 1
+        source_files = native["metadata"]["source_files"]
+        native["metadata"]["merge"] = {
+            "step_name": "MergeDocuments",
+            "items": [
+                {"document_type": kind, "source_files": [source_files[index]]}
+                for index, kind in enumerate(TYPES)
+            ],
+        }
+
+    update_json(
+        tmp_path / "operational_native.json", attach_valid_metadata
+    )
+    native_sha = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda x: x.update({"export_sha256": native_sha}),
+    )
+    report = audit_parallel_e2e_bundle(manifest)
+    assert report["status"] == "BLOCKED"
+    assert report["local_operational_native_binding"] is True
+    assert report["local_team2_sidecar_binding"] is True
+    assert report["studio_execution_authenticated"] is False
+
+
+def test_original_podoc_style_ids_remain_accepted(tmp_path):
+    manifest = make_bundle(tmp_path)
+
+    def rename_docs(native):
+        docs = json.loads(native["content"])["documents"]
+        for document, name in zip(
+            docs, ("PO-DOC", "NOTICE-DOC", "QUOTE-DOC"), strict=True
+        ):
+            document["document_id"] = name
+        native["content"] = json.dumps({"documents": docs})
+
+    update_json(tmp_path / "operational_native.json", rename_docs)
+    digest = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda x: x.update({"export_sha256": digest}),
+    )
+    report = audit_parallel_e2e_bundle(manifest)
+    assert report["status"] == "BLOCKED"
+    assert "OPERATIONAL_DOCUMENT_CASE_CONFLICT" not in codes(report)
+    assert report["local_operational_native_binding"] is True
+
+
+def test_valid_qa_report_is_only_locally_parsed_not_approved(tmp_path):
+    manifest = make_bundle(tmp_path)
+    write_json(tmp_path / "qa_report.json", {
+        "qa_status": "NEEDS_REVIEW",
+        "execution_provenance": "SYNTHETIC_TEST_ONLY",
+    })
+    update_json(
+        manifest,
+        lambda x: x["sources"].update({"qa_report": "qa_report.json"}),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "BLOCKED"
+    assert result["local_qa_report_json_checked"] is True
+    assert result["release_authorized"] is False
+    assert result["human_gold_approved"] is False
