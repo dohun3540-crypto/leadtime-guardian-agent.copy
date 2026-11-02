@@ -1,3 +1,44 @@
+# CURRENT FINAL HANDOFF — Team1 E2E evidence audit / integration sync
+
+- **Individual PR:** [#19 Draft](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/19); personal verified code SHA `af66a2d9c1b093558c3e7dc534ecbe66621d2657`, GitHub QA/full Python **467/716 passed** [run 41463679425](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679425), Team3 **57** and source PDFs **60/60** [run 41463679568](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679568).
+- **Integrated PR read-only:** [yuseok_integration #2 Draft](https://github.com/dohun3540-crypto/yuseok_integration/pull/2), observed SHA `5a7d4df070a7607585b5c1adb4847a1b79f8c2e7`: [CI 41464994396](https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41464994396) **SUCCESS, 778 full passed, Ruff PASS, 60/60 source PDFs**. Earlier 8 QA failures and missing `pytest` import are repaired at this checkpoint. Team1 QA source no longer needs re-import; integration `audit.py` delegates to the already fixed shared strict JSON, `studio_batch.py` Blob matches, and recursive input document compare remains an intentionally strengthened integrated variant.
+- **Read-only data check:** C001 100 EA vs alternate quote 60 EA retained, C013 original PO999 conflict, C008 receipt R1 40 / R2 60, C017 ISO DRAFT; archived C013 three-document Native available in earlier user Library but not authentic current B0/E1. Human Gold's latest reviewed original XLSX and approval remain unavailable. CI 60/60 is a *machine* check, not full semantic review.
+- **Real E2E not verified:** no authenticated current B0/E1 Native/step/job/config/upload PDF-hash chain with matching V6/QA raw reports and human Gold; current B0 C001 three separate file Jobs remain invalid as single run evidence. Overall release **BLOCKED**, improvement **NOT_MEASURED**. The source of truth for required exact inputs is `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md`.
+- **Action:** keep personal QA source frozen, do not push to the separate integration repository or modify Studio. When real evidence arrives, use `docs/integration_20261102/NATIVE_AND_GOLD_REQUEST.md` in the integration PR for the `python -m qa.integration` offline input contract, then run case/step/provenance/Gold gates and request human approval. New personal documentation HEAD/CI will be visible in PR #19; do not recursively amend an embedded SHA.
+
+---
+
+# CURRENT — Team1 personal QA final branch, 2026-11-02 KST
+
+- **Write repository:** `dohun3540-crypto/leadtime-guardian-agent.copy` only.
+- **Current Draft PR:** [#19](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/19), branch `feat/all-team-qa-final-freeze-20261103`. Keep Draft, no main merge.
+- **Task:** User-directed independent audit of Team1 Independent QA / Cross-Agent / provenance / strict JSON parser / B0 grouping, while preserving Team2 Python V6 and Team3 PDF/Gold.
+- **Baseline exact HEAD:** `955a3c5e247aa2771498a3c48b8f21350c9bdcd6`, historical 704 overall/455 QA/57 Team3 and 60/60 PDF inventory, both GitHub CI SUCCESS.
+- **New reproduced defects:** invalid provenance as list/dict previously raised unhashable TypeError in QA audit and Studio batch; JSON exponent could silently become infinity or falsely become zero. Failing tests first demonstrated the errors ([run 41463094361](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463094361)), followed by minimal source fixes and regression tests; exact **new final HEAD/CI are recorded in PR #19**, not recursively stored here.
+- **Source changes:** only `src/leadtime_guardian/qa/audit.py`, `src/leadtime_guardian/qa/studio_batch.py`; tests `tests/test_qa_independent.py`, `tests/test_qa_studio_batch.py`. Team2/Team3 code, original PDFs, Gold, Studio and `dohun3540-crypto/yuseok_integration` are unchanged by this task.
+- **Evidence:** `docs/FINAL_ALL_TEAM_QA_FREEZE_20261103.md` contains source and regression audit. `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md` lists current inputs required for Studio E2E, Team2 Sidecar and Human Gold. The latter are blocked, not inferred from passing CI.
+- **Code freeze:** only declare final Team1 CODE_FREEZE PASS after exact-HEAD whole Python + QA + Team3 workflows + Ruff + PDF inventory succeed; do not confuse Python local gate PASS with product Release approval.
+- **Separate full-team work:** `dohun3540-crypto/yuseok_integration` is read-only here; communicate QA changes as PR #19 commit IDs to its maintainer, never push to that repository from Team1 task.
+
+---
+
+# Historical Copy PR #17 — 2026-11-02 integration checkpoint (superseded for Team1 code task)
+
+This **new copy-branch checkpoint supersedes the 2026-10-30 source handoff for code integration status only**. The historical source Studio V4 facts and original run IDs below remain valid archived evidence, not new tests.
+
+- **Repository/branch:** `dohun3540-crypto/leadtime-guardian-agent.copy` / `feat/all-team-final-integration-20261102`.
+- **Draft PR:** https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/pull/17 (do not merge).
+- **Source integration SHA:** `1054a2e2d9b0900c75ea28694ca5a1c6f93c91b7`; **last pre-stabilization verified SHA:** `eead3d7f55226dfdc059c28fcf94b2ad89650788`.
+- **Original upstream:** Team 2 PR #12 six core Blob SHAs unchanged; Team 3 PR #13 25/25 source blobs unchanged, one member3 GitHub Actions YAML adapted for copy branch; no original case PDF, production code or existing Team 1 QA source changed.
+- **Last verified CI:** [690 full / 441 Independent QA](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242166), [57 Team 3 / 60 source PDF inventory](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41457242202), all Ruff PASS. These test counts overlap.
+- **Reproduction:** `python -m pip install -r requirements-agents.txt -r qa/requirements.txt`; `PYTHONPATH=src python -m pytest -q`; `python -m ruff check .`. Team 3 inventory: `python -m qa.inventory --root . --out NEW_OUTPUT_DIRECTORY`. The actual workflow CI uses identical contracts.
+- **Current status:** Source integration PASS, local CI PASS; actual Studio three-PDF B0→E1 and Python live sidecar NOT_VERIFIED; human source-reviewed Gold PENDING; release BLOCKED.
+- **Action for next session:** Read `docs/FINAL_ALL_TEAM_INTEGRATION_REPORT_20261102.md` and `docs/FINAL_ALL_TEAM_INTEGRATION_GATE_20261102.json`; retrieve real B0/E1 Native and approved human Gold before any live release claim. C001 separate three Job IDs are invalid for single integrated case evidence.
+- **Responsibilities:** 구도훈—Studio and Cross-Agent live evidence; 윤현준—same-job Python Safety V6 sidecar; 김민주—original XLSX/PDF evidence and human Gold approval. Preserve provenance, do not authorize merge.
+- **Final HEAD note:** The current code HEAD after this doc update is verified via its GitHub Actions run and PR body, not self-embedded into a source file (avoids infinite SHA/CI recursion).
+
+---
+
 # Chrome Work checkpoint - 2026-10-30 KST (latest, supersedes historical status below)
 
 **User requested a preservation checkpoint due to remaining usage. Stop expanding features.**
