@@ -532,3 +532,77 @@ def test_valid_qa_report_is_only_locally_parsed_not_approved(tmp_path):
     assert result["local_qa_report_json_checked"] is True
     assert result["release_authorized"] is False
     assert result["human_gold_approved"] is False
+
+
+@pytest.mark.parametrize("which", [
+    "operational_pdf_receipt", "qa_pdf_receipt",
+])
+def test_wrong_receipt_case_never_sets_local_matching_booleans(tmp_path, which):
+    manifest = make_bundle(tmp_path)
+    path = tmp_path / (
+        "op_receipt.json" if which == "operational_pdf_receipt"
+        else "qa_receipt.json"
+    )
+    update_json(path, lambda value: value.update({"case_id": "C013"}))
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert "RECEIPT_CASE_MISMATCH" in codes(result)
+    assert result["local_pdf_receipt_match"] is False
+    assert result["local_operational_native_binding"] is False
+    assert result["release_authorized"] is False
+
+
+@pytest.mark.parametrize("location", ["document", "metadata"])
+def test_explicit_native_case_conflict_fails_even_if_sidecar_digest_updated(
+    tmp_path, location,
+):
+    manifest = make_bundle(tmp_path)
+
+    def change_native(value):
+        if location == "metadata":
+            value["metadata"]["case_id"] = "C013"
+        else:
+            docs = json.loads(value["content"])["documents"]
+            docs[0]["case_id"] = "C013"
+            # Retain historic PO-DOC style ID: case evidence is in a field.
+            docs[0]["document_id"] = "PO-DOC"
+            value["content"] = json.dumps({"documents": docs})
+
+    update_json(tmp_path / "operational_native.json", change_native)
+    sha = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda value: value.update({"export_sha256": sha}),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert ("OPERATIONAL_DOCUMENT_CASE_CONFLICT" if location == "document"
+            else "OPERATIONAL_NATIVE_CASE_CONFLICT") in codes(result)
+    assert result["local_operational_native_binding"] is False
+
+
+def test_explicit_matching_case_labels_do_not_block_local_contract(tmp_path):
+    manifest = make_bundle(tmp_path)
+
+    def add_consistent_case(value):
+        value["metadata"]["case_id"] = "C001"
+        docs = json.loads(value["content"])["documents"]
+        for document in docs:
+            document["case_id"] = "SYN-C001"
+        value["content"] = json.dumps({"documents": docs})
+
+    update_json(tmp_path / "operational_native.json", add_consistent_case)
+    sha = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda value: value.update({"export_sha256": sha}),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "BLOCKED"
+    assert result["local_pdf_receipt_match"] is True
+    assert result["local_operational_native_binding"] is True
+    assert result["release_authorized"] is False
