@@ -97,7 +97,7 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
             raise ValueError("oversized release manifest")
         header = load_json_strict(path.read_bytes())
         if not isinstance(header, dict):
-            raise ValueError("header must be object")
+            raise TypeError("header must be object")
     except (OSError, TypeError, ValueError, UnicodeError, RecursionError):
         header = {}
         # The existing inventory already records invalid manifest identity.
@@ -237,7 +237,7 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
             try:
                 parsed_qa = load_json_strict(qa_raw)
                 if not isinstance(parsed_qa, dict):
-                    raise ValueError("QA content must be JSON object")
+                    raise TypeError("QA content must be JSON object")
             except (TypeError, ValueError, UnicodeError, RecursionError):
                 flag("QA_NATIVE_CONTENT_INVALID", "qa_native")
             else:
