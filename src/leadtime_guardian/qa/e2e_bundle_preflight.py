@@ -83,12 +83,18 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
             raw = file.read_bytes()
             if hashlib.sha256(raw).hexdigest() != entry["sha256"]:
                 raise ValueError("changed bytes since inventory")
-            return load_json_strict(raw)
+            value = load_json_strict(raw)
+            if not isinstance(value, dict):
+                flag("VERIFIED_JSON_NOT_OBJECT", name)
+                return None
+            return value
         except (OSError, TypeError, ValueError, UnicodeError, RecursionError):
             flag("VERIFIED_JSON_UNREADABLE", name)
             return None
 
     try:
+        if path.stat().st_size > 1024 * 1024:
+            raise ValueError("oversized release manifest")
         header = load_json_strict(path.read_bytes())
         if not isinstance(header, dict):
             raise ValueError("header must be object")
@@ -218,12 +224,38 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
 
     qa_native = read_checked("qa_native")
     if qa_native is not None:
-        qa_audit = audit_native_envelope(qa_native)
-        if qa_audit["qa_status"] == "FAIL":
-            flag("QA_NATIVE_CONTRACT_FAILED", "qa_native")
+        meta = qa_native.get("metadata")
+        qa_raw = qa_native.get("content")
+        if (not isinstance(meta, dict)
+                or not isinstance(meta.get("job_execution_id"), str)
+                or not meta["job_execution_id"].startswith("job_")
+                or not isinstance(meta.get("step_run_id"), str)
+                or not meta["step_run_id"].strip()
+                or not isinstance(qa_raw, str)):
+            flag("QA_NATIVE_METADATA_INVALID", "qa_native")
         else:
-            # QA may use a different Job from the operational Studio Job.
-            results["local_qa_native_checked"] = True
+            try:
+                parsed_qa = load_json_strict(qa_raw)
+                if not isinstance(parsed_qa, dict):
+                    raise ValueError("QA content must be JSON object")
+            except (TypeError, ValueError, UnicodeError, RecursionError):
+                flag("QA_NATIVE_CONTENT_INVALID", "qa_native")
+            else:
+                # The QA step may emit a QA verdict, not an operational
+                # Normalize 'documents' wrapper, and can have a separate Job.
+                results["local_qa_native_checked"] = True
+                files = meta.get("source_files")
+                if files is not None and qa_receipt is not None:
+                    local_ids = {
+                        item.get("file_name"): item.get("file_id")
+                        for item in files if isinstance(item, dict)
+                        and isinstance(item.get("file_name"), str)
+                    } if isinstance(files, list) else {}
+                    qa_ids = {n: fid for n, (_, fid) in qa_receipt.items()}
+                    if len(local_ids) != 3 or local_ids != qa_ids:
+                        flag("QA_NATIVE_RECEIPT_ID_MISMATCH",
+                             "qa_native", conflict=True)
+                        results["local_qa_native_checked"] = False
     # QA report schema requires expected IDs and an explicit QA handoff.
     # The existing Cross-Agent CLI validates it; local receipt alone cannot.
 
