@@ -45,7 +45,7 @@ def test_candidate_source_identity_binds_three_manifest_pdf_hashes():
     expected = {d["document_id"]: d for d in manifest["documents"]}
     assert candidate["case_id"] == manifest["case_id"] == "SYN-C001"
     assert len(candidate["sources"]) == len(expected) == 3
-    assert set(s["document_id"] for s in candidate["sources"]) == set(expected)
+    assert {s["document_id"] for s in candidate["sources"]} == set(expected)
     for src in candidate["sources"]:
         record = expected[src["document_id"]]
         assert (src["filename"], src["sha256"], src["source_page"]) == (
@@ -76,11 +76,11 @@ def test_candidate_preserves_draft_value_types_without_fabricating_gold():
     cdocs = {x["document_id"]: x for x in candidate["field_gold_candidate"]}
     ddocs = {x["document_id"]: x for x in draft["documents"]}
     assert set(cdocs) == set(ddocs)
-    for identifier in cdocs:
+    for identifier, doc in cdocs.items():
         expected = {key: value for key, value in ddocs[identifier].items()
                     if key not in ("warnings", "evidence")}
-        assert cdocs[identifier] == expected
-        assert type(cdocs[identifier]["items"][0]["quantity"]) is int
+        assert doc == expected
+        assert type(doc["items"][0]["quantity"]) is int
 
 
 def test_evidence_matrix_all_rows_bind_exact_candidate_types_and_source():
@@ -127,4 +127,4 @@ def test_po_notice_quote_roles_and_decimal_strings_remain_distinct():
     assert type(quote["quote"]["unit_price"]) is str
     assert type(quote["quote"]["shipping_cost"]) is str
     assert Decimal(quote["quote"]["unit_price"]) == Decimal("1000.00")
-    assert Decimal(quote["quote"]["shipping_cost"]) == Decimal("500")
+    assert Decimal(quote["quote"]["shipping_cost"]) == Decimal(500)
