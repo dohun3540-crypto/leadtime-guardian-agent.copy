@@ -176,6 +176,7 @@ def test_unhashable_provenance_kind_fails_closed_without_exception(invalid_kind)
 @pytest.mark.parametrize("raw", [
     '{"value":1e999}', '{"value":-1e999}', '{"nested":[1e999]}',
     '{"value":1e-9999}', '{"value":-1e-9999}',
+    '{"value":1e-99999999999999999999999999}',
 ])
 def test_json_exponent_overflow_or_nonzero_underflow_is_rejected(raw):
     with pytest.raises(ValueError):
