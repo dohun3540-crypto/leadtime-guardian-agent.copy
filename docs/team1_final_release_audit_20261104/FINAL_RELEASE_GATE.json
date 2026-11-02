@@ -18,7 +18,8 @@
     "observed_head": "67b93291c1f32acaf43e45815d2d1119480b652a",
     "historical_full_pytest": 778,
     "historical_pdf_inventory": "60/60 PASS",
-    "runtime_overlay_performed": false
+    "runtime_overlay_performed": false,
+    "compatibility_evidence_level": "STATIC_COMPATIBILITY_ONLY"
   },
   "test_first": {
     "red_sha": "67db92d471a72b98d1a31023f1790f328abd6bf3",
@@ -45,7 +46,8 @@
     "original_pr21_full": 748,
     "new_test_cases": 5,
     "tests_deleted": 0,
-    "test_skip_added": 0
+    "test_skip_added": 0,
+    "code_only_ci_sha_note": "PASS at corrected code SHA; exact final docs HEAD CI must be separately reverified"
   },
   "data_quality": {
     "manifest_cases_checked": 20,
@@ -94,12 +96,14 @@
     "C1_COUNTERFACTUAL_GATE": "PASS_LOCAL",
     "C2_EVIDENCE_GATE": "PASS_LOCAL",
     "C3_PARTIAL_DELIVERY_GATE": "PASS_LOCAL",
-    "INTEGRATION_COMPATIBILITY_GATE": "STATIC_COMPATIBILITY_ONLY",
+    "INTEGRATION_COMPATIBILITY_GATE": "NOT_VERIFIED",
     "INTEGRATION_REGRESSION_GATE": "NOT_VERIFIED",
     "STUDIO_LIVE_GATE": "BLOCKED",
     "PYTHON_V6_LIVE_GATE": "BLOCKED",
     "HUMAN_GOLD_GATE": "PENDING",
-    "OVERALL_RELEASE_GATE": "BLOCKED"
+    "OVERALL_RELEASE_GATE": "BLOCKED",
+    "FULL_REGRESSION_GATE": "PASS",
+    "CI_GATE": "PASS"
   },
   "external_evidence_required": [
     "B0/E1 C001 and C013 original three-PDF upload receipts and sha256 by separate provider jobs",
