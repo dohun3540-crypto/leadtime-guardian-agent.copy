@@ -133,3 +133,57 @@ There is **no claim of actual provider live Step/Job authentication, B0/E1 numer
 ### Final checks and freeze criteria
 
 Because source changes followed the baseline 704-pass CI, a new exact-HEAD GitHub Actions success is mandatory before `CODE_FREEZE_CONFIRMED=PASS`. The final commit SHA, counts, CI URLs and evidence-based final decisions are recorded in **PR #19 body**, not embedded recursively into this file. Keep a Draft PR; `OVERALL_RELEASE_GATE=BLOCKED` even if local code tests pass.
+
+
+---
+
+## 8. Phase A–G final read-only E2E and separate integration sync audit (2026-11-02)
+
+### Governance and actual execution
+
+**Only this .copy Draft PR #19 is writable.** `dohun3540-crypto/yuseok_integration` PR #2 and original operational repo remained entirely read-only. This audit did not access or change Studio settings, make paid requests, alter source PDFs or Human Gold, submit to LMS or merge existing PRs. QA source and tests were not changed because no *new* defect in the frozen personal QA branch was reproduced. Historical CI failures from the other repo are not evidence of a current failure in the personal branch.
+
+### Verified personal baseline and exact evidence
+
+Personal HEAD before this documentation-only update: `af66a2d9c1b093558c3e7dc534ecbe66621d2657` (PR #19, Open/Draft/Unmerged, mergeable).
+- Personal [whole Python + Independent QA run 41463679425](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679425) **SUCCESS**, 716 full / 467 Independent QA (subset), QA/global Ruff PASS, archived C001 PASS_LOCAL, local gate checks true and overall BLOCKED.
+- Personal [Team3 data run 41463679568](https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41463679568) **SUCCESS**, 57 Team3 tests (subset of 716), 60/60 original PDF machine inventory PASS, duplicate hashes 0, archive SHA `a3f4ed1cefee4ebea3a4b94f9408f8a039bf042bd651a3a9222a5162c22149dc`.
+- Historical PR19 704→716 improvement was already verified, no additional tests or source edits were needed in this audit.
+
+### Separate integration PR #2: failure, repair and latest observed passing checkpoint
+
+This audit found the integration repository had progressed since the previous handoff:
+1. Red test-only [run 41464204131](https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41464204131) at `d6a43083b61bb89b798b80951e3bc5a25b23842a`: **757 passed / 8 failed** on unhashable QA provenance and nonzero JSON underflow.
+2. Newer [run 41464886852](https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41464886852) at `4874f7b680d84e4916da0cde9cac57bf2dee04cb`: failed **Ruff F821** in `tests/test_qa_studio_batch.py:172` (pytest referenced without import); it stopped before full pytest.
+3. **LATEST CHECKPOINT OBSERVED IN THIS AUDIT:** PR #2 exact HEAD `5a7d4df070a7607585b5c1adb4847a1b79f8c2e7`; [integrated run 41464994396](https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41464994396) **completed SUCCESS**, full pytest **778 passed**, repository Ruff PASS, PDF inventory 60/60 PASS with the same source archive hash. The earlier red states are historical and not the latest observed result. PR #2 remained Open/Draft/Unmerged and mergeable at this checkpoint.
+
+The integration repository **already incorporated the essential personal QA fixes**, by code functionality rather than copying every Git Blob:
+- `src/leadtime_guardian/qa/studio_batch.py`: blob **identical**, `ca9e1cda63fa5413379d8c4f2bae6e2d6241f7b1`.
+- `src/leadtime_guardian/qa/audit.py`: intentionally different, integration blob `8de0aaaf7b1911d361bd85c9b970d978a126daac`, personal `cdce35bfe3256d964695eae7164b2f034c3ead17`. Both reject unhashable provenance. Integration delegates JSON to fixed shared `src/leadtime_guardian/strict_json.py`, blob `afa56a5f201af250eeb28a20580bd0188fe5cb51`, which rejects overflow and nonzero underflow. Personal QA keeps its own strict parser, and Team2's original parser remains untouched in .copy.
+- `src/leadtime_guardian/qa/input_delivery.py`: intentionally different (`f838759de7f188b1330a3c93a466f8cfab344e2a` integration vs `f56825a1a6202cc468e1f86c059b0d8dffa6e8de` personal). Integration's recursive typed JSON comparison preserves strict key/type validation including signed zero, instead of .copy's canonical JSON comparison; new integration tests passed. Do not blindly overwrite this integration-specific hardening with the personal blob.
+- `tests/test_qa_independent.py`, `tests/test_qa_studio_batch.py` differ because the integration repository contains additional invalid-type checks; all current integrated tests pass.
+- Comparison of the two Git trees: unchanged exact Git Blob SHAs for **5/6** core Team2 files; only integrated `strict_json.py` intentionally differs. C001/C013 original manifest, C001 archived V4 native and original C001 AI Candidate/Evidence Matrix blobs match exactly. No `data/cases/SYN-C0*` path diff observed. Personal QA and integration differ in just **2 QA source paths**, both intentionally and safely covered by passing integration CI. No new copy-to-integration cherry-pick is authorized or needed.
+
+**INTEGRATION_SYNC_GATE = PASS_CODE_LOCAL at observed integrated exact HEAD**, not automatic permission to merge both PRs or infer live interoperability; repeated checks should use the current integration PR HEAD if it later moves.
+
+### Source data and historical Stored Native available
+
+- C001: unchanged machine-verified three synthetic source PDFs; purchase/notice 100 EA vs quotation availability 60 EA are different roles; unit price `1000.00` KRW/EA and shipping `500` KRW once per quotation preserved; 40-row Evidence Matrix remains **PENDING human review**.
+- C013: DRAFT has PO1 versus delivery notice PO999; archived user-owned `SYN-C013_quotation_NormalizeDocuments (1).json` was located in ChatGPT Library, originally uploaded 2026-10-30. Its stored Native object lists **three documents** (purchase, notice, quotation) and three `metadata.source_files` with file IDs, a single historical operational Job ID and a Normalize Step ID. Its `content` includes the PO conflict warning but has empty `evidence` arrays. **This is not an authenticated current B0/E1 chain**: full saved Config/version, original cloud upload receipts, source-PDF-bytes-to-file-ID hashes, QA raw input/report, V6 sidecar, independent Gold and new E1 comparator are absent. Stored Native is read-only historical evidence; no automatic business block or new live success is claimed.
+- C008: stored DRAFT receipt R1=40 EA and R2=60 EA, notice affects only R2; independent Python allocation and shipping are tested locally, not from a new Studio run.
+- C017: stored DRAFT ISO-normalized dates; Korean-language date-to-ISO source extraction requires authentic Studio source evidence before declaring live success.
+- 60/60 original source PDF machine checks show structural integrity and hashed bytes, **not** field-by-field original PDF human truth.
+- Library inventory contained job-list XLSX exports but **no `PDF_EVIDENCE_MATRIX.xlsx` original**; the latest corrected human-reviewed spreadsheet and approval records remain unavailable in the checked connected Library/GitHub sources. Never substitute a job-list XLSX or `AI_CANDIDATE` for an approved Gold source.
+
+### Studio / Python V6 / Cross-Agent / release readiness
+
+The archived C001 V4 Native and C013 Stored Native, local Safety V6/QA offline regression and the operational Job summaries are distinct evidence origins. No verified current B0/E1 pair of three-PDF originals with upload SHA, config version, stage IDs, matching V6 sidecar, QA raw report and approved Gold was found. The prior B0-C001 file-specific three Job observation remains **INVALID_SPLIT_JOBS**; a historical stored three-document Native does not retroactively authenticate a new B0/E1 run. Independent QA can legitimately have its own separate Job, but must explicitly bind to operational source bytes.
+
+Evidence gating:
+- `TEAM1_CODE_TASK_COMPLETE` **PASS**; `TEAM1_INDEPENDENT_QA_GATE` **PASS_LOCAL**; `CODE_FREEZE_CONFIRMED` **PASS** with exact-head CI.
+- `INTEGRATION_SYNC_VERIFIED` **PASS_CODE_LOCAL** for observed integration PR #2 `5a7d4df` / CI #41464994396.
+- `DATA_INTEGRITY_GATE` **PASS_MACHINE_ONLY**; `PROVENANCE_GATE` **BLOCKED_LIVE**; `STUDIO_E2E_GATE` **BLOCKED**; `PYTHON_V6_LIVE_GATE` **BLOCKED**; `GOLD_APPROVAL_GATE` **PENDING**; `B0_E1_COMPARISON_GATE` **NOT_MEASURED**; `OVERALL_RELEASE_GATE` **BLOCKED**.
+- `TEAM1_E2E_VERIFIED` **NOT_VERIFIED** and `FULL_PRODUCT_RELEASE_READY` **BLOCKED** despite two successful code lines.
+- On arrival of authentic evidence, follow existing `docs/FINAL_STUDIO_GOLD_HANDOFF_20261103.md` and the integration-side `docs/integration_20261102/NATIVE_AND_GOLD_REQUEST.md` and `python -m qa.integration` contract. Do not create synthetic Live/Gold files to satisfy tests.
+
+No additional Team1 QA source fix was reproduced; this is a **documentation and read-only evidence audit**, not new feature development. The latest .copy PR #19 HEAD after this documentation update must be checked against its own two GitHub Actions before reaffirming code freeze.
