@@ -168,7 +168,15 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
         if op_hashes != qa_hashes:
             flag("OPERATION_QA_PDF_HASH_SET_CONFLICT",
                  "pdf_receipts", conflict=True)
-        elif len(expected_pdf) == 3 and op_hashes == expected_pdf:
+        elif (len(expected_pdf) == 3 and op_hashes == expected_pdf
+              and not any(
+                  issue["source"].split(".", maxsplit=1)[0] in (
+                      "operational_pdf_receipt", "qa_pdf_receipt",
+                  )
+                  for issue in issues
+              )):
+            # A hash match from a receipt belonging to another Case must
+            # never be displayed as a valid local PDF source binding.
             results["local_pdf_receipt_match"] = True
 
     native = read_checked("operational_native")
@@ -190,13 +198,22 @@ def audit_parallel_e2e_bundle(manifest_path: str | Path) -> dict[str, Any]:
                         "OPERATIONAL_NATIVE_" + field.upper() + "_CONFLICT",
                         "operational_native", conflict=True,
                     )
+            # Some providers express the case as C001, others as SYN-C001.
+            # Only validate explicitly present values; do not invent labels.
+            acceptable_cases = (case, "SYN-" + case)
+            if ("case_id" in meta
+                    and meta["case_id"] not in acceptable_cases):
+                flag("OPERATIONAL_NATIVE_CASE_CONFLICT",
+                     "operational_native", conflict=True)
             # Actual archived Native can use PO-DOC/NOTICE-DOC IDs; only
             # explicit C###-prefixed document identities are case-bound.
             normalized = load_json_strict(native["content"])
             for document in normalized["documents"]:
                 document_id = document.get("document_id")
                 match = CASE_PREFIX.match(document_id)
-                if match is not None and match.group(1) != case:
+                if (match is not None and match.group(1) != case
+                        or "case_id" in document
+                        and document["case_id"] not in acceptable_cases):
                     flag("OPERATIONAL_DOCUMENT_CASE_CONFLICT",
                          "operational_native", conflict=True)
             merge = meta.get("merge")
