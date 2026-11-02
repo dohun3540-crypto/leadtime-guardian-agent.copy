@@ -32,9 +32,13 @@ def load_json_strict(data: str | bytes) -> Any:
         # Python json.loads may silently turn 1e999 into infinity or a
         # nonzero 1e-9999 into zero; both destroy supplied numeric evidence.
         parsed = float(value)
-        if not math.isfinite(parsed) or (
-            parsed == 0.0 and Decimal(value) != 0
-        ):
+        try:
+            nonrepresentable = not math.isfinite(parsed) or (
+                parsed == 0.0 and Decimal(value) != 0
+            )
+        except InvalidOperation as exc:
+            raise ValueError(f"invalid JSON exponent: {value}") from exc
+        if nonrepresentable:
             raise ValueError(f"non-representable JSON numeric value: {value}")
         return parsed
 
