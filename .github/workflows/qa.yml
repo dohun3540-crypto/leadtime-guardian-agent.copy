@@ -17,6 +17,8 @@ jobs:
           else
             python -m pip install pytest ruff
           fi
+      - name: Install Team 3 PDF and XLSX validation dependencies
+        run: python -m pip install -r qa/requirements.txt
       - run: PYTHONPATH=src python -m pytest -q tests/test_qa_*.py
       - run: python -m ruff check src/leadtime_guardian/qa scripts/qa_*.py tests/test_qa_*.py
       - name: Full Python regression (code only; no Studio live execution)
