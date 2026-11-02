@@ -368,3 +368,93 @@ def test_invalid_or_nonobject_source_json_fails_closed(tmp_path, bad):
     result = audit_parallel_e2e_bundle(manifest)
     assert result["status"] == "FAIL"
     assert result["release_authorized"] is False
+
+
+@pytest.mark.parametrize("field,invalid_value,expected_code", [
+    ("config_id", "cfg_WRONG", "OPERATIONAL_NATIVE_CONFIG_ID_CONFLICT"),
+    ("config_version", 2, "OPERATIONAL_NATIVE_CONFIG_VERSION_CONFLICT"),
+])
+def test_supplied_operational_config_must_match_saved_manifest(
+    tmp_path, field, invalid_value, expected_code,
+):
+    manifest = make_bundle(tmp_path)
+    update_json(
+        tmp_path / "operational_native.json",
+        lambda x: x["metadata"].update({field: invalid_value}),
+    )
+    report = audit_parallel_e2e_bundle(manifest)
+    assert report["status"] == "FAIL"
+    assert expected_code in codes(report)
+    assert report["local_operational_native_binding"] is False
+
+
+def test_c013_document_ids_cannot_be_relabelled_as_c001_native(tmp_path):
+    manifest = make_bundle(tmp_path)
+
+    def replace_case(native):
+        documents = json.loads(native["content"])["documents"]
+        for document in documents:
+            document["document_id"] = document["document_id"].replace(
+                "C001-", "C013-"
+            )
+        native["content"] = json.dumps({"documents": documents})
+
+    update_json(tmp_path / "operational_native.json", replace_case)
+    # Regenerate matching Team2 SHA to test *document* source identity, not SHA.
+    new_native_sha = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda x: x.update({"export_sha256": new_native_sha}),
+    )
+    report = audit_parallel_e2e_bundle(manifest)
+    assert report["status"] == "FAIL"
+    assert "OPERATIONAL_DOCUMENT_CASE_CONFLICT" in codes(report)
+    assert report["local_operational_native_binding"] is False
+
+
+def test_malformed_qa_report_is_not_silently_treated_as_present(tmp_path):
+    manifest = make_bundle(tmp_path)
+    (tmp_path / "qa_report.json").write_bytes(
+        b'{"qa_status":"PASS","qa_status":"FAIL"}'
+    )
+    update_json(
+        manifest, lambda x: x["sources"].update({
+            "qa_report": "qa_report.json",
+        }),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert "VERIFIED_JSON_UNREADABLE" in codes(result)
+    assert "qa_report" in result["invalid_inputs"]
+    assert result["release_authorized"] is False
+
+
+def test_merge_source_role_swaps_rejected_with_real_file_ids(tmp_path):
+    manifest = make_bundle(tmp_path)
+
+    def add_conflicting_merge(native):
+        source_files = native["metadata"]["source_files"]
+        native["metadata"]["merge"] = {
+            "step_name": "MergeDocuments",
+            "items": [
+                {
+                    "document_type": kind,
+                    "source_files": [source_files[(index + 1) % 3]],
+                }
+                for index, kind in enumerate(TYPES)
+            ],
+        }
+
+    update_json(tmp_path / "operational_native.json", add_conflicting_merge)
+    new_native_sha = hashlib.sha256(
+        (tmp_path / "operational_native.json").read_bytes()
+    ).hexdigest()
+    update_json(
+        tmp_path / "sidecar.json",
+        lambda x: x.update({"export_sha256": new_native_sha}),
+    )
+    result = audit_parallel_e2e_bundle(manifest)
+    assert result["status"] == "FAIL"
+    assert "MERGE_SOURCE_DOCUMENT_TYPE_MISMATCH" in codes(result)
