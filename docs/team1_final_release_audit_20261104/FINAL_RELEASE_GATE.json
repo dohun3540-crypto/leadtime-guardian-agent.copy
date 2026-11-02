@@ -1,0 +1,128 @@
+{
+  "schema_version": "leadtime-team1-final-release-audit/v1",
+  "assessment_date_kst": "2026-11-03",
+  "owner": "Team1 구도훈",
+  "scope": "PERSONAL_LOCAL_CODE_AND_READ_ONLY_EXTERNAL_EVIDENCE_AUDIT",
+  "authoritative_final_head": "SEE_PR_22_HEAD_AND_EXACT_HEAD_ACTIONS_AFTER_ALL_DOCS",
+  "source_repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+  "source_branch": "feat/team1-final-e2e-release-audit-20261104",
+  "source_pr": 22,
+  "protected_heads": {
+    "pr19": "5d3172deaeecafec0056b48c92f0f0f6bb08297a",
+    "pr20": "53ae1a7dbe53be38a7d585676c2b2d037534fb46",
+    "pr21": "edab2040430e2159399ee61073fe70e5bdf6cba2"
+  },
+  "read_only_integration": {
+    "repository": "dohun3540-crypto/yuseok_integration",
+    "pr": 2,
+    "observed_head": "67b93291c1f32acaf43e45815d2d1119480b652a",
+    "historical_full_pytest": 778,
+    "historical_pdf_inventory": "60/60 PASS",
+    "runtime_overlay_performed": false
+  },
+  "test_first": {
+    "red_sha": "67db92d471a72b98d1a31023f1790f328abd6bf3",
+    "red_run": "41476866681",
+    "qa_passed": 500,
+    "qa_failed": 4,
+    "confirmed_defects": [
+      "RECEIPT_CASE_MISMATCH_LOCAL_BINDING_FALSE_POSITIVE",
+      "EXPLICIT_NATIVE_CASE_ID_MIX_ACCEPTED"
+    ]
+  },
+  "corrected_code": {
+    "sha": "f26773d1a3183b73025bbaea2ddce971f2af0671",
+    "run_id": 41477192304,
+    "run_result": "SUCCESS",
+    "pytest_full_passed": 753,
+    "pytest_qa_passed": 504,
+    "qa_included_in_full": true,
+    "ruff_qa": "PASS",
+    "ruff_full": "PASS",
+    "archive_gate": "PASS_LOCAL",
+    "local_checks_passed": true,
+    "local_overall": "BLOCKED",
+    "original_pr21_full": 748,
+    "new_test_cases": 5,
+    "tests_deleted": 0,
+    "test_skip_added": 0
+  },
+  "data_quality": {
+    "manifest_cases_checked": 20,
+    "manifest_document_roles_each": 3,
+    "total_manifest_pdf_declarations": 60,
+    "manifest_flags_studio_executed_true": 0,
+    "manifest_flags_human_gold_reviewed_true": 0,
+    "new_actual_pdf_binary_inventory_run": false,
+    "original_archive_machine_pdf_pass": 60,
+    "original_archive_sha256": "a3f4ed1cefee4ebea3a4b94f9408f8a039bf042bd651a3a9222a5162c22149dc",
+    "source_pdf_semantic_review": "NOT_VERIFIED",
+    "candidate_label": "AI_CANDIDATE",
+    "c001_candidate_evidence_rows": 40,
+    "human_gold_approval": "PENDING"
+  },
+  "quality_dimensions": {
+    "completeness": "PASS_MACHINE_MANIFEST_ONLY",
+    "validity": "PASS_LOCAL",
+    "consistency": "PASS_LOCAL_CONTRACT",
+    "uniqueness": "PASS_PROTECTED_MACHINE_INVENTORY",
+    "integrity": "PASS_LOCAL_SOURCE_BYTES_ONLY",
+    "traceability": "PARTIAL_LOCAL",
+    "business_semantics": "PASS_LOCAL_FIXTURES",
+    "gold_readiness": "PENDING"
+  },
+  "feature_gates": {
+    "B": "PASS_LOCAL",
+    "C1_counterfactual": "PASS_LOCAL",
+    "C2_evidence_safety": "PASS_LOCAL",
+    "C3_partial_receipt": "PASS_LOCAL",
+    "B0_E1_official_accuracy": "NOT_MEASURED",
+    "C001_live": "BLOCKED",
+    "C013_live": "BLOCKED",
+    "C008_live": "BLOCKED",
+    "C017_live": "BLOCKED"
+  },
+  "gates": {
+    "TEAM1_CODE_COMPLETE": "PASS",
+    "TEAM1_E2E_PREFLIGHT_READY": "PASS_LOCAL",
+    "INDEPENDENT_QA_GATE": "PASS_LOCAL",
+    "CROSS_AGENT_GATE": "PASS_LOCAL",
+    "DATA_QUALITY_GATE": "PASS_LOCAL",
+    "SCHEMA_CONSISTENCY_GATE": "PASS_LOCAL",
+    "PROVENANCE_GATE": "PASS_LOCAL",
+    "B0_E1_GATE": "BLOCKED",
+    "C1_COUNTERFACTUAL_GATE": "PASS_LOCAL",
+    "C2_EVIDENCE_GATE": "PASS_LOCAL",
+    "C3_PARTIAL_DELIVERY_GATE": "PASS_LOCAL",
+    "INTEGRATION_COMPATIBILITY_GATE": "STATIC_COMPATIBILITY_ONLY",
+    "INTEGRATION_REGRESSION_GATE": "NOT_VERIFIED",
+    "STUDIO_LIVE_GATE": "BLOCKED",
+    "PYTHON_V6_LIVE_GATE": "BLOCKED",
+    "HUMAN_GOLD_GATE": "PENDING",
+    "OVERALL_RELEASE_GATE": "BLOCKED"
+  },
+  "external_evidence_required": [
+    "B0/E1 C001 and C013 original three-PDF upload receipts and sha256 by separate provider jobs",
+    "same-run Config ID/version and original Extract three branches Merge and Normalize Step IDs/results",
+    "Team2 original same-Native Safety V6 output plus studio-provenance/1 sidecar",
+    "IndependentQA original input/report with explicit operational source binding",
+    "Human-reviewed PDF_EVIDENCE_MATRIX.xlsx original bytes signed approval Gold version and field/page evidence",
+    "isolated integrated branch overlay exact-head full pytest Ruff PDF inventory and local gate"
+  ],
+  "policy": {
+    "approval_given": false,
+    "gold_created": false,
+    "studio_paid_run_started": false,
+    "integration_repo_modified": false,
+    "main_merged": false,
+    "official_metrics_eligible": false,
+    "improvement_status": "NOT_MEASURED",
+    "release_authorized": false
+  },
+  "planning_readiness_not_official_metric": {
+    "team1_nov4": 90,
+    "team1_submission": 70,
+    "whole_team_submission": 55,
+    "basis": "Explicit weighted milestone assessment in FINAL_TEAM1_E2E_RELEASE_AUDIT.md, not observed business or true project completion metric"
+  }
+}
