@@ -1,0 +1,94 @@
+{
+  "execution_kind": "LOCAL_REPLAY",
+  "source_checkpoint_sha": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "schema": {
+    "path": "configs/schemas/document_extraction.schema.json",
+    "sha256": "cfdac60441e46e853644b1204dc7b6d65937cfe28bab89d882461086d2e087c4"
+  },
+  "cases": {
+    "C001": {
+      "native": {
+        "path": "verification_v2/studio_originals/C001_NormalizeDocuments.native.json",
+        "sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7"
+      },
+      "qa_output": {
+        "path": "verification_v2/studio_originals/C001_IndependentQA.native.json",
+        "sha256": "9b374f8fe8eeb3d50458382c3e6a5ae30cfca886c74419d938235c07f17efb2f"
+      },
+      "trusted_base": {
+        "path": "data/cases/SYN-C001/trusted_base_case.json",
+        "sha256": "601f52d293e0e118cd49723660fa6217473186d1000a7d565eadb21c28c6e7cb"
+      },
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "config_version": 1,
+      "expected_exit": 0,
+      "expected_execution_status": "COMPLETED",
+      "evidence_pdfs": [
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C001_purchase_order.pdf",
+          "sha256": "9246b69363e3cec3dca7654b14bc7facdb0f762e8ae72c42594f38efabadc930"
+        },
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C001_delivery_notice.pdf",
+          "sha256": "7a5f7b8f025a79a0751a6b6c41e21292fc62c1c02cdd071048e38a66e4bf7f2b"
+        },
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C001_quotation.pdf",
+          "sha256": "35c9deddbc06d0cb49c1e45cd859a95b97e2a9cde2ea5931d1f8ffe6dfc3c551"
+        }
+      ],
+      "repository_pdfs": [
+        {
+          "path": "data/cases/SYN-C001/SYN-C001_purchase_order.pdf",
+          "sha256": "9246b69363e3cec3dca7654b14bc7facdb0f762e8ae72c42594f38efabadc930"
+        },
+        {
+          "path": "data/cases/SYN-C001/SYN-C001_delivery_notice.pdf",
+          "sha256": "7a5f7b8f025a79a0751a6b6c41e21292fc62c1c02cdd071048e38a66e4bf7f2b"
+        },
+        {
+          "path": "data/cases/SYN-C001/SYN-C001_quotation.pdf",
+          "sha256": "35c9deddbc06d0cb49c1e45cd859a95b97e2a9cde2ea5931d1f8ffe6dfc3c551"
+        }
+      ]
+    },
+    "C013": {
+      "native": {
+        "path": "verification_v2/studio_originals/C013_NormalizeDocuments.native.json",
+        "sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb"
+      },
+      "qa_output": {
+        "path": "verification_v2/studio_originals/C013_IndependentQA.native.json",
+        "sha256": "53c2e15979bc802a6bf4f8f6b9ee32c97b8cc19da516c3818e7cec7db35555c9"
+      },
+      "trusted_base": {
+        "path": "data/cases/SYN-C013/trusted_base_case.json",
+        "sha256": "77ab8033048aae289cae19416823f25586e115945c7a86be04a64ba8df3ef225"
+      },
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "config_version": 1,
+      "expected_exit": 2,
+      "expected_execution_status": "BLOCKED",
+      "evidence_pdfs": [
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C013_purchase_order.pdf",
+          "sha256": "8616adc32f2a12495586c674020011174d2c97812b3bced9638bc91f221ee2d9"
+        },
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C013_delivery_notice.pdf",
+          "sha256": "f4d7446b540c7dd2a50cf566ba47982cc4fcc8ce1230743d8175239eac9d2bfb"
+        },
+        {
+          "path": "audit_evidence/pdf_samples/SYN-C013_quotation.pdf",
+          "sha256": "590a11d68814d8e35ba1dee1734a71791b703b464dd87f3661fab8ea5bdbd735"
+        }
+      ],
+      "repository_pdfs": [
+        {
+          "path": "data/cases/SYN-C002-C020_DRAFT_PDFs.tar.xz",
+          "sha256": "a3f4ed1cefee4ebea3a4b94f9408f8a039bf042bd651a3a9222a5162c22149dc"
+        }
+      ]
+    }
+  }
+}

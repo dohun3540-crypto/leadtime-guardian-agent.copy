@@ -1,0 +1,138 @@
+{
+  "status": "BLOCKED",
+  "formal_completed_bundles": 0,
+  "required_bundles": 4,
+  "workflow_config_differences": [
+    {
+      "path": "/informationExtractConfiguration/schemas/0/addNullTypeToNumericTypes",
+      "before": "NOT_EXPORTED",
+      "after": true
+    },
+    {
+      "path": "/informationExtractConfiguration/schemas/1/addNullTypeToNumericTypes",
+      "before": "NOT_EXPORTED",
+      "after": true
+    },
+    {
+      "path": "/informationExtractConfiguration/schemas/2/addNullTypeToNumericTypes",
+      "before": "NOT_EXPORTED",
+      "after": true
+    },
+    {
+      "path": "/informationExtractConfiguration/schemas/3/addNullTypeToNumericTypes",
+      "before": "NOT_EXPORTED",
+      "after": true
+    },
+    {
+      "path": "/workflow_name",
+      "before": "LeadTime Guardian - Independent QA Sandbox (사본)",
+      "after": "LeadTime Guardian — B0·E1 격리 실험"
+    }
+  ],
+  "existing_runs": [
+    {
+      "label": "V4_REFERENCE_C001",
+      "case_id": "C001",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "qa_claim": "NOT_VERIFIED",
+      "normalize_sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "full_native_e2e_status": "BLOCKED"
+    },
+    {
+      "label": "V4_REFERENCE_C013",
+      "case_id": "C013",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "qa_claim": "NEEDS_REVIEW",
+      "normalize_sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb",
+      "full_native_e2e_status": "BLOCKED"
+    },
+    {
+      "label": "B0_REPORTED_REFERENCE_C001",
+      "case_id": "C001",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "qa_claim": "NOT_VERIFIED",
+      "normalize_sha256": "9a6c08b147ada532a09965bf772ec62786356df304b08b43e3b96e5439bc800f",
+      "full_native_e2e_status": "BLOCKED"
+    },
+    {
+      "label": "UNASSIGNED_V2_C001",
+      "case_id": "C001",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "qa_claim": "NOT_VERIFIED",
+      "normalize_sha256": "6223e5ce21e39da70bd62c4c0a2a3d9641b30fa2bb9de04f5e276d8551156eca",
+      "full_native_e2e_status": "BLOCKED"
+    }
+  ],
+  "alias_policy": "NCik is reported B0; v2 remains UNASSIGNED. No original approved alias registry or full provider provenance has been recovered. Names or null flag do not assign E1.",
+  "combinations": [
+    {
+      "experiment": "B0",
+      "case_id": "C001",
+      "status": "BLOCKED",
+      "metrics": "NOT_MEASURED",
+      "missing": [
+        "authenticated_alias_to_config_job_mapping",
+        "same_pdf_upload_receipts",
+        "actual_qa_input",
+        "complete_stages",
+        "team2_original_same_native_handoff",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "experiment": "B0",
+      "case_id": "C013",
+      "status": "BLOCKED",
+      "metrics": "NOT_MEASURED",
+      "missing": [
+        "authenticated_alias_to_config_job_mapping",
+        "same_pdf_upload_receipts",
+        "actual_qa_input",
+        "complete_stages",
+        "team2_original_same_native_handoff",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "experiment": "E1",
+      "case_id": "C001",
+      "status": "BLOCKED",
+      "metrics": "NOT_MEASURED",
+      "missing": [
+        "authenticated_alias_to_config_job_mapping",
+        "same_pdf_upload_receipts",
+        "actual_qa_input",
+        "complete_stages",
+        "team2_original_same_native_handoff",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "experiment": "E1",
+      "case_id": "C013",
+      "status": "BLOCKED",
+      "metrics": "NOT_MEASURED",
+      "missing": [
+        "authenticated_alias_to_config_job_mapping",
+        "same_pdf_upload_receipts",
+        "actual_qa_input",
+        "complete_stages",
+        "team2_original_same_native_handoff",
+        "approved_human_gold"
+      ]
+    }
+  ],
+  "comparison_claims": "No measured improvement, extraction accuracy, false-positive rate, cost or latency difference asserted."
+}

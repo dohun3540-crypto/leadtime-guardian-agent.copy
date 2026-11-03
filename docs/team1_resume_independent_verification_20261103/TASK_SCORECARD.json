@@ -1,0 +1,35 @@
+{
+  "schema_version": "team1-resume-scorecard/v1",
+  "overall_release": "BLOCKED",
+  "tasks": {
+    "A": {
+      "status": "BLOCKED",
+      "progress": "newly recovered historical v2 Normalize; actual QA input/stage trace/receipts absent"
+    },
+    "B": {
+      "status": "BLOCKED",
+      "formal_completed_bundles": 0,
+      "required_bundles": 4
+    },
+    "C": {
+      "status": "PASS_LOCAL",
+      "scope": "40-row static review complete; runtime nullable behavior not authenticated"
+    },
+    "D": {
+      "status": "PASS_LOCAL",
+      "scope": "existing missing-input diagnostic preserved and rechecked; live release blocked"
+    },
+    "E": {
+      "status": "PASS_LOCAL",
+      "scope": "C001/C013 replay + C008/C017 draft demonstrations; manual added; no official metrics"
+    },
+    "F": {
+      "status": "PASS_LOCAL",
+      "scope": "5-path isolated812/544,778 IDs preserved; remote integration unchanged; external release blocked"
+    }
+  },
+  "new_production_fixes": 0,
+  "new_tests_added_by_supplement": 0,
+  "existing_pr25_new_tests": 4,
+  "code_freeze_preserved": true
+}

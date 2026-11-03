@@ -1,0 +1,957 @@
+{
+  "schema_version": "team1-resumed-evidence-index/v1",
+  "original_snapshot_sha256_entries_verified": 143,
+  "source_files": [
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": "4e66c576-79b8-55b4-82bc-4c73bd20976a",
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "file_path": "evidence/verification_v2/studio_originals/C001_NormalizeDocuments.native.json",
+      "evidence_type": "NormalizeDocuments",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": "210e5946-631f-5d5c-9eeb-ff946e2fa7b0",
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "9b374f8fe8eeb3d50458382c3e6a5ae30cfca886c74419d938235c07f17efb2f",
+      "file_path": "evidence/verification_v2/studio_originals/C001_IndependentQA.native.json",
+      "evidence_type": "IndependentQA_OUTPUT",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "sha256": "05efb96f0c236c4f89e56d0cd49a8ab85b9b78a5b46dbfe4025fda84fc1b2c78",
+      "file_path": "evidence/verification_v2/studio_originals/Config_v1.export.json",
+      "evidence_type": "Config",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "99bc480099d9225ef6540d25babdbdec0e693cc83cfd31e486aa5d165fee505a",
+      "file_path": "results/native_replays/V4_REFERENCE_C001/analysis.json",
+      "evidence_type": "TEAM1_GENERATED_analysis",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "ceb466e565435181bd922737bd72768166efce8d4c8388e13317896f6163a05e",
+      "file_path": "results/native_replays/V4_REFERENCE_C001/normalized_documents.json",
+      "evidence_type": "TEAM1_GENERATED_normalized_documents",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "4c22f60a9dacc4c915509ede11bbefebc89eddd780aaa7b4d3ae58c3ed79794a",
+      "file_path": "results/native_replays/V4_REFERENCE_C001/provenance.json",
+      "evidence_type": "TEAM1_GENERATED_provenance",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "cd12e10dae1e55715cf3d0715791f85d7a106c00cda24c814a67852c1e6da2f7",
+      "file_path": "results/native_replays/V4_REFERENCE_C001/run_metadata.json",
+      "evidence_type": "TEAM1_GENERATED_run_metadata",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "V4_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_f39UYtCStw6bEyA2xiCdGd",
+        "file_bTCPvpTgUJnW27ptpD35WF",
+        "file_9hhGkPuetCxieFD8XzvrDi"
+      ],
+      "sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "file_path": "results/native_replays/V4_REFERENCE_C001/studio_original.json",
+      "evidence_type": "TEAM1_GENERATED_studio_original",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": "549446cb-fc93-5425-8399-88d678c9da25",
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb",
+      "file_path": "evidence/verification_v2/studio_originals/C013_NormalizeDocuments.native.json",
+      "evidence_type": "NormalizeDocuments",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": "376b80b3-95f0-553f-96b4-8d4b70815e78",
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "53c2e15979bc802a6bf4f8f6b9ee32c97b8cc19da516c3818e7cec7db35555c9",
+      "file_path": "evidence/verification_v2/studio_originals/C013_IndependentQA.native.json",
+      "evidence_type": "IndependentQA_OUTPUT",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "sha256": "05efb96f0c236c4f89e56d0cd49a8ab85b9b78a5b46dbfe4025fda84fc1b2c78",
+      "file_path": "evidence/verification_v2/studio_originals/Config_v1.export.json",
+      "evidence_type": "Config",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "53e9780fd69267e6e281004328e79ee68cc696320a854d326610692474bed9ff",
+      "file_path": "results/native_replays/V4_REFERENCE_C013/analysis.json",
+      "evidence_type": "TEAM1_GENERATED_analysis",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "c9e5b22dfd79be54f23fae59543a676e8e60bddb889999d4086951950818373f",
+      "file_path": "results/native_replays/V4_REFERENCE_C013/normalized_documents.json",
+      "evidence_type": "TEAM1_GENERATED_normalized_documents",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "61e7a8b0b0dd55c885e947c935e8797fcb9d2ec7e616d1db7d73e2151beedfea",
+      "file_path": "results/native_replays/V4_REFERENCE_C013/provenance.json",
+      "evidence_type": "TEAM1_GENERATED_provenance",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "7e8f66f40a35162e2293b77e449474e046ce8b942f09a53cc5ed9bf4c148b993",
+      "file_path": "results/native_replays/V4_REFERENCE_C013/run_metadata.json",
+      "evidence_type": "TEAM1_GENERATED_run_metadata",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "experiment_context": "V4_REFERENCE_C013",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_JZx7ighkx5Cz8zGB2D5Z7H",
+        "file_oRF4oajrEzZnKMcexA6suY",
+        "file_ZbUH3wb6Z7AA5kXu7HfvUL"
+      ],
+      "sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb",
+      "file_path": "results/native_replays/V4_REFERENCE_C013/studio_original.json",
+      "evidence_type": "TEAM1_GENERATED_studio_original",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": "289f5090-2ff0-598b-a648-9bcd6526d25c",
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "9a6c08b147ada532a09965bf772ec62786356df304b08b43e3b96e5439bc800f",
+      "file_path": "evidence/verification_v3/studio_originals/B0_candidate_C001_NormalizeDocuments.native.json",
+      "evidence_type": "NormalizeDocuments",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": "76e5bbc5-6e6c-596e-9e42-f3a09b1aa9e2",
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "5abb5f38e3b941f26a577272b6050decf8e5aae2bb09f6ff4fd1195b47c6ad3b",
+      "file_path": "evidence/verification_v3/studio_originals/B0_candidate_C001_IndependentQA.native.json",
+      "evidence_type": "IndependentQA_OUTPUT",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "sha256": "63b3545f6d0708f453b95e0ee9e63229a68403a386ed86d606a2778da6388b12",
+      "file_path": "evidence/verification_v3/studio_originals/B0_candidate_Config_v1.export.json",
+      "evidence_type": "Config",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "d7f3d109a502bfd4f7d76c14bb716ee6f360ccf1c59ae2656cbb42c01d654dda",
+      "file_path": "results/native_replays/B0_REPORTED_REFERENCE_C001/analysis.json",
+      "evidence_type": "TEAM1_GENERATED_analysis",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "dbae852a854bcf786825080e1f153018a57d551b5f58d54749a4916936410c8c",
+      "file_path": "results/native_replays/B0_REPORTED_REFERENCE_C001/normalized_documents.json",
+      "evidence_type": "TEAM1_GENERATED_normalized_documents",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "4f82c27c371470c3e17c949b43fb19cfc8c819d5c0285aeb4a6dcd02fc475ec2",
+      "file_path": "results/native_replays/B0_REPORTED_REFERENCE_C001/provenance.json",
+      "evidence_type": "TEAM1_GENERATED_provenance",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "b950ad2b1e4c622940c5e7568b782033f434401125b372bc93d34bcbc9199c15",
+      "file_path": "results/native_replays/B0_REPORTED_REFERENCE_C001/run_metadata.json",
+      "evidence_type": "TEAM1_GENERATED_run_metadata",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "B0_REPORTED_REFERENCE_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_HdtUJPQPXir9rGKgPWSyZG",
+      "config_id": "cfg_X2xXakDtmDTHh2RoqVysvL",
+      "config_version": 1,
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_KukLWFisyVqpwjGSkY9RKg",
+        "file_MyeAybJWxVPhexgPyQmBq8",
+        "file_7z5ZnWirnE4JBCzo5HJQZ7"
+      ],
+      "sha256": "9a6c08b147ada532a09965bf772ec62786356df304b08b43e3b96e5439bc800f",
+      "file_path": "results/native_replays/B0_REPORTED_REFERENCE_C001/studio_original.json",
+      "evidence_type": "TEAM1_GENERATED_studio_original",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": "224abf17-51e8-5c24-9279-6f25518c9596",
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "6223e5ce21e39da70bd62c4c0a2a3d9641b30fa2bb9de04f5e276d8551156eca",
+      "file_path": "results/studio_originals/UNASSIGNED_v2_C001_NormalizeDocuments.native.json",
+      "evidence_type": "NormalizeDocuments",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": "625c93c8-0e6d-55ea-a07f-64b115c8c8e5",
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "020197ad535a4e05ee3355c70df24bb8424076cecf8025b17565d9f0023d7414",
+      "file_path": "evidence/verification_v3/studio_originals/UNASSIGNED_v2_C001_IndependentQA.native.json",
+      "evidence_type": "IndependentQA_OUTPUT",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "EXISTING_SAVED_PROVIDER_OUTPUT",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "sha256": "a11e13ad73e166b601feabadb6c6eb3a271b5a87cd0590b3c561602d9ddc11b2",
+      "file_path": "evidence/verification_v2/studio_originals/B0E1_agent_Config_v2.export.json",
+      "evidence_type": "Config",
+      "validation_status": "BYTE_AVAILABLE_CONTRACT_CHECKED_LOCAL",
+      "missing_dependencies": [
+        "actual_qa_input",
+        "provider_stage_input_output_trace",
+        "upload_receipts",
+        "approved_human_gold"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "d7f3d109a502bfd4f7d76c14bb716ee6f360ccf1c59ae2656cbb42c01d654dda",
+      "file_path": "results/native_replays/UNASSIGNED_V2_C001/analysis.json",
+      "evidence_type": "TEAM1_GENERATED_analysis",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "dbae852a854bcf786825080e1f153018a57d551b5f58d54749a4916936410c8c",
+      "file_path": "results/native_replays/UNASSIGNED_V2_C001/normalized_documents.json",
+      "evidence_type": "TEAM1_GENERATED_normalized_documents",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "69e77adf2d1c7d6f0603b0deffddf4c08c8e7d51939d7b64506aa45134da040b",
+      "file_path": "results/native_replays/UNASSIGNED_V2_C001/provenance.json",
+      "evidence_type": "TEAM1_GENERATED_provenance",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "bb2702c09b40287ad41b07b577f55cfb31d5c911b0b0c267f98044b0dd0ea3d4",
+      "file_path": "results/native_replays/UNASSIGNED_V2_C001/run_metadata.json",
+      "evidence_type": "TEAM1_GENERATED_run_metadata",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "experiment_context": "UNASSIGNED_V2_C001",
+      "execution_type": "TEAM1_LOCAL_REPLAY",
+      "agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "config_id": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "config_version": 2,
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": null,
+      "source_file_ids": [
+        "file_auX5V2rs3L6kzJK4eaXCd9",
+        "file_aqrdBjqhScb8QR87yXVaTZ",
+        "file_BPgsKEaNZov4AksuQGoYCR"
+      ],
+      "sha256": "6223e5ce21e39da70bd62c4c0a2a3d9641b30fa2bb9de04f5e276d8551156eca",
+      "file_path": "results/native_replays/UNASSIGNED_V2_C001/studio_original.json",
+      "evidence_type": "TEAM1_GENERATED_studio_original",
+      "validation_status": "PASS_LOCAL_OR_EXPECTED_SAFETY_BLOCK",
+      "missing_dependencies": [
+        "not_team2_original_handoff",
+        "not_native_new_execution"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "IndependentQA_ACTUAL_INPUT",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "IndependentQA_ACTUAL_INPUT"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "MergeDocuments_RAW_OUTPUT",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "MergeDocuments_RAW_OUTPUT"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "PROVIDER_UPLOAD_RECEIPTS",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "PROVIDER_UPLOAD_RECEIPTS"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "FULL_PROVIDER_STAGE_TRACE",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "FULL_PROVIDER_STAGE_TRACE"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "TEAM2_ORIGINAL_SAME_NATIVE_RESULT_SIDECAR",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "TEAM2_ORIGINAL_SAME_NATIVE_RESULT_SIDECAR"
+      ]
+    },
+    {
+      "case_id": "C001",
+      "evidence_type": "HUMAN_APPROVED_GOLD",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "HUMAN_APPROVED_GOLD"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "IndependentQA_ACTUAL_INPUT",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "IndependentQA_ACTUAL_INPUT"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "MergeDocuments_RAW_OUTPUT",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "MergeDocuments_RAW_OUTPUT"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "PROVIDER_UPLOAD_RECEIPTS",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "PROVIDER_UPLOAD_RECEIPTS"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "FULL_PROVIDER_STAGE_TRACE",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "FULL_PROVIDER_STAGE_TRACE"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "TEAM2_ORIGINAL_SAME_NATIVE_RESULT_SIDECAR",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "TEAM2_ORIGINAL_SAME_NATIVE_RESULT_SIDECAR"
+      ]
+    },
+    {
+      "case_id": "C013",
+      "evidence_type": "HUMAN_APPROVED_GOLD",
+      "file_path": null,
+      "sha256": null,
+      "agent_id": null,
+      "config_id": null,
+      "config_version": null,
+      "job_id": null,
+      "step_run_id": null,
+      "source_file_ids": [],
+      "execution_type": "MISSING",
+      "validation_status": "BLOCKED",
+      "missing_dependencies": [
+        "HUMAN_APPROVED_GOLD"
+      ]
+    }
+  ],
+  "new_jobs_executed": 0,
+  "release_authorized": false,
+  "official_accuracy": "NOT_MEASURED"
+}

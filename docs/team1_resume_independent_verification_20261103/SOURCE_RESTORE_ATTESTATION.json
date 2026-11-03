@@ -1,0 +1,86 @@
+{
+  "checkpoint_commit_sha": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "checkpoint_tree_sha": "a7d1e7449735fd7965db25f66a01118edf985832",
+  "verified_checkpoint_blobs": 363,
+  "modified_or_missing_checkpoint_blobs": [],
+  "integration_base_sha": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "verified_integration_base_blobs": 336,
+  "original_evidence_sha256_verified": 143,
+  "adopted_existing_pr25_sha": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+  "adopted_tree_sha": "ef6d9db5ef6f65c1b7f41970ad103514aba9cd23",
+  "supplemental_branch": "feat/team1-resume-schema-demo-20261103-r2",
+  "protected_pr_observations": [
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 19,
+      "head": "5d3172deaeecafec0056b48c92f0f0f6bb08297a",
+      "head_branch": "feat/all-team-qa-final-freeze-20261103",
+      "base": "feat/qa-pr13-pr14-final-selective-freeze-20261101",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 20,
+      "head": "53ae1a7dbe53be38a7d585676c2b2d037534fb46",
+      "head_branch": "feat/team1-parallel-e2e-readiness-20261103",
+      "base": "feat/all-team-qa-final-freeze-20261103",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 21,
+      "head": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "head_branch": "feat/team1-e2e-final-hardening-20261103",
+      "base": "feat/team1-parallel-e2e-readiness-20261103",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 23,
+      "head": "fc974f9589dfc1d56d407e2482c6294b6603e2a9",
+      "head_branch": "feat/team1-final-e2e-release-audit-20261104-r2",
+      "base": "feat/team1-e2e-final-hardening-20261103",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 24,
+      "head": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+      "head_branch": "checkpoint/team1-e2e-resume-20261103",
+      "base": "feat/team1-final-e2e-release-audit-20261104-r2",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/leadtime-guardian-agent.copy",
+      "pr": 25,
+      "head": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+      "head_branch": "feat/team1-resume-schema-demo-20261103",
+      "base": "checkpoint/team1-e2e-resume-20261103",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "repository": "dohun3540-crypto/yuseok_integration",
+      "pr": 2,
+      "head": "67b93291c1f32acaf43e45815d2d1119480b652a",
+      "head_branch": "feat/final-all-team-validation-20261103",
+      "base": "feat/qa-pr13-pr14-final-selective-freeze-20261101",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    }
+  ],
+  "local_git_head_before_document_commit": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+  "note": "Real checkpoint and adopted commit objects reconstructed and SHA checked; no fabricated local initial commit."
+}

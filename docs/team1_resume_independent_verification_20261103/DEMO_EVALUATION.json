@@ -1,0 +1,127 @@
+{
+  "status": "PASS_LOCAL",
+  "cases": [
+    {
+      "case_id": "C001",
+      "status": "PASS_LOCAL",
+      "execution_provenance": "LOCAL_REPLAY_OF_RETAINED_NATIVE",
+      "historical_job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "new_studio_runs_started": 0,
+      "python_execution_status": "COMPLETED",
+      "changed_shortage_quantity": 60,
+      "estimated_quote_cost_krw": "60500.00",
+      "review_flags": [],
+      "studio_document_qa_status": "NOT_VERIFIED",
+      "combined_e2e_status": "BLOCKED",
+      "combined_cli_exit_code": 2,
+      "combined_cli_qa_artifacts_supplied": false,
+      "qa_report_validation_scope": "SEPARATE_STRUCTURAL_ADAPTER_CHECK_ONLY",
+      "actual_qa_input_available": false,
+      "release_authorized": false,
+      "input_files": [
+        {
+          "name": "C001_NormalizeDocuments.native.json",
+          "sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7"
+        },
+        {
+          "name": "C001_IndependentQA.native.json",
+          "sha256": "9b374f8fe8eeb3d50458382c3e6a5ae30cfca886c74419d938235c07f17efb2f"
+        },
+        {
+          "name": "trusted_base_case.json",
+          "sha256": "601f52d293e0e118cd49723660fa6217473186d1000a7d565eadb21c28c6e7cb"
+        },
+        {
+          "name": "document_extraction.schema.json",
+          "sha256": "cfdac60441e46e853644b1204dc7b6d65937cfe28bab89d882461086d2e087c4"
+        }
+      ],
+      "pdf_inputs": [
+        {
+          "name": "SYN-C001_delivery_notice.pdf",
+          "sha256": "7a5f7b8f025a79a0751a6b6c41e21292fc62c1c02cdd071048e38a66e4bf7f2b"
+        },
+        {
+          "name": "SYN-C001_purchase_order.pdf",
+          "sha256": "9246b69363e3cec3dca7654b14bc7facdb0f762e8ae72c42594f38efabadc930"
+        },
+        {
+          "name": "SYN-C001_quotation.pdf",
+          "sha256": "35c9deddbc06d0cb49c1e45cd859a95b97e2a9cde2ea5931d1f8ffe6dfc3c551"
+        }
+      ],
+      "pdf_note": "C001 retained provider bytes; C013 provider PDF bytes not acquired",
+      "official_accuracy": null,
+      "pdf_grounding_verified": false
+    },
+    {
+      "case_id": "C013",
+      "status": "PASS_LOCAL",
+      "execution_provenance": "LOCAL_REPLAY_OF_RETAINED_NATIVE",
+      "historical_job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "new_studio_runs_started": 0,
+      "python_execution_status": "BLOCKED",
+      "changed_shortage_quantity": null,
+      "estimated_quote_cost_krw": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:document requires review: C013-NOTICE"
+      ],
+      "studio_document_qa_status": "NEEDS_REVIEW",
+      "combined_e2e_status": "BLOCKED",
+      "combined_cli_exit_code": 2,
+      "combined_cli_qa_artifacts_supplied": false,
+      "qa_report_validation_scope": "SEPARATE_STRUCTURAL_ADAPTER_CHECK_ONLY",
+      "actual_qa_input_available": false,
+      "release_authorized": false,
+      "input_files": [
+        {
+          "name": "C013_NormalizeDocuments.native.json",
+          "sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb"
+        },
+        {
+          "name": "C013_IndependentQA.native.json",
+          "sha256": "53c2e15979bc802a6bf4f8f6b9ee32c97b8cc19da516c3818e7cec7db35555c9"
+        },
+        {
+          "name": "trusted_base_case.json",
+          "sha256": "77ab8033048aae289cae19416823f25586e115945c7a86be04a64ba8df3ef225"
+        },
+        {
+          "name": "document_extraction.schema.json",
+          "sha256": "cfdac60441e46e853644b1204dc7b6d65937cfe28bab89d882461086d2e087c4"
+        }
+      ],
+      "pdf_inputs": [],
+      "pdf_note": "C001 retained provider bytes; C013 provider PDF bytes not acquired",
+      "official_accuracy": null,
+      "pdf_grounding_verified": false
+    },
+    {
+      "case_id": "C008",
+      "status": "PASS_LOCAL",
+      "execution_provenance": "SYNTHETIC_DRAFT_LOCAL_ONLY",
+      "draft_sha256": "a95fa5a96b7e0ca7e838b100fd25a8739c333efa92d03474e78668f0f5214104",
+      "changed_shortage_quantity": 40,
+      "estimated_quote_cost_krw": "40500.00",
+      "new_studio_runs_started": 0,
+      "gold_approved": false,
+      "note": "C017 starts from ISO fixture; Korean PDF-to-ISO conversion is unmeasured",
+      "release_authorized": false
+    },
+    {
+      "case_id": "C017",
+      "status": "PASS_LOCAL",
+      "execution_provenance": "SYNTHETIC_DRAFT_LOCAL_ONLY",
+      "draft_sha256": "3d854133c3755cdfb960f181ec5dbf7996f398c3c90cb57938c58e98fb707b0d",
+      "changed_shortage_quantity": 60,
+      "estimated_quote_cost_krw": "60500.00",
+      "new_studio_runs_started": 0,
+      "gold_approved": false,
+      "note": "C017 starts from ISO fixture; Korean PDF-to-ISO conversion is unmeasured",
+      "release_authorized": false
+    }
+  ],
+  "release_gate": "BLOCKED",
+  "gold_approved": false,
+  "official_metrics": "NOT_MEASURED"
+}

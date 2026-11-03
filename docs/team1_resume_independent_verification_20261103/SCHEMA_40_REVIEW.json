@@ -1,0 +1,1588 @@
+{
+  "status": "PASS_LOCAL",
+  "scope": "COMPLETED_40_ROW_STATIC_REVIEW_NOT_STUDIO_RUNTIME_CERTIFICATION",
+  "config_sha256": "05efb96f0c236c4f89e56d0cd49a8ab85b9b78a5b46dbfe4025fda84fc1b2c78",
+  "candidate_list_sha256": "4a600abd640773db39b12767c9611dc60ca639eac5b9b4d235463e1ce9868c02",
+  "classification_counts": {
+    "POTENTIAL_CONFLICT": 13,
+    "INTENDED_TRANSFORMATION": 16,
+    "NOT_VERIFIED": 11
+  },
+  "confirmed_provider_null_defects": 0,
+  "applied_patches": 0,
+  "rows": [
+    {
+      "index": 1,
+      "field_path": "Extract_purchase_order.po_id",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/po_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "The explicitly printed PO ID or Related PO reference. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": [
+            "PO1"
+          ]
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": [
+            "PO1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 2,
+      "field_path": "Extract_purchase_order.supplier_id",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicitly printed supplier identifier only; not a guessed company name. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": [
+            ""
+          ]
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": [
+            ""
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 3,
+      "field_path": "Extract_purchase_order.quote[].quote_id",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/quote_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed quote_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 4,
+      "field_path": "Extract_purchase_order.quote[].supplier_id",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed supplier_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 5,
+      "field_path": "Extract_purchase_order.quote[].product_id",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/product_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed product_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 6,
+      "field_path": "Extract_purchase_order.quote[].capacity",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/capacity",
+      "current_schema_type": "integer",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed capacity only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "NOT_VERIFIED"
+    },
+    {
+      "index": 7,
+      "field_path": "Extract_purchase_order.quote[].arrival_date",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/arrival_date",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed arrival_date only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 8,
+      "field_path": "Extract_purchase_order.quote[].unit_price",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/unit_price",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed unit_price only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 9,
+      "field_path": "Extract_purchase_order.quote[].shipping_cost",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/shipping_cost",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed shipping_cost only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 10,
+      "field_path": "Extract_purchase_order.quote[].currency",
+      "node": "Extract_purchase_order",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/0/json_schema/schema/properties/quote/items/properties/currency",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed currency only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-PO",
+          "values": []
+        },
+        {
+          "document_id": "PO-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 11,
+      "field_path": "Extract_delivery_notice.po_id",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/po_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "The explicitly printed PO ID or Related PO reference. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": [
+            "PO999"
+          ]
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": [
+            "PO1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 12,
+      "field_path": "Extract_delivery_notice.supplier_id",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicitly printed supplier identifier only; not a guessed company name. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": [
+            ""
+          ]
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": [
+            ""
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 13,
+      "field_path": "Extract_delivery_notice.quote[].quote_id",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/quote_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed quote_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 14,
+      "field_path": "Extract_delivery_notice.quote[].supplier_id",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed supplier_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 15,
+      "field_path": "Extract_delivery_notice.quote[].product_id",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/product_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed product_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 16,
+      "field_path": "Extract_delivery_notice.quote[].capacity",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/capacity",
+      "current_schema_type": "integer",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed capacity only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "NOT_VERIFIED"
+    },
+    {
+      "index": 17,
+      "field_path": "Extract_delivery_notice.quote[].arrival_date",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/arrival_date",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed arrival_date only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 18,
+      "field_path": "Extract_delivery_notice.quote[].unit_price",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/unit_price",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed unit_price only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 19,
+      "field_path": "Extract_delivery_notice.quote[].shipping_cost",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/shipping_cost",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed shipping_cost only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 20,
+      "field_path": "Extract_delivery_notice.quote[].currency",
+      "node": "Extract_delivery_notice",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/1/json_schema/schema/properties/quote/items/properties/currency",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed currency only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-NOTICE",
+          "values": []
+        },
+        {
+          "document_id": "NOTICE-DOC",
+          "values": []
+        }
+      ],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "INTENDED_TRANSFORMATION",
+      "reason": "Retained non-quotation quote is []. No child row is instantiated; empty table to Normalize quote=null is intentional. Child null path remains unverified.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 21,
+      "field_path": "Extract_quotation.po_id",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/po_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "The explicitly printed PO ID or Related PO reference. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "PO1"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "PO1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 22,
+      "field_path": "Extract_quotation.supplier_id",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicitly printed supplier identifier only; not a guessed company name. Null when absent. ",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "S1"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "S1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 23,
+      "field_path": "Extract_quotation.quote[].quote_id",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/quote_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed quote_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "Q013"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "Q1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 24,
+      "field_path": "Extract_quotation.quote[].supplier_id",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed supplier_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "S1"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "S1"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 25,
+      "field_path": "Extract_quotation.quote[].product_id",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/product_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed product_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "A"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "A"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 26,
+      "field_path": "Extract_quotation.quote[].capacity",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/capacity",
+      "current_schema_type": "integer",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed capacity only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            60
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            60
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "int",
+        "int"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "Numeric auto-null option is true. Exported declaration alone cannot establish effective provider type; observed capacity is a valid integer, no native null.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "NOT_VERIFIED"
+    },
+    {
+      "index": 27,
+      "field_path": "Extract_quotation.quote[].arrival_date",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/arrival_date",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed arrival_date only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "2026-11-04"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "2026-11-04"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 28,
+      "field_path": "Extract_quotation.quote[].unit_price",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/unit_price",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed unit_price only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "1000.00"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "1000.00"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 29,
+      "field_path": "Extract_quotation.quote[].shipping_cost",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/shipping_cost",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed shipping_cost only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "500"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "500"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 30,
+      "field_path": "Extract_quotation.quote[].currency",
+      "node": "Extract_quotation",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/2/json_schema/schema/properties/quote/items/properties/currency",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed currency only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [
+        {
+          "document_id": "C013-QUOTE",
+          "values": [
+            "KRW"
+          ]
+        },
+        {
+          "document_id": "QUOTE-DOC",
+          "values": [
+            "KRW"
+          ]
+        }
+      ],
+      "observed_value_types": [
+        "str",
+        "str"
+      ],
+      "observed_values_match_declared_type": true,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "POTENTIAL_CONFLICT",
+      "reason": "Own-field null instruction disagrees with explicit non-null declaration. Observed values are non-null, so a provider null failure has not been reproduced.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 31,
+      "field_path": "Extract_other.po_id",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/po_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "The explicitly printed PO ID or Related PO reference. Null when absent. ",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 32,
+      "field_path": "Extract_other.supplier_id",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicitly printed supplier identifier only; not a guessed company name. Null when absent. ",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 33,
+      "field_path": "Extract_other.quote[].quote_id",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/quote_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed quote_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 34,
+      "field_path": "Extract_other.quote[].supplier_id",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/supplier_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed supplier_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 35,
+      "field_path": "Extract_other.quote[].product_id",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/product_id",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed product_id only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 36,
+      "field_path": "Extract_other.quote[].capacity",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/capacity",
+      "current_schema_type": "integer",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed capacity only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "NOT_VERIFIED"
+    },
+    {
+      "index": 37,
+      "field_path": "Extract_other.quote[].arrival_date",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/arrival_date",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed arrival_date only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 38,
+      "field_path": "Extract_other.quote[].unit_price",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/unit_price",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed unit_price only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 39,
+      "field_path": "Extract_other.quote[].shipping_cost",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/shipping_cost",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed shipping_cost only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    },
+    {
+      "index": 40,
+      "field_path": "Extract_other.quote[].currency",
+      "node": "Extract_other",
+      "json_pointer": "/workflowConfig/informationExtractConfiguration/schemas/3/json_schema/schema/properties/quote/items/properties/currency",
+      "current_schema_type": "string",
+      "required_by_exported_parent_schema": false,
+      "required_note": "No required list is exported at this parent. Provider implicit required behavior NOT_VERIFIED.",
+      "explicit_schema_allows_null": false,
+      "numeric_auto_null_option": true,
+      "B0_numeric_auto_null_option": "NOT_EXPORTED",
+      "provider_effective_nullable": "NOT_VERIFIED",
+      "prompt_null_instruction": "Explicit printed currency only. Null if absent. Dates YYYY-MM-DD; amounts decimal strings without currency symbols.",
+      "native_observations": [],
+      "observed_value_types": [],
+      "observed_values_match_declared_type": null,
+      "observed_missing_key_vs_null": "NOT_DISTINGUISHED_BY_PRIOR_GET_BASED_OBSERVATION; no null event claimed",
+      "classification": "NOT_VERIFIED",
+      "reason": "No Extract_other run retained. Declaration conflicts with null wording; provider behavior and absent-value path unobserved.",
+      "reproduction": {
+        "scope": "LOCAL_EXPORTED_SCHEMA_ONLY",
+        "null_probe_rejected": true,
+        "live_failure_reproduced": false
+      },
+      "minimal_action": "No applied patch. Verify provider supported nullable syntax on a disposable config; preserve intentional Normalize conversion, 0 and false. Request missing-value run only with authorization.",
+      "risk": "Bulk nullable patch may break Studio import or change extraction behavior. For an applicable missing PO/quote value, Python must continue blocking rather than inventing data.",
+      "owner": "구도훈 (Studio); 윤현준 (Adapter interface consultation only)",
+      "qa_block_condition": "Missing/invalid applicable PO, receipt, date, quantity, quote identifiers, price or currency; Native evidence/provenance missing cannot authorize release.",
+      "underlying_declared_conflict_classification": "POTENTIAL_CONFLICT"
+    }
+  ],
+  "classification_basis": "OBSERVED_OPERATIONAL_PATH_ONLY; retained declaration candidates remain potential/unknown for future missing-value executions",
+  "existing_tool_declaration_classification_counts": {
+    "POTENTIAL_CONFLICT": 36,
+    "NOT_VERIFIED": 4
+  }
+}
