@@ -1,0 +1,34 @@
+{
+  "CODE_GATE": {
+    "status": "PASS_LOCAL",
+    "evidence": "787 full /538 QA; isolated integrated tree845 /577; Ruff PASS. Final remote HEAD CI pending at this precommit boundary."
+  },
+  "DATA_GATE": {
+    "status": "PASS",
+    "evidence": "60/60 original PDF machine integrity; newly recovered C013 provider PDFs3/3 byte-identical to original archive. Human review not implied."
+  },
+  "STUDIO_NATIVE_GATE": {
+    "status": "BLOCKED",
+    "evidence": "Two retained actual Normalize/QA output pairs and current UI Jobs verified; zero NEW runs, full Native chain0/2; actual QA inputs/raw Merge/provider trace absent."
+  },
+  "CROSS_AGENT_GATE": {
+    "status": "BLOCKED",
+    "evidence": "Current Agent/Config fixed local intake and SYN-case alias work. C001 local Cross-Agent BLOCKED/NOT_VERIFIED; C013 local policy FAIL/NEEDS_REVIEW. No runtime QA input delivery proof."
+  },
+  "PROVENANCE_GATE": {
+    "status": "BLOCKED",
+    "evidence": "Same-job/source rows and distinct Normalize/QA Step IDs PASS_LOCAL; authentic upload SHA receipts, full stage run binding and runtime Config authentication missing."
+  },
+  "B0_E1_GATE": {
+    "status": "BLOCKED",
+    "evidence": "Official bundles0/4. NCik reported B0 partial; RpJ v2 UNASSIGNED; no authenticated four-way alias/config/job registry or Gold evaluation."
+  },
+  "GOLD_GATE": {
+    "status": "BLOCKED",
+    "evidence": "Approved Human Gold0; Team3 DRAFT/AI_CANDIDATE and empty review forms remain unapproved."
+  },
+  "RELEASE_GATE": {
+    "status": "BLOCKED",
+    "evidence": "All mandatory external gates remain unfulfilled; release_authorized=false."
+  }
+}

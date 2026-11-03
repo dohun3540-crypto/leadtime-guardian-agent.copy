@@ -118,7 +118,9 @@ def audit_b0_e1_readiness(b0: Any, e1: Any) -> dict[str, Any]:
                         add("DUPLICATE_OPERATIONAL_STEP_ID", side, severity="ERROR")
                     operational_step_ids.add(sid)
                     if any(
-                        field in data and data[field] != expected
+                        field in data and (
+                            type(data[field]) is not type(expected) or data[field] != expected
+                        )
                         for field, expected in (
                             ("job_id", job), ("config_id", config),
                             ("config_version", version),
@@ -223,15 +225,9 @@ def compare_normalized_field_values(
     for side, content in (("B0", b0_raw), ("E1", e1_raw)):
         if not isinstance(content, dict):
             return issue(side + "_NORMALIZED_RAW_NOT_OBJECT")
-        if ("case_id" in content
-                and content["case_id"] != readiness["case_id"]):
-            return issue(side + "_NORMALIZED_CASE_ID_MISMATCH")
+        expected_identity = {"case_id": readiness["case_id"]}
         if original_raw_sha256_by_side is not None:
             expected_binding = readiness["normalized_job_metadata_by_side"][side]
-            metadata = content.get("metadata")
-            if metadata is not None and not isinstance(metadata, dict):
-                return issue(side + "_NORMALIZE_METADATA_INVALID")
-            observed = content if metadata is None else metadata
             for field, expected_field in (
                 ("job_id", "job_id"),
                 ("job_execution_id", "job_id"),
@@ -239,9 +235,41 @@ def compare_normalized_field_values(
                 ("config_id", "config_id"),
                 ("config_version", "config_version"),
             ):
-                if (field in observed
-                        and observed[field] != expected_binding[expected_field]):
-                    return issue(side + "_NORMALIZE_IDENTITY_MISMATCH:" + field)
+                expected_identity[field] = expected_binding[expected_field]
+        # Inspect every envelope along the same bounded payload path used by
+        # the document reader. Root, metadata and additional_values must all
+        # agree; a matching outer metadata object cannot hide a different run.
+        value = content
+        for _ in range(8):
+            if isinstance(value, str):
+                from .audit import load_json_strict
+
+                try:
+                    value = load_json_strict(value)
+                except (ValueError, TypeError, UnicodeError, RecursionError):
+                    return issue(side + "_NORMALIZE_PAYLOAD_INVALID")
+                continue
+            if not isinstance(value, dict):
+                break  # The document reader handles unsupported payloads.
+            containers = [value]
+            for name in ("metadata", "additional_values"):
+                if name in value:
+                    if not isinstance(value[name], dict):
+                        return issue(side + "_NORMALIZE_METADATA_INVALID")
+                    containers.append(value[name])
+            for observed in containers:
+                for field, wanted in expected_identity.items():
+                    if field in observed and (
+                        type(observed[field]) is not type(wanted) or observed[field] != wanted
+                    ):
+                        return issue(side + ("_NORMALIZED_CASE_ID_MISMATCH" if field == "case_id"
+                                             else "_NORMALIZE_IDENTITY_MISMATCH:" + field))
+            if "documents" in value:
+                break
+            forms = [key for key in ("output", "content") if key in value]
+            if len(forms) != 1:
+                break
+            value = value[forms[0]]
         docs, error, _, layers = _read_documents(content, qa_side=False)
         if error or layers > 1 or not isinstance(docs, list) or len(docs) != 3:
             return issue(side + "_DOCUMENTS_NOT_VALIDATED")

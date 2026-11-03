@@ -1,4 +1,4 @@
-"""Read-only C001 evidence inventory: local SHA and missing files, never release approval."""
+"""C001/C013 evidence inventory: local SHA and missing files, never release approval."""
 from __future__ import annotations
 
 import hashlib
@@ -55,7 +55,7 @@ def audit_release_folder(manifest_path: Path) -> dict[str, Any]:
         manifest = load_json_strict(root.read_bytes())
         if (not isinstance(manifest, dict)
                 or manifest.get("schema_version") != VERSION
-                or manifest.get("case_id") != "C001"
+                or manifest.get("case_id") not in ("C001", "C013")
                 or not isinstance(manifest.get("operational_job_id"), str)
                 or not manifest["operational_job_id"].startswith("job_")
                 or not isinstance(manifest.get("config_id"), str)

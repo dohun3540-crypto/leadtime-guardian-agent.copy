@@ -1,0 +1,103 @@
+{
+  "personal_full": 787,
+  "personal_qa": 538,
+  "isolated_integration_full": 845,
+  "isolated_integration_qa": 577,
+  "new_regressions": 17,
+  "test_identity_preservation": {
+    "personal": {
+      "previous": 770,
+      "current": 787,
+      "removed": 0,
+      "added": 17
+    },
+    "integration": {
+      "previous": 828,
+      "current": 845,
+      "removed": 0,
+      "added": 17
+    }
+  },
+  "red_runs": {
+    "initial": "7 failed/2 passed",
+    "release_intake": "1 failed",
+    "current_identity": "1 failed/4 passed",
+    "qa_report_stage": "2 failed"
+  },
+  "targeted_mutations": {
+    "scope": "Seven targeted new guard mutations; not global mutation coverage",
+    "mutations": [
+      {
+        "operator": "qa_report_presence",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "nested_identity",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "typed_version",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "c013_stage",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "c013_grouping",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "frozen_current_config",
+        "result": "KILLED",
+        "exit_code": 1
+      },
+      {
+        "operator": "cross_case_alias",
+        "result": "KILLED",
+        "exit_code": 1
+      }
+    ],
+    "unmutated_control_exit": 0
+  },
+  "ruff": "PASS",
+  "archive": "PASS_REPLAY",
+  "local_gate": "PASS_LOCAL; overall BLOCKED",
+  "pdf_originals": "60/60 PASS",
+  "ci_at_precommit_boundary": "PENDING; final exact-head observation will be in PR and delivery POST_PUSH_ATTESTATION.json",
+  "runtime_source_test_hashes": [
+    {
+      "path": "scripts/qa_combined_e2e_check.py",
+      "sha256": "c9bfb36e3002e9920f525c6c03142916d2add146c3867284d1992adb59ca77ce"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/cross_agent.py",
+      "sha256": "a5972b1579adc1459b308ef499a72ef24fc618d20cb1e55ad3b8014116f63f84"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/experiment_compare.py",
+      "sha256": "5011cd8822f8bb0b2a18592f517c9e6384bc9e98cc2ce1b6fb9a80df0daf1fdc"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/handoff_builder.py",
+      "sha256": "1f31ae85f7fa5975bb82350994980deac148b360ed8cab5d90f10a1ae696b804"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/release_inventory.py",
+      "sha256": "1eb57da1dc2612b00f234ae89faaa3e62da2837d82910fed0622f94eaf6fd14d"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/stage_trace.py",
+      "sha256": "fa17d534926e4330fb280ad5121f2f8a2e9cdff01be063d491b87d72218277e3"
+    },
+    {
+      "path": "tests/test_qa_native_closure.py",
+      "sha256": "d231701e8deb0f998102aa4798a75d48383d7f83c18a3cfa0096778a641be9e9"
+    }
+  ]
+}

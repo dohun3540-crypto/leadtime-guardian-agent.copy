@@ -1,4 +1,4 @@
-"""Strict, read-only trace of original Studio Stage bytes and 22 C001 XLSX blanks.
+"""Strict C001/C013 Studio Stage intake and case-specific C001 XLSX blank trace.
 
 This is local source-file inspection, NEVER a provider execution attestation.
 A sharedStrings pointer 49 is a decoded EMPTY_STRING in the preserved XLSX.
@@ -123,7 +123,7 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
 
     if (not isinstance(manifest, dict)
             or manifest.get("schema_version") != "leadtime-stage-intake/v1"
-            or manifest.get("case_id") != "C001"
+            or manifest.get("case_id") not in ("C001", "C013")
             or not isinstance(manifest.get("operational_job_id"), str)
             or not manifest["operational_job_id"].startswith("job_")
             or not isinstance(manifest.get("config_id"), str)
@@ -138,6 +138,11 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
     result["operational_job_id"] = manifest["operational_job_id"]
     result["config_id"] = manifest["config_id"]
     result["config_version"] = manifest["config_version"]
+    if manifest["case_id"] != "C001":
+        # The preserved spreadsheet is C001 evidence only, never C013 data.
+        result["xlsx_reference_sha256"] = None
+        result["xlsx_actual_literal_49_count"] = None
+        result["xlsx_shared_index_49_empty_reference_count"] = None
     op_job = manifest["operational_job_id"]
     all_metadata = manifest["stages"]
     unknown = set(all_metadata) - set(STAGES)
@@ -213,6 +218,11 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
                     valid = False
         for name, value in containers:
             for field, wanted in expected.items():
+                if (field == "case_id" and value.get(field) == "SYN-" + wanted):
+                    # The fixed C001/SYN-C001 and C013/SYN-C013 pairs are
+                    # declared case aliases. Retain raw bytes and record it.
+                    note("RAW_STAGE_CASE_ALIAS_OBSERVED:" + name, stage, "INFO")
+                    continue
                 if field in value and (
                     type(value[field]) is not type(wanted) or value[field] != wanted
                 ):
@@ -364,7 +374,25 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         if not raw_identity_matches(parsed, meta, stage):
             continue
         if stage == "IndependentQA_Report":
-            observation["qa_report_status"] = parsed.get("qa_status", "UNKNOWN")
+            report = parsed
+            for _ in range(8):
+                if isinstance(report, str):
+                    try:
+                        report = load_json_strict(report)
+                    except (ValueError, TypeError, UnicodeError, RecursionError):
+                        report = None
+                    continue
+                if not isinstance(report, dict) or "qa_status" in report:
+                    break
+                wrappers = [key for key in ("output", "content") if key in report]
+                if len(wrappers) != 1:
+                    break
+                report = report[wrappers[0]]
+            verdict = report.get("qa_status") if isinstance(report, dict) else None
+            if verdict not in ("PASS", "FAIL", "NEEDS_REVIEW", "NOT_VERIFIED"):
+                note("QA_REPORT_STATUS_NOT_OBSERVED", stage, "ERROR")
+                continue
+            observation["qa_report_status"] = verdict
             observation["status"] = "LOCAL_RAW_PARSED"
             continue
         docs, error, json_path, layers = _read_documents(
@@ -381,13 +409,13 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
                            and d["document_id"].strip()
                            and d.get("document_type") in DOC_TYPES
                            for d in docs)):
-            note("C001_THREE_DOCUMENT_SCHEMA_FAILED", stage, "ERROR")
+            note(manifest["case_id"] + "_THREE_DOCUMENT_SCHEMA_FAILED", stage, "ERROR")
             continue
         ids = [d["document_id"] for d in docs]
         kinds = [d["document_type"] for d in docs]
         if (len(set(ids)) != 3
                 or Counter(kinds) != Counter(DOC_TYPES)):
-            note("C001_DOCUMENT_IDS_OR_TYPES_MISMATCH", stage, "ERROR")
+            note(manifest["case_id"] + "_DOCUMENT_IDS_OR_TYPES_MISMATCH", stage, "ERROR")
             continue
         docs_by_stage[stage] = {d["document_type"]: d for d in docs}
         observation["document_count"] = 3
@@ -418,7 +446,7 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         len(docs_by_stage) == len(DOCUMENT_STAGES)
         and stages_out["IndependentQA_Report"]["status"] == "LOCAL_RAW_PARSED"
     )
-    for kind in DOC_TYPES:
+    for kind in DOC_TYPES if manifest["case_id"] == "C001" else ():
         for cell, field in FIELDS_BY_TYPE[kind]:
             trace = {}
             for stage in DOCUMENT_STAGES:

@@ -11,6 +11,9 @@ from typing import Any
 from .audit import load_json_strict
 from .cross_agent import (
     APPROVED_SANDBOX_AGENTS,
+    CURRENT_QA_AGENT_ID,
+    CURRENT_QA_CONFIG_ID,
+    CURRENT_QA_CONFIG_VERSION,
     HANDOFF_VERSION,
     SANDBOX_COPY_AGENT_ID,
     SANDBOX_COPY_CONFIG_ID,
@@ -42,6 +45,10 @@ def build_studio_raw_handoff(
             and (config_id != SANDBOX_COPY_CONFIG_ID
                  or config_version != SANDBOX_COPY_CONFIG_VERSION)):
         raise ValueError("copied QA Sandbox config/version not approved")
+    if (agent_id == CURRENT_QA_AGENT_ID
+            and (config_id != CURRENT_QA_CONFIG_ID
+                 or config_version != CURRENT_QA_CONFIG_VERSION)):
+        raise ValueError("current QA config/version does not match observed identity")
     if not isinstance(github_sha, str) or not HEX40.fullmatch(github_sha):
         raise ValueError("actual 40-character Git SHA required")
     if execution_kind not in ("ARCHIVED_STUDIO", "ARCHIVED_REPLAY",

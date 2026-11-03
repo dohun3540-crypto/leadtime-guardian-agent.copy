@@ -18,9 +18,16 @@ SANDBOX_AGENT_ID = "agt_GhP9GywhbcDWquFqWTsmtq"
 SANDBOX_COPY_AGENT_ID = "agt_HdtUJPQPXir9rGKgPWSyZG"
 SANDBOX_COPY_CONFIG_ID = "cfg_X2xXakDtmDTHh2RoqVysvL"
 SANDBOX_COPY_CONFIG_VERSION = 1
+CURRENT_QA_AGENT_ID = "agt_oMuHCjkGkVUkyyxjVDJda4"
+CURRENT_QA_CONFIG_ID = "cfg_mokhkXae6d5U7CfgpL7ffw"
+CURRENT_QA_CONFIG_VERSION = 1
 # Explicit allow-list. Copy identifiers are from a user-supplied draft and
 # are identity checks, not proof of actual saved Studio execution.
-APPROVED_SANDBOX_AGENTS = frozenset({SANDBOX_AGENT_ID, SANDBOX_COPY_AGENT_ID})
+# Current target identity independently re-observed in Studio and its exact
+# config export. This permits local intake only, never cloud authentication.
+APPROVED_SANDBOX_AGENTS = frozenset({
+    SANDBOX_AGENT_ID, SANDBOX_COPY_AGENT_ID, CURRENT_QA_AGENT_ID,
+})
 DOCUMENT_STATES = frozenset({"PASS", "FAIL", "NEEDS_REVIEW", "NOT_VERIFIED"})
 PYTHON_STATES = frozenset({"PASS", "FAIL", "NOT_RUN", "NOT_VERIFIED", "BLOCKED"})
 KINDS = frozenset({"NEW_LIVE_STUDIO", "ARCHIVED_STUDIO", "ARCHIVED_REPLAY",
@@ -96,12 +103,17 @@ def audit_cross_agent_handoff(
         fail("CONFIG_ID_MISMATCH", "studio.config_id")
     if expected_agent_id == SANDBOX_COPY_AGENT_ID and config_id != SANDBOX_COPY_CONFIG_ID:
         fail("COPIED_CONFIG_ID_MISMATCH", "studio.config_id")
+    if expected_agent_id == CURRENT_QA_AGENT_ID and config_id != CURRENT_QA_CONFIG_ID:
+        fail("CURRENT_QA_CONFIG_ID_MISMATCH", "studio.config_id")
     version = studio.get("config_version")
     if type(version) is not int or version < 1:
         fail("INVALID_CONFIG_VERSION", "studio.config_version")
     elif (expected_agent_id == SANDBOX_COPY_AGENT_ID
           and version != SANDBOX_COPY_CONFIG_VERSION):
         fail("COPIED_CONFIG_VERSION_MISMATCH", "studio.config_version")
+    elif (expected_agent_id == CURRENT_QA_AGENT_ID
+          and version != CURRENT_QA_CONFIG_VERSION):
+        fail("CURRENT_QA_CONFIG_VERSION_MISMATCH", "studio.config_version")
     job = studio.get("job_id")
     step = studio.get("step_run_id")
     if not isinstance(job, str) or not job.startswith("job_"):
