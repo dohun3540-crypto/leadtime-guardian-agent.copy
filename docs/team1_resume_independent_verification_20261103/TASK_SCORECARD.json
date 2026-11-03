@@ -4,7 +4,7 @@
   "tasks": {
     "A": {
       "status": "BLOCKED",
-      "progress": "newly recovered historical v2 Normalize; actual QA input/stage trace/receipts absent"
+      "progress": "Saved v2 config unchanged; Extract raw-shape compatibility and embedded identity rejection fixed. Actual QA input/provider chain remains absent."
     },
     "B": {
       "status": "BLOCKED",
@@ -17,7 +17,7 @@
     },
     "D": {
       "status": "PASS_LOCAL",
-      "scope": "existing missing-input diagnostic preserved and rechecked; live release blocked"
+      "scope": "Stage known identity conflicts now FAIL before Python; missing evidence still BLOCKED with no release approval."
     },
     "E": {
       "status": "PASS_LOCAL",
@@ -25,11 +25,20 @@
     },
     "F": {
       "status": "PASS_LOCAL",
-      "scope": "5-path isolated812/544,778 IDs preserved; remote integration unchanged; external release blocked"
+      "scope": "Current local762/513, isolated820/552; all754/812/original778 IDs preserved. No remote integration writes."
     }
   },
-  "new_production_fixes": 0,
-  "new_tests_added_by_supplement": 0,
+  "new_production_fixes": 3,
+  "new_tests_added_by_supplement": 8,
   "existing_pr25_new_tests": 4,
-  "code_freeze_preserved": true
+  "code_freeze_preserved": "Team2/Team3/frozen remote integration unchanged; new Team1-owned evidence-backed fixes on isolated branch only.",
+  "checkpoint_previous_status": {
+    "A": "BLOCKED",
+    "B": "BLOCKED",
+    "C": "PASS_LOCAL",
+    "D": "PASS_LOCAL",
+    "E": "PASS_LOCAL",
+    "F": "PASS_LOCAL"
+  },
+  "source_base_sha": "fdc00f963eec991033904a9675bcdc23a9f7142c"
 }

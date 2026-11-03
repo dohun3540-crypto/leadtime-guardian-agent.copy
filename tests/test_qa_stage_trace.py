@@ -353,3 +353,93 @@ def test_stage_path_symlink_outside_evidence_directory_is_rejected(tmp_path):
     )
     assert proc.returncode == 1
     assert json.loads(proc.stdout)["status"] == "FAIL"
+
+
+def test_observed_bare_extract_export_shape_is_read_without_rewriting_bytes():
+    manifest, raw = evidence()
+    branches, bindings = {}, {}
+    for kind, doc in zip(TYPES, synthetic_docs(), strict=True):
+        payload = json.dumps(doc).encode()
+        branches[kind] = payload
+        bindings[kind] = {
+            "sha256": hashlib.sha256(payload).hexdigest(), "job_id": JOB,
+            "step_run_id": "bare_extract_" + kind, "case_id": "C001",
+            "config_id": "cfg_SYNTH", "config_version": 1,
+        }
+    raw["Extract"] = branches
+    manifest["stages"]["Extract"] = {"branches": bindings}
+    original = deepcopy(raw)
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "BLOCKED"
+    assert result["stages"]["Extract"]["document_count"] == 3
+    assert result["all_expected_raw_stages_present"] is True
+    assert raw == original
+    assert result["studio_live_execution_authenticated"] is False
+
+
+def test_native_envelope_identity_cannot_be_rebound_by_manifest():
+    manifest, raw = evidence()
+    original = json.loads(raw["NormalizeDocuments"])
+    native = {"content": json.dumps({"documents": original["documents"]}),
+              "metadata": {"job_execution_id": "job_UNRELATED",
+                           "step_run_id": "step_NormalizeDocuments"}}
+    payload = json.dumps(native).encode()
+    raw["NormalizeDocuments"] = payload
+    manifest["stages"]["NormalizeDocuments"]["sha256"] = hashlib.sha256(payload).hexdigest()
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "FAIL"
+    assert result["stages"]["NormalizeDocuments"]["status"] != "LOCAL_RAW_PARSED"
+    assert result["normalize_qa_input_status"] != "LOCAL_CONTENT_MATCH"
+    assert result["all_expected_raw_stages_present"] is False
+
+
+def test_embedded_metadata_config_version_does_not_equate_true_to_one():
+    manifest, raw = evidence()
+    parsed = json.loads(raw["NormalizeDocuments"])
+    parsed["metadata"] = {"job_execution_id": JOB,
+                          "step_run_id": "step_NormalizeDocuments",
+                          "config_id": "cfg_SYNTH", "config_version": True}
+    payload = json.dumps(parsed).encode()
+    raw["NormalizeDocuments"] = payload
+    manifest["stages"]["NormalizeDocuments"]["sha256"] = hashlib.sha256(payload).hexdigest()
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "FAIL"
+    assert result["all_expected_raw_stages_present"] is False
+
+
+def test_correct_native_metadata_retains_legal_separate_qa_job():
+    manifest, raw = evidence()
+    for stage in ("NormalizeDocuments", "IndependentQA_Input"):
+        parsed = json.loads(raw[stage])
+        parsed["metadata"] = {"job_execution_id": manifest["stages"][stage]["job_id"],
+                              "step_run_id": manifest["stages"][stage]["step_run_id"],
+                              "status": "completed"}
+        data = json.dumps(parsed).encode()
+        raw[stage] = data
+        manifest["stages"][stage]["sha256"] = hashlib.sha256(data).hexdigest()
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "BLOCKED"
+    assert result["all_expected_raw_stages_present"] is True
+    assert result["normalize_qa_input_status"] == "LOCAL_CONTENT_MATCH"
+    assert result["studio_live_execution_authenticated"] is False
+
+
+def test_embedded_additional_values_wrong_step_cannot_be_manifest_rebound():
+    manifest, raw = evidence()
+    parsed = json.loads(raw["NormalizeDocuments"])
+    parsed["additional_values"] = {"job_execution_id": JOB,
+                                   "step_run_id": "step_DIFFERENT"}
+    data = json.dumps(parsed).encode()
+    raw["NormalizeDocuments"] = data
+    manifest["stages"]["NormalizeDocuments"]["sha256"] = hashlib.sha256(data).hexdigest()
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "FAIL"
+    assert result["all_expected_raw_stages_present"] is False
+
+
+def test_boolean_stage_config_binding_is_rejected_even_without_embedded_metadata():
+    manifest, raw = evidence()
+    manifest["stages"]["NormalizeDocuments"]["config_version"] = True
+    result = audit_stage_evidence(manifest, raw)
+    assert result["status"] == "FAIL"
+    assert result["all_expected_raw_stages_present"] is False

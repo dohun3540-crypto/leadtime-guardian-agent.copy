@@ -1,0 +1,232 @@
+{
+  "status": "PASS_LOCAL",
+  "independent_C001_math": {
+    "scope": "INDEPENDENT_DECIMAL_DATE_RECALCULATION_FROM_EXISTING_NATIVE_AND_TRUSTED_BASE",
+    "native_sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+    "base_sha256": "601f52d293e0e118cd49723660fa6217473186d1000a7d565eadb21c28c6e7cb",
+    "po_id": "PO1",
+    "notice_po_id": "PO1",
+    "order_quantity": 100,
+    "inventory_stock": 40,
+    "original_eta": "2026-11-03",
+    "changed_eta": "2026-11-08",
+    "customer_due_date": "2026-11-05",
+    "baseline_arrives_before_due": 100,
+    "changed_arrives_before_due": 0,
+    "baseline_shortage": 0,
+    "changed_shortage": 60,
+    "alternative_purchase_quantity": 60,
+    "unit_price": "1000.00",
+    "shipping_once_per_used_quote": "500",
+    "independent_cost_krw": "60500.00",
+    "engine_matches_independent_math": true,
+    "gold_or_pdf_semantic_approval": false
+  },
+  "C013": {
+    "po_ids": {
+      "C013-NOTICE": "PO999",
+      "C013-PO": "PO1",
+      "C013-QUOTE": "PO1"
+    },
+    "execution_status": "BLOCKED",
+    "review_flags": [
+      "STUDIO_BOUNDARY:document requires review: C013-NOTICE"
+    ],
+    "cost": null,
+    "purchase_suggestions": []
+  },
+  "real_saved_native_stage": {
+    "status": "BLOCKED",
+    "NormalizeDocuments": "LOCAL_RAW_PARSED",
+    "actual_qa_input_status": "NOT_VERIFIED",
+    "all_expected_raw_stages_present": false,
+    "scope": "REAL_SAVED_BYTES_LOCAL_INTAKE_ONLY"
+  },
+  "nullable_normalized_document_schema": [
+    {
+      "case": "C001",
+      "document_id": "QUOTE-DOC",
+      "status": "PASS_LOCAL"
+    },
+    {
+      "case": "C001",
+      "document_id": "NOTICE-DOC",
+      "status": "PASS_LOCAL"
+    },
+    {
+      "case": "C001",
+      "document_id": "PO-DOC",
+      "status": "PASS_LOCAL"
+    },
+    {
+      "case": "C013",
+      "document_id": "C013-NOTICE",
+      "status": "PASS_LOCAL"
+    },
+    {
+      "case": "C013",
+      "document_id": "C013-PO",
+      "status": "PASS_LOCAL"
+    },
+    {
+      "case": "C013",
+      "document_id": "C013-QUOTE",
+      "status": "PASS_LOCAL"
+    }
+  ],
+  "invalid_source_id_probes": [
+    {
+      "input_file_ids": [
+        {}
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        [
+          "file_QA"
+        ]
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        null
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        false
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        ""
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        "file_"
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    },
+    {
+      "input_file_ids": [
+        "file_QA",
+        "file_QA"
+      ],
+      "qa_status": "FAIL",
+      "issues": [
+        {
+          "issue_code": "QA_PDF_SOURCE_ID_MISMATCH",
+          "field": "qa_handoff.studio.input_file_ids",
+          "severity": "ERROR"
+        },
+        {
+          "issue_code": "STUDIO_UPLOAD_BINDING_NOT_AUTHENTICATED",
+          "field": "execution_receipts",
+          "severity": "WARNING"
+        }
+      ],
+      "scope": "SYNTHETIC_LOCAL_INVALID_IDS"
+    }
+  ],
+  "studio_config": {
+    "identity": {
+      "workflowId": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "workflowName": "LeadTime Guardian — B0·E1 격리 실험",
+      "configId": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "configVer": 2
+    },
+    "sha256": "1fedbb71410ca4447296299517b63c7c28a7e5d5fa04724cfb8e142f3cfed380",
+    "workflow_unchanged": true,
+    "static_normalize_to_qa_edge_present": true,
+    "root_cause": "NOT_ESTABLISHED; saved edge/prompt and QA self-report do not reveal actual evaluated input.",
+    "actual_qa_input_available": false
+  },
+  "sidecar_scope": "Team1 replay sidecar only; Team2-authored same-Native handoff remains absent. Native SHA/source ID/type rejection validated locally.",
+  "formal_B0_E1_bundles": 0,
+  "new_studio_runs": 0,
+  "overall_release_gate": "BLOCKED"
+}

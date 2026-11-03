@@ -134,5 +134,23 @@
       ]
     }
   ],
-  "comparison_claims": "No measured improvement, extraction accuracy, false-positive rate, cost or latency difference asserted."
+  "comparison_claims": "No measured improvement, extraction accuracy, false-positive rate, cost or latency difference asserted.",
+  "latest_readonly_config_recheck": {
+    "identity": {
+      "workflowId": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+      "workflowName": "LeadTime Guardian — B0·E1 격리 실험",
+      "configId": "cfg_bXh7dAFikuFp3rajaSWGgb",
+      "configVer": 2
+    },
+    "sha256": "1fedbb71410ca4447296299517b63c7c28a7e5d5fa04724cfb8e142f3cfed380",
+    "workflow_unchanged": true,
+    "static_normalize_to_qa_edge_present": true,
+    "root_cause": "NOT_ESTABLISHED; saved edge/prompt and QA self-report do not reveal actual evaluated input.",
+    "actual_qa_input_available": false
+  },
+  "local_contract_changes": [
+    "reject embedded other Job/Step/Config identity before Python",
+    "read observed bare Extract shape without rewriting bytes",
+    "return structured failure for malformed source File ID arrays"
+  ]
 }

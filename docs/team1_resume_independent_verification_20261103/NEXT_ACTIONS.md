@@ -17,3 +17,7 @@
 - PR #25: 체크포인트 이후 Schema/Replay 도구 3파일, 이 검증 중 발견한 기존 작업. 덮어쓰거나 close하지 않는다.
 - 이 보완 브랜치 `feat/team1-resume-schema-demo-20261103-r2`: PR #25 고정 코드 커밋 `6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a` 위의 독립 검증 문서/인덱스만 추가한다. PR #24/#25를 대체하지 않는다.
 - 원본 저장소·개인 main·PR #19/#20/#21/#23·통합 PR #2/원격 코드 동결은 유지한다.
+
+## 추가 개발 후 최신 상태
+
+PR26 위 별도 hardening 브랜치에서 Stage 내부 정체성, 실제 bare Extract 입력, malformed File ID API 오류3건을 수정했다. 회귀는 개인762/513, 격리통합820/552이며 기존ID 모두 보존했다. 기존 PR25/26은 수정하지 않는다. 최신 defect/register와 FINAL_REPORT.md를 우선하며, 다음순서는 QA 실제입력·provider trace → 공식4조합 → Team2 본인 Sidecar·사람Gold다. 신규 CI/최종SHA는 전달물 post-push attestation을 확인한다.

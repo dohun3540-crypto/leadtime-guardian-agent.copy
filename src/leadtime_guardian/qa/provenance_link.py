@@ -104,7 +104,8 @@ def audit_team2_provenance_link(
                     or Path(filename).name != filename or filename in found):
                 flag("INVALID_PDF_FILENAME", loc + ".filename")
                 continue
-            if not isinstance(fid, str) or not fid.startswith("file_") or fid in ids:
+            if (not isinstance(fid, str) or not fid.startswith("file_")
+                    or not fid[5:].strip() or fid in ids):
                 flag("INVALID_PDF_SOURCE_ID", loc + ".file_id")
                 continue
             ids.add(fid)
@@ -148,6 +149,9 @@ def audit_team2_provenance_link(
                       if isinstance(x, dict)]
             manifest_ids = qa_studio.get("input_file_ids")
             if (not isinstance(manifest_ids, list)
+                    or any(not isinstance(fid, str) or not fid.startswith("file_")
+                           or not fid[5:].strip() for fid in manifest_ids)
+                    or len(set(manifest_ids)) != len(manifest_ids)
                     or len(qa_ids) != len(manifest_ids)
                     or set(qa_ids) != set(manifest_ids)):
                 flag("QA_PDF_SOURCE_ID_MISMATCH", "qa_handoff.studio.input_file_ids")
