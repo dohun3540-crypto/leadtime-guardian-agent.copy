@@ -151,3 +151,12 @@ def test_symlinked_pdf_escape_from_trusted_root_is_rejected(tmp_path):
     assert outcome["qa_status"] == "FAIL"
     assert outcome["same_local_pdf_bytes_verified"] is False
     assert "PDF_PATH_OUTSIDE_TRUSTED_ROOT" in issue_codes(outcome)
+
+
+def test_nested_source_file_ids_return_structured_failure_not_typeerror(tmp_path):
+    handoff, sidecar, qa, op = fixture(tmp_path)
+    handoff["studio"]["input_file_ids"] = [["file_QA"]]
+    result = audit_team2_provenance_link(handoff, sidecar, qa, op, pdf_root=tmp_path)
+    assert result["qa_status"] == "FAIL"
+    assert "QA_PDF_SOURCE_ID_MISMATCH" in issue_codes(result)
+    assert result["cross_agent_release_authorized"] is False

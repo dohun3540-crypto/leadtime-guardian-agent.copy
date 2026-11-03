@@ -152,6 +152,50 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         else:
             stage_identities.add(identity)
 
+    def raw_identity_matches(parsed: dict, binding: dict, stage: str) -> bool:
+        """A manifest may not override identity embedded in original bytes.
+
+        Native Instruct stores identity in metadata, while some exported
+        steps use additional_values. Missing provider metadata stays unknown;
+        observed metadata must agree with its explicit stage binding.
+        """
+        expected = {
+            "case_id": manifest["case_id"],
+            "job_id": binding["job_id"],
+            "job_execution_id": binding["job_id"],
+            "step_run_id": binding["step_run_id"],
+        }
+        for field in ("config_id", "config_version"):
+            if field in binding:
+                expected[field] = binding[field]
+        containers = [("$", parsed)]
+        valid = True
+        for name in ("metadata", "additional_values"):
+            if name not in parsed:
+                continue
+            metadata = parsed[name]
+            if not isinstance(metadata, dict):
+                note("RAW_STAGE_METADATA_INVALID:" + name, stage, "ERROR")
+                valid = False
+                continue
+            containers.append((name, metadata))
+            if ("status" in metadata
+                    and metadata["status"] not in ("completed", "COMPLETED")):
+                note("RAW_STAGE_EXECUTION_NOT_COMPLETED:" + name, stage, "ERROR")
+                valid = False
+        for name, value in containers:
+            for field, wanted in expected.items():
+                if field in value and (
+                    type(value[field]) is not type(wanted) or value[field] != wanted
+                ):
+                    prefix = ("EXTRACT_BRANCH_RAW_IDENTITY_MISMATCH:"
+                              if name == "$" and stage in DOC_TYPES
+                              else "RAW_STAGE_IDENTITY_CONFLICT:")
+                    location = field if name == "$" else name + "." + field
+                    note(prefix + location, stage, "ERROR")
+                    valid = False
+        return valid
+
     for stage in STAGES:
         meta = all_metadata.get(stage)
         raw = raw_artifacts.get(stage)
@@ -186,6 +230,7 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
                         or branch_meta.get("job_id") != op_job
                         or branch_meta.get("case_id") != manifest["case_id"]
                         or branch_meta.get("config_id") != manifest["config_id"]
+                        or type(branch_meta.get("config_version")) is not int
                         or branch_meta.get("config_version") != manifest["config_version"]
                         or not isinstance(branch_meta.get("step_run_id"), str)
                         or not branch_meta["step_run_id"].strip()):
@@ -200,15 +245,20 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
                 if not isinstance(raw_doc, dict):
                     note("EXTRACT_BRANCH_RAW_NOT_OBJECT", kind, "ERROR")
                     continue
-                for field, expected in (("case_id", manifest["case_id"]),
-                                        ("job_id", op_job),
-                                        ("step_run_id", branch_meta["step_run_id"])):
-                    if field in raw_doc and raw_doc[field] != expected:
-                        note("EXTRACT_BRANCH_RAW_IDENTITY_MISMATCH:" + field,
-                             kind, "ERROR")
+                if not raw_identity_matches(raw_doc, branch_meta, kind):
+                    continue
                 if "document" in raw_doc:
                     docs = [raw_doc["document"]]
                     error = None
+                elif (raw_doc.get("document_type") == kind
+                      and not any(key in raw_doc for key in (
+                          "documents", "content", "output", "input",
+                          "normalized_documents",
+                      ))):
+                    # Observed Studio Extract ZIP members are bare document
+                    # objects. Read them as-is; do not manufacture a wrapper
+                    # or provider metadata or mutate their original bytes.
+                    docs, error = [raw_doc], None
                 else:
                     docs, error, _, _ = _read_documents(raw_doc, qa_side=False)
                 if (error is not None or not isinstance(docs, list)
@@ -267,6 +317,7 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
             continue
         if (stage in OPERATIONAL and (
                 meta.get("config_id") != manifest["config_id"]
+                or type(meta.get("config_version")) is not int
                 or meta.get("config_version") != manifest["config_version"])):
             note("OPERATIONAL_STAGE_CONFIG_MISMATCH", stage, "ERROR")
             continue
@@ -282,12 +333,8 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         if not isinstance(parsed, dict):
             note("STAGE_ROOT_NOT_OBJECT", stage, "ERROR")
             continue
-        for field, expected in (
-            ("case_id", manifest["case_id"]), ("job_id", job),
-            ("step_run_id", step_id),
-        ):
-            if field in parsed and parsed[field] != expected:
-                note("RAW_STAGE_IDENTITY_CONFLICT:" + field, stage, "ERROR")
+        if not raw_identity_matches(parsed, meta, stage):
+            continue
         if stage == "IndependentQA_Report":
             observation["qa_report_status"] = parsed.get("qa_status", "UNKNOWN")
             observation["status"] = "LOCAL_RAW_PARSED"

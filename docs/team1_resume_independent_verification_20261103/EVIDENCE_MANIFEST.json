@@ -953,5 +953,105 @@
   ],
   "new_jobs_executed": 0,
   "release_authorized": false,
-  "official_accuracy": "NOT_MEASURED"
+  "official_accuracy": "NOT_MEASURED",
+  "hardening_session": {
+    "source_base_sha": "fdc00f963eec991033904a9675bcdc23a9f7142c",
+    "execution_type": "LOCAL_REGRESSION_AND_READONLY_EXISTING_CONFIG",
+    "source_files": [
+      {
+        "file_path": "hardening_results/red.xml",
+        "sha256": "b8eaf97b9945511cf6242f6ad0c30d54bfee0501b92ac58cc4a452443e181ba2",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/red.log",
+        "sha256": "c440947fac005c8fb2f0f0e95fc30694ae731fa41cf990d1ea488b5795309363",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/green.xml",
+        "sha256": "040902b1891e9a5310a9beca9f8e4658c666e57387dc6e7d09110a3ea1e11f0e",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/green.log",
+        "sha256": "2425da4d43a196dfede765697f8e516461dac65a6cf449d3434245412a3758d1",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/full-final.xml",
+        "sha256": "9286c1e68d754de12b63500da08a2827efd533f71bf577307312c413163ff31b",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/full-final.log",
+        "sha256": "b65720bbbb3d924d36542a19ca9390bf080f84510a7d95355c042a6da03c8597",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/qa-final.xml",
+        "sha256": "4a4a2853928152064eedd187ea8c5f9e1f95d40332aa6c68a6e961a74c03d7f4",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/qa-final.log",
+        "sha256": "4535a335098e516e05318f75e33df68687730c07ea2f6b50b41b01b927ccbc79",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/integration-full-final.xml",
+        "sha256": "59198aecea1d5c1c944401f85bd9fc5cb37a8c40bd771d2722fdc6a415321ae5",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/integration-full-final.log",
+        "sha256": "663cf3297f265c9b4e3b1f64322b11825f53e827517a5537416e5c396138443a",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/integration-qa-final.xml",
+        "sha256": "4e9126c7928b16a043773588ec5771a0801167211962013db5f9c31306acfec1",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/integration-qa-final.log",
+        "sha256": "6635960df51bb31c3a7c0927ec485e93ea5c2835fbebe1aaaff4ac3dd7a22cd8",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      },
+      {
+        "file_path": "hardening_results/cross_agent_business_audit.json",
+        "sha256": "d4dc10b52f01f5e38c3b89621839073ce4bef9dff301540824a42af7083eb01f",
+        "validation_status": "AVAILABLE_PRIVATE",
+        "evidence_type": "LOCAL_VALIDATION_LOG"
+      }
+    ],
+    "current_studio_config": {
+      "identity": {
+        "workflowId": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+        "workflowName": "LeadTime Guardian — B0·E1 격리 실험",
+        "configId": "cfg_bXh7dAFikuFp3rajaSWGgb",
+        "configVer": 2
+      },
+      "sha256": "1fedbb71410ca4447296299517b63c7c28a7e5d5fa04724cfb8e142f3cfed380",
+      "workflow_unchanged": true,
+      "static_normalize_to_qa_edge_present": true,
+      "root_cause": "NOT_ESTABLISHED; saved edge/prompt and QA self-report do not reveal actual evaluated input.",
+      "actual_qa_input_available": false
+    },
+    "actual_qa_input_available": false,
+    "new_studio_runs": 0,
+    "native_release_status": "BLOCKED"
+  }
 }

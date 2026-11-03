@@ -1,61 +1,45 @@
-# Team 1 체크포인트 재개 및 독립 보완 검증 — 2026-11-03
+# Team1 Full E2E 계약 수정·회귀 검증 — 2026-11-03
 
-전체 Release는 **BLOCKED**다. 체크포인트 복원과 가능한 로컬 작업을 완료했으며, 신규 Studio 실행·공식 비교 성능을 주장하지 않는다.
+**실제 로컬 결함 3개를 수정했다. 전체 Native E2E와 Release는 BLOCKED다.** PR26 고정 HEAD `fdc00f963eec991033904a9675bcdc23a9f7142c`에서 별도 브랜치 `feat/team1-e2e-contract-hardening-20261103-r3`로 작업했다. 기존 PR25/26 및 동결 통합은 수정하지 않았다.
 
-## 복원 결과와 작업 관계
+## 해결한 결함
 
-- 체크포인트 `checkpoint/team1-e2e-resume-20261103` / `8b671d4a67cd649b08c4e6603a457f607342c3d7`와 Draft PR #24를 확인했다. 당시 QUEUED였던 Independent QA run `41610223172`는 현재 completed/SUCCESS다.
-- 원격 recursive Git tree와 로컬 bytes를 비교해 체크포인트 363파일, 고정 통합 기준 336파일을 복원했다. Git tree `a7d1e7449735fd7965db25f66a01118edf985832`와 실제 checkpoint commit object SHA까지 재구성해 로컬 HEAD를 검증했다. 기존 private snapshot 원본·로그 143개 SHA는 전부 일치했다.
-- 일반 Git clone은 인증 정보가 없어 실패했다. 연결된 GitHub 접근으로 원격 SHA를 조회하고 보존된 로컬 bytes를 Git Blob SHA로 검증해 복원했다. 인증 토큰을 출력하지 않았다.
-- 저장 시점에 동일 체크포인트에서 이어진 Draft PR #25를 발견했다. 해당 HEAD `6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a`는 도구 2개와 경계 테스트 4개를 포함한다. CI `41614855340` completed/SUCCESS를 확인했다. 이 도구를 그대로 받아 Git tree `ef6d9db5ef6f65c1b7f41970ad103514aba9cd23`와 일치시킨 후 실제 검증했다. 중복 CLI를 새로 제출하지 않았다.
-- 이 브랜치는 PR #25의 코드를 수정하지 않고 독립 검증·시연 매뉴얼·증거 인덱스만 보완한다. PR #24/#25를 대체하거나 close하지 않는다. 신규 필수 운영 코드 결함은 발견하지 않았다.
+1. Stage 검사기가 Native의 metadata/additional_values 안 Job·Step·Config 정체성을 놓쳤다. 같은 문서 값과 정상처럼 작성된 Manifest만 있으면 다른 Job 원본으로 Python Safety 검증을 진행할 수 있었다. 이제 관찰된 내부 정체성과 타입을 대조하고, 충돌을 FAIL로 판정해 Python을 실행하지 않는다. Config version true를1로 인정하지 않는다. 정상적인 별도 QA Job은 계속 허용한다.
+2. 보존된 실제 Extract ZIP은 문서 객체를 바로 출력하지만 기존 검사기는 document/documents wrapper만 읽었다. 원본 bytes를 바꾸지 않고 명시된 Extract branch의 올바른 종류·문서 ID만 받아들인다. 누락된 provider Step ID나 QA 입력을 만들지는 않는다.
+3. 출처 연결 API에 중첩 File ID 배열을 넣으면 TypeError가 발생했다. set 비교 전에 ID 타입·file_ suffix·중복을 검사해 구조화된 FAIL을 반환한다.
 
-## 실제 수행 결과
+첫 재현은 **5 FAIL /36 PASS**, 수정·양성 경계 검증 후 관련 **44 PASS**다. 추가 회귀 테스트는 총8개이며 테스트 개수 자체를 목표로 늘리지 않았다. 원본 Evidence·Gold·계산 엔진·Adapter·shared strict_json·워크플로우는 변경하지 않았다.
 
-| Task | 판정 | 이번에 확인·완료한 범위 | 남은 부분 |
+## 이전 상태와 현재 상태
+
+| 항목 | 이전 상태 | 현재 상태 | 실제 변경·검증 근거 |
 | --- | --- | --- | --- |
-| A | BLOCKED | 이전 미확보 v2 Normalize를 실제로 다운로드·SHA 검증. C001 한 Native에 PDF3종/3 File ID가 묶임을 확인 | QA 실제 Input, raw Merge, provider 단계 trace/receipt 및 동일 바이트 연결 |
-| B | BLOCKED | B0 보고 실행과 unassigned v2의 Config/Job/Native/QA를 대조하고 두 출력을 로컬 재생 | 인증된 4조합 0/4, E1 alias 미인증, 공식 정확도/개선율 NOT_MEASURED |
-| C | PASS_LOCAL | 정확한 40행 전부 required/null/숫자 옵션/프롬프트/관찰/재현/위험/담당 분류. 추가 경계 probe16개 안전 차단 | Provider nullable 런타임, 미관찰 other/missing-value 분기 |
-| D | PASS_LOCAL | 기존 C001 Preflight 재사용, invalid_inputs=[]/BLOCKED, release_authorized=false. C013은 Combined 사용 | Live E2E 승인 범위는 계속 BLOCKED |
-| E | PASS_LOCAL | PR25 CLI로 C001/C013 및 C008/C017 실행, 팀원이 재현할 시연·평가 매뉴얼 작성 | 한국어 PDF→날짜 실제 추출 및 공식 Gold 평가 미측정 |
-| F | PASS_LOCAL | 정확한 5경로 patch를 격리 통합 기준에 적용·검증, 812/544 및 기존778 ID 보존, 나머지334 base blob 보존 | 통합 담당자의 원격 반영 및 외부 E2E/Grounding/Gold |
+| Task A | BLOCKED | BLOCKED | 현재 Studio v2 설정 unchanged. bare Extract 입력 호환 및 내부 실행 ID 검증 수정. 실제 QA Input/trace/receipt는 없음 |
+| Task B | BLOCKED | BLOCKED | 공식4조합은 여전히0/4. v2를 E1으로 추정하지 않음 |
+| Task C | PASS_LOCAL | PASS_LOCAL | 기존40행 정적 검토 유지, 실제 Normalize 문서6개 schema PASS. nullable provider 동작 미인증 |
+| Task D | PASS_LOCAL | PASS_LOCAL | 잘못된 내부 Job/Step은 Python 전 FAIL. 실제 누락 증거 Preflight는 invalid_inputs=[]/BLOCKED |
+| Task E | PASS_LOCAL | PASS_REPLAY | C001 독립 날짜·Decimal 계산60개/60,500원과 Engine 일치. C013 PO1/PO999 보존 후 차단 |
+| Task F | PASS_LOCAL | PASS_LOCAL | 개인762/513, 격리 통합820/552, 기존754/812 및 최초778ID 보존 |
+| Full E2E | BLOCKED | BLOCKED | 로컬 Stage→Combined→Python 경로는 검증. 실제 QA 입력과 provider 체인은 확보 못함 |
+| Overall Release | BLOCKED | BLOCKED | 공식 B0/E1, Team2 본인 same-Native Sidecar, 사람 승인Gold 미확보 |
 
-## Native 증거의 의미
+## 검증 수치와 범위
 
-신규 회수한 원본은 과거 Job `job_RpJUGhdMWSH6iww476BjFJ`의 Config v2 Normalize다. SHA256 `6223e5ce21e39da70bd62c4c0a2a3d9641b30fa2bb9de04f5e276d8551156eca`. Agent/Config/Job/Step/File ID는 `NATIVE_RECOVERY_REPORT.json`에 있다. 이 원본은 신규 실행이 아니라 저장 결과 회수다.
+- 전체 **762 PASS**, QA **513 PASS**, 실패·스킵0.
+- E2E 관련 **119 PASS**는 Stage/Combined/contract/provenance7파일 subset이다. 이전86은5파일 subset이므로33개 신규 테스트로 해석하면 안 된다.
+- 고정 통합 기준+기존5경로 patch+이번5파일 선택 수정은 **820 PASS / QA552 PASS**. 원래812 전부와 최초778ID가 유지됐다. 통합에만 있던 테스트를 개인 테스트 파일로 덮어쓰지 않고 추가8개만 결합했다.
+- Ruff, C001 Archive/Replay, C013 차단, Local Gate 통과. Local Gate의 전체 Release 상태는 BLOCKED다. PDF bytes는 변경하지 않았고 이전60/60 기계 검사를 이번 신규 검사로 재집계하지 않는다.
+- 현재 저장 Studio Config를 읽기 전용으로 다시 export했다. cfg_bXh7dAFikuFp3rajaSWGgb/v2이며 workflowConfig는 기존과 동일하다. Normalize→QA edge와 QA 프롬프트는 존재하나 실제 입력 bytes를 증명하지 못한다. NORMALIZED_OUTPUT_NOT_PROVIDED의 provider 내부 원인은 여전히 미확정이다.
+- Native 결과를 새 실행으로 표시하거나 QA 출력을 입력으로 바꾸지 않았다. 무료·유료를 포함한 신규 Studio 실행은0회다.
 
-Native 한 개에 purchase_order/delivery_notice/quotation과 서로 다른 File ID 3개가 존재한다. 같은 Job QA와 source rows도 일치한다. 그러나 QA는 `NORMALIZED_OUTPUT_NOT_PROVIDED`를 보고하고, 실제 QA 입력 bytes는 없다. 저장 config에는 Normalize→QA edge가 있으나 그것만으로 실제 평가 입력을 인증하지 않는다. 결과 패널은 출력 preview/JSON을 제공하며 실제 input/raw Merge export는 관찰하지 못했다. 접근 차단 오류나 provider 런타임 원인을 추측하지 않는다.
+## 독립 계산과 출처
 
-기존 v4 C001/C013, 보고된 B0 C001, unassigned v2 C001을 모두 별도 식별했다. 해당 Native의 로컬 계산은 C001 부족60/60,500원, C013 경고·PO1/PO999 보존 후 BLOCKED다. 로컬 생성 Sidecar는 원본 Native SHA와 일치하지만 Team2 본인 실행 인계가 아니다. 기존 Config 두 개의 차이는 workflow_name과 numeric-null 옵션 4개 추가이며, 이 차이만으로 E1을 지정하지 않는다.
+C001은 실제 보관 Native의 PO/납기 변경/견적과 trusted base의 고객 수요·재고를 사용했다. 기존 ETA가 고객 납기 이전이면 입고100+재고40으로 baseline 부족0이다. 변경 ETA는 납기 이후라 재고40만 사용해 수요100 대비 부족60이다. 유효 견적의 capacity60, 단가1000.00, 사용한 견적당 운송비500으로 Decimal 계산60×1000+500=60,500원이다. 기대 결과 문자열을 비교하는 것 외에 원본 값으로 독립 검산했다. PDF 의미 진실성이나 Gold 승인으로 확대하지 않는다.
 
-## Schema 판정
+기존 실제 Normalize 원본 한 단계만 제공한 Stage intake는 해당 원본을 읽되 QA Input과 나머지 단계가 없어 BLOCKED를 반환한다. 로컬 생성 Sidecar를 Team2 본인 원본 인계로 승인하지 않는다. Cross-Agent/비즈니스 보고서는 CROSS_AGENT_AND_BUSINESS_VALIDATION.json, 결함·재현·수정은 DEFECT_FIX_REGISTER.json, 명령·XML/SHA는 VALIDATION_REPORT.json과 private 로그를 참조한다.
 
-기존 PR25 도구의 선언 기준은 36 POTENTIAL_CONFLICT / 4 NOT_VERIFIED다. 이 보완 검토는 같은40 pointer의 실제 관찰 경로를 13 POTENTIAL_CONFLICT / 16 INTENDED_TRANSFORMATION / 11 NOT_VERIFIED로 구분했다. 두 라벨을 각 JSON 행에 함께 기록했다.
+## 저장·후속 작업
 
-16개는 non-quotation의 빈 quote[]에 child row가 없는 의도된 경로에 한정된다. 다른 실행의 미래 null 경로를 안전하다고 승인하지 않는다. other10개와 숫자옵션이 있는 quotation.capacity1개는 실제 동작 미확정이다. 실제 null branch Native 실패 확인은0건이다. 설정·스키마·Gold를 수정하지 않았으며 40개 일괄 nullable patch를 적용하지 않았다.
+기존 PR25/26/main, 원본 저장소, Team2·3 운영 코드·Gold 및 원격 통합 브랜치는 보호했다. 이 문서는 커밋 전 경계 기록이며 최종 HEAD·Push·신규 CI 결과는 PR 본문과 전달물 POST_PUSH_ATTESTATION.json이 권위 있는 후속 기록이다.
 
-## 이번 세션 검증
-
-| 검사 | 결과 | 기준 |
-| --- | --- | --- |
-| 체크포인트 전체/QA | 750 / 501 PASS | PR25 적용 전 원본 기준 |
-| PR25 고정 도구 포함 전체/QA | 754 / 505 PASS | 원래750 + PR25 기존4, 이 보완에서 추가 테스트0 |
-| Team1 E2E/contract/provenance | 86 PASS | 5개 파일 subset, 전체와 합산하지 않음 |
-| 격리 통합 전체/QA | 812 / 544 PASS | 고정 통합 + 보존5경로; PR25 도구3파일은 미포함 |
-| 기존 통합 test ID | 778/778 보존 | 누락0 |
-| Ruff | PASS | 개인 PR25 소스와 격리 통합 각각 |
-| C001 Archive/Replay | PASS_LOCAL | 보관자료 재생, 신규 Live 아님 |
-| C001/C013 시연 | PASS_LOCAL | C001 COMPLETED; C013 SAFELY_BLOCKED_LOCAL |
-| C008/C017 시연 | PASS_LOCAL | DRAFT fixtures, C017 PDF 파싱 미측정 |
-| PDF 원본 기계 inventory | 60/60 PASS | 사람 검수·Gold 승인 아님 |
-| Local Integration Gate | PASS_LOCAL | overall_status=BLOCKED |
-| Native Studio QA·B0/E1 공식 비교 | BLOCKED | 실제 Input/trace/receipt/Gold 누락 |
-
-원본 XML·로그·Native는 private 전달물에 보존한다. 위 수치는 이번에 실제 실행한 결과이며 과거 체크포인트 수치를 새 실행으로 재표기하지 않는다. 신규 커밋/CI는 이 문서의 커밋 이전 경계 이후에 생기므로 최종 PR 본문과 전달 ZIP의 `POST_PUSH_ATTESTATION.json`을 참조한다.
-
-## 보호와 다음 단계
-
-원본 저장소, 개인 main/PR19/20/21/23/24/25, 통합 main/PR2와 Team2/Team3 운영 source/data/Gold는 쓰지 않았다. 새로운 개인 보완 브랜치만 사용한다. 통합 실험은 로컬 격리 디렉터리에서 수행했고 원격 통합 push/merge/force push는0회다.
-
-다음 우선순위는 실제 QA Input·provider trace/receipt 확보 → 별칭과 4조합 연결 → Team2 동일 Native 실행/Sidecar와 사람 승인 Gold → 기존 자동 검증기로 Release 재평가다. 세부 요구와 담당은 `NEXT_ACTIONS.md`, 재현은 `DEMO_MANUAL.md`, 파일 SHA와 누락항목은 `EVIDENCE_MANIFEST.json`에 있다.
+다음 개발 우선순위3개: (1) 실제 QA Input·raw Merge·provider trace/receipt 확보 후 동일성 검증, (2) 공식 B0/E1×C001/C013 네 묶음 인증, (3) Team2 동일 Native 본인 실행 Sidecar와 사람 승인Gold를 연결해 기존 Release Gate 재평가. 이 외부 증거 없이 Release를 승인하지 않는다.

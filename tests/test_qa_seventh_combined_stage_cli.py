@@ -137,3 +137,23 @@ def test_normalize_same_document_values_different_array_order_stays_blocked(tmp_
     assert out["python_safety_status"] == "PASS_LOCAL"
     assert out["stage_intake_status"] == "BLOCKED"
     assert out["release_or_merge_authorized"] is False
+
+
+def test_embedded_other_job_fails_before_safety_engine(tmp_path):
+    path = create_manifest(tmp_path)
+    manifest = json.loads(path.read_text())
+    source = tmp_path / "normalized.json"
+    data = json.loads(source.read_text())
+    native = {"content": json.dumps({"documents": data["documents"]}),
+              "metadata": {"job_execution_id": "job_UNRELATED",
+                           "step_run_id": "synthetic_normalize_step"}}
+    raw = json.dumps(native).encode()
+    source.write_bytes(raw)
+    manifest["stages"]["NormalizeDocuments"]["sha256"] = hashlib.sha256(raw).hexdigest()
+    path.write_text(json.dumps(manifest))
+    proc, out = run(path)
+    assert proc.returncode == 1, proc.stderr
+    assert out["status"] == "FAIL"
+    assert out["python_safety_status"] == "NOT_RUN"
+    assert "python_summary" not in out
+    assert out["release_or_merge_authorized"] is False

@@ -1,0 +1,84 @@
+{
+  "status": "PASS_LOCAL",
+  "base_sha": "fdc00f963eec991033904a9675bcdc23a9f7142c",
+  "confirmed_local_defects_fixed": 3,
+  "new_regressions": 8,
+  "red": {
+    "passed": 36,
+    "failed": 5,
+    "errors": 0,
+    "skipped": 0,
+    "xml": "hardening_results/red.xml",
+    "xml_sha256": "b8eaf97b9945511cf6242f6ad0c30d54bfee0501b92ac58cc4a452443e181ba2",
+    "log": "hardening_results/red.log"
+  },
+  "green": {
+    "passed": 44,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "xml": "hardening_results/green.xml",
+    "xml_sha256": "040902b1891e9a5310a9beca9f8e4658c666e57387dc6e7d09110a3ea1e11f0e",
+    "log": "hardening_results/green.log"
+  },
+  "fixes": [
+    {
+      "id": "T1-E2E-01",
+      "problem": "Stage intake ignored provider identity inside Native metadata/additional_values and equated boolean config version with integer1.",
+      "reproduced": "Different embedded Job reached Python Safety via Combined CLI despite an unchanged document payload; incomplete bundle was BLOCKED rather than rejecting the known mismatch.",
+      "fix": "Compare observed root/metadata/additional_values identities with strict types; exclude conflicting stages before content joins; retain old issue codes for existing root conflicts.",
+      "after": "FAIL and python_safety_status=NOT_RUN; legal separate QA Job remains allowed.",
+      "tests": [
+        "test_native_envelope_identity_cannot_be_rebound_by_manifest",
+        "test_embedded_metadata_config_version_does_not_equate_true_to_one",
+        "test_embedded_other_job_fails_before_safety_engine",
+        "test_correct_native_metadata_retains_legal_separate_qa_job",
+        "test_embedded_additional_values_wrong_step_cannot_be_manifest_rebound",
+        "test_boolean_stage_config_binding_is_rejected_even_without_embedded_metadata"
+      ]
+    },
+    {
+      "id": "T1-E2E-02",
+      "problem": "Stage intake accepted wrapped Extract fixtures but rejected the actual retained Extract ZIP bare-document shape.",
+      "reproduced": "Three bare document branches produced FAIL with no accepted Extract document_count.",
+      "fix": "Accept a bare document only inside its explicitly bound Extract branch with the expected kind and existing ID/cardinality checks. Do not rewrite source bytes or infer provider metadata.",
+      "after": "Bare branches can be parsed locally; full live attestation stays false and missing identity/stages still block.",
+      "tests": [
+        "test_observed_bare_extract_export_shape_is_read_without_rewriting_bytes"
+      ]
+    },
+    {
+      "id": "T1-E2E-03",
+      "problem": "Provenance API used set() on arbitrary input_file_ids and raised TypeError on nested lists.",
+      "reproduced": "TypeError: unhashable type: list",
+      "fix": "Validate string/nonempty file_ IDs and uniqueness before set comparison; reject empty receipt IDs.",
+      "after": "Structured FAIL with QA_PDF_SOURCE_ID_MISMATCH; no API exception or release authorization.",
+      "tests": [
+        "test_nested_source_file_ids_return_structured_failure_not_typeerror"
+      ]
+    }
+  ],
+  "unresolved_native_root_cause": "Actual QA input absent; NORMALIZED_OUTPUT_NOT_PROVIDED does not identify provider context behavior by itself.",
+  "source_files": [
+    {
+      "path": "src/leadtime_guardian/qa/provenance_link.py",
+      "sha256": "c583692a906fb7a658509b6627df78ac59ae517f961f3db0f01d130b18740e50"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/stage_trace.py",
+      "sha256": "6d86ba085ac0fcc28023cc945d91ba41ff5d7f3f7c1a2dc23b63b5a81f59fbc5"
+    },
+    {
+      "path": "tests/test_qa_provenance_link.py",
+      "sha256": "26e3ff6c408599f9041696023aed9749f3ef40eca8e985616f04ac671422890e"
+    },
+    {
+      "path": "tests/test_qa_seventh_combined_stage_cli.py",
+      "sha256": "5156203f8eca33dd2fca85a553c678028d9080ec1153730d95517fdd5c9e6b71"
+    },
+    {
+      "path": "tests/test_qa_stage_trace.py",
+      "sha256": "12a8166b3714aa62443c28e0081cfc466eb2c016c1480c35f609e70a2ea7a310"
+    }
+  ]
+}

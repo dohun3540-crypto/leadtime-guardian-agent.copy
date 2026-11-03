@@ -1,99 +1,161 @@
 {
   "status": "PASS_LOCAL",
   "python": "3.12.14",
-  "checkpoint_sha": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
-  "adopted_pr25_code_sha": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+  "source_base_sha": "fdc00f963eec991033904a9675bcdc23a9f7142c",
+  "previous_checkpoint": {
+    "full": 754,
+    "qa": 505,
+    "e2e_selected_files": 86,
+    "isolated_integration_full": 812,
+    "isolated_integration_qa": 544
+  },
   "current_session": {
-    "personal-full": {
-      "passed": 750,
-      "failed": 0,
+    "red": {
+      "passed": 36,
+      "failed": 5,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/personal-full.xml",
-      "xml_sha256": "d94b48a4b969059d8ebc66011d8309f754b7d6c84d1a0a1512a3f946e72029a1"
+      "xml": "hardening_results/red.xml",
+      "xml_sha256": "b8eaf97b9945511cf6242f6ad0c30d54bfee0501b92ac58cc4a452443e181ba2",
+      "log": "hardening_results/red.log"
     },
-    "personal-qa": {
-      "passed": 501,
+    "green": {
+      "passed": 44,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/personal-qa.xml",
-      "xml_sha256": "9d8545686d51363c4a61313639f1b9a4d50fa6d7cce659d25beb0cd02c262c69"
+      "xml": "hardening_results/green.xml",
+      "xml_sha256": "040902b1891e9a5310a9beca9f8e4658c666e57387dc6e7d09110a3ea1e11f0e",
+      "log": "hardening_results/green.log"
     },
-    "adopted-full": {
-      "passed": 754,
+    "full-final": {
+      "passed": 762,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/adopted-full.xml",
-      "xml_sha256": "82da4661927982349419a9067a73c9071109ab18caeb3df246b5789934f9445d"
+      "xml": "hardening_results/full-final.xml",
+      "xml_sha256": "9286c1e68d754de12b63500da08a2827efd533f71bf577307312c413163ff31b",
+      "log": "hardening_results/full-final.log"
     },
-    "adopted-qa": {
-      "passed": 505,
+    "qa-final": {
+      "passed": 513,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/adopted-qa.xml",
-      "xml_sha256": "4b9d19ec555e9da63e4872190c3c7872859921097678b5500befde5c680c5f27"
+      "xml": "hardening_results/qa-final.xml",
+      "xml_sha256": "4a4a2853928152064eedd187ea8c5f9e1f95d40332aa6c68a6e961a74c03d7f4",
+      "log": "hardening_results/qa-final.log"
     },
-    "team1-e2e": {
-      "passed": 86,
+    "e2e": {
+      "passed": 119,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/team1-e2e.xml",
-      "xml_sha256": "4d5004ac069d950191195c046d37d62a30608ffd54b9705d5930396f2323a194"
+      "xml": "hardening_results/e2e.xml",
+      "xml_sha256": "8aa4ce71d5cb1c7dd94f263451c0f7d8ec2c2ebecf93869ca07daa1981fc41fc",
+      "log": "hardening_results/e2e.log"
     },
-    "overlay-full": {
-      "passed": 812,
+    "integration-full-final": {
+      "passed": 820,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/overlay-full.xml",
-      "xml_sha256": "351d175b68083cb62e7030b7908c654441a6c0dc4adce9a774fd9e8de7577809"
+      "xml": "hardening_results/integration-full-final.xml",
+      "xml_sha256": "59198aecea1d5c1c944401f85bd9fc5cb37a8c40bd771d2722fdc6a415321ae5",
+      "log": "hardening_results/integration-full-final.log"
     },
-    "overlay-qa": {
-      "passed": 544,
+    "integration-qa-final": {
+      "passed": 552,
       "failed": 0,
       "errors": 0,
       "skipped": 0,
-      "xml": "results/overlay-qa.xml",
-      "xml_sha256": "459a3e7420d2af2be466c4e91c5b7ded0ad8f606eb8b08369aeca711ab3d4224"
+      "xml": "hardening_results/integration-qa-final.xml",
+      "xml_sha256": "4e9126c7928b16a043773588ec5771a0801167211962013db5f9c31306acfec1",
+      "log": "hardening_results/integration-qa-final.log"
     }
   },
+  "test_id_preservation": {
+    "personal_original_754": 754,
+    "overlay_original_812": 812,
+    "integration_original_778": 778,
+    "missing_ids": []
+  },
   "scope_notes": {
-    "personal-full": "750 on original checkpoint tree before adopting existing PR25 tools",
-    "adopted-full": "754 on verified existing PR25 code, original750 plus its4 tests; no new tests by this supplemental review",
-    "team1-e2e": "86 tests across five E2E/contract/provenance files on unchanged checkpoint core",
-    "overlay-full": "812 on isolated integration base67b9329 plus exact preserved5-path patch; PR25 tools not included",
-    "qa_subsets": "Not additive to full counts",
-    "schema_safety_probes": "16 synthetic local mutations, excluded from pytest count, all safely blocked"
+    "e2e": "119 tests in seven explicit Stage/Combined/contract/provenance test files; previous86 selected only five files. Scope expanded, not33 newly added tests.",
+    "new_pytest_regressions": 8,
+    "full": "762 = preserved754 +8 new regressions. QA513 is a subset, not additional762 tests.",
+    "integration": "820 = preserved812 +8 regressions. Existing integration tests were appended to, not overwritten by personal test files.",
+    "native": "No fresh provider execution. Archived Normalize/QA original bytes tested only at the local boundary."
   },
-  "ruff": {
-    "adopted": "PASS",
-    "isolated_overlay": "PASS"
-  },
-  "archive": "PASS_LOCAL",
-  "archive_replay": "PASS_LOCAL",
+  "ruff": "PASS on personal and isolated integration",
+  "archive": "PASS_REPLAY",
+  "C001": "PASS_REPLAY independent shortage60/cost60500",
+  "C013": "PASS_REPLAY safely BLOCKED",
   "local_integration_gate": "PASS_LOCAL; overall BLOCKED",
   "preflight": {
     "status": "BLOCKED",
-    "invalid_inputs": [],
-    "release_authorized": false
+    "invalid_inputs": []
   },
-  "pdf_inventory": {
-    "status": "PASS_MACHINE_ONLY",
-    "passed": 60,
-    "human_approved": false
-  },
-  "studio_native_e2e": "BLOCKED",
-  "B0_E1_formal": "BLOCKED_0_OF_4",
+  "current_config": "Fresh readonly v2 export workflowConfig equals saved v2",
+  "source_files_changed": [
+    "src/leadtime_guardian/qa/provenance_link.py",
+    "src/leadtime_guardian/qa/stage_trace.py",
+    "tests/test_qa_provenance_link.py",
+    "tests/test_qa_seventh_combined_stage_cli.py",
+    "tests/test_qa_stage_trace.py"
+  ],
+  "preserved_other_integration_blobs": 329,
+  "gold_approval": false,
   "official_metrics": "NOT_MEASURED",
   "new_studio_jobs": 0,
   "release_authorized": false,
-  "ci": {
-    "checkpoint_41610223172": "SUCCESS observed",
-    "existing_pr25_41614855340": "SUCCESS observed",
-    "new_supplemental_head": "NOT_MEASURED_BEFORE_COMMIT; post-push attestation follows"
+  "new_head_ci": "NOT_MEASURED_BEFORE_COMMIT; final attestation/PR is authoritative",
+  "commands": {
+    "full-final": {
+      "cwd": "personal",
+      "command": "PYTHONPATH=src python3 -m pytest -q --junitxml=../hardening_results/full-final.xml"
+    },
+    "qa-final": {
+      "cwd": "personal",
+      "command": "PYTHONPATH=src python3 -m pytest -q tests/test_qa_*.py --junitxml=../hardening_results/qa-final.xml"
+    },
+    "e2e": {
+      "cwd": "personal",
+      "command": "PYTHONPATH=src python3 -m pytest -q tests/test_qa_parallel_e2e_bundle.py tests/test_qa_combined_e2e_cli.py tests/test_qa_full_offline_e2e.py tests/test_qa_studio_contract.py tests/test_qa_provenance_link.py tests/test_qa_stage_trace.py tests/test_qa_seventh_combined_stage_cli.py --junitxml=../hardening_results/e2e.xml"
+    },
+    "integration-full-final": {
+      "cwd": "integration_hardening",
+      "command": "PYTHONPATH=src python3 -m pytest -q --junitxml=../hardening_results/integration-full-final.xml"
+    },
+    "integration-qa-final": {
+      "cwd": "integration_hardening",
+      "command": "PYTHONPATH=src python3 -m pytest -q tests/test_qa_*.py --junitxml=../hardening_results/integration-qa-final.xml"
+    },
+    "ruff": {
+      "cwd": "personal and integration_hardening",
+      "command": "python3 -m ruff check ."
+    },
+    "archive": {
+      "cwd": "personal",
+      "command": "python3 scripts/qa_archive_check.py --root ."
+    },
+    "demo": {
+      "cwd": "personal",
+      "command": "python3 scripts/team1_replay_demo.py --evidence-root ../evidence --out ../hardening_results/demo --include-drafts"
+    },
+    "gate": {
+      "cwd": "personal and integration_hardening",
+      "command": "python3 scripts/qa_gate_check.py --root ."
+    },
+    "preflight": {
+      "cwd": "personal",
+      "command": "python3 scripts/team1_e2e_preflight.py --manifest ../evidence/verification_v2/LOCAL_ONLY_C001_EVIDENCE_INPUT.json --json-report ../hardening_results/preflight.json",
+      "expected_exit": 2
+    },
+    "independent_math_and_native_intake": {
+      "cwd": "workspace root",
+      "command": "python3 run_hardening_business_audit.py",
+      "scope": "Offline helper retained in private delivery"
+    }
   }
 }
