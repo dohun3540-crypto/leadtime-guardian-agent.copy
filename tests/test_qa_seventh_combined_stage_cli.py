@@ -157,3 +157,22 @@ def test_embedded_other_job_fails_before_safety_engine(tmp_path):
     assert out["python_safety_status"] == "NOT_RUN"
     assert "python_summary" not in out
     assert out["release_or_merge_authorized"] is False
+
+
+def test_nested_native_identity_conflict_fails_before_python(tmp_path):
+    path = create_manifest(tmp_path)
+    manifest = json.loads(path.read_text())
+    source = tmp_path / 'normalized.json'
+    parsed = json.loads(source.read_text())
+    inner = {'content': json.dumps({'documents': parsed['documents']}),
+             'metadata': {'job_execution_id': 'job_UNRELATED',
+                          'step_run_id': 'synthetic_normalize_step'}}
+    payload = json.dumps({'output': inner}).encode()
+    source.write_bytes(payload)
+    manifest['stages']['NormalizeDocuments']['sha256'] = hashlib.sha256(payload).hexdigest()
+    path.write_text(json.dumps(manifest))
+    proc, out = run(path)
+    assert proc.returncode == 1, proc.stderr
+    assert out['status'] == 'FAIL'
+    assert out['python_safety_status'] == 'NOT_RUN'
+    assert 'python_summary' not in out

@@ -160,3 +160,13 @@ def test_nested_source_file_ids_return_structured_failure_not_typeerror(tmp_path
     assert result["qa_status"] == "FAIL"
     assert "QA_PDF_SOURCE_ID_MISMATCH" in issue_codes(result)
     assert result["cross_agent_release_authorized"] is False
+
+
+def test_invalid_receipt_source_ids_return_structured_failure(tmp_path):
+    for bad_id in (["file_QA"], {"id": "file_QA"}):
+        handoff, sidecar, qa, op = fixture(tmp_path)
+        qa['files'][0]['file_id'] = bad_id
+        result = audit_team2_provenance_link(handoff, sidecar, qa, op, pdf_root=tmp_path)
+        assert result['qa_status'] == 'FAIL'
+        assert 'INVALID_PDF_SOURCE_ID' in issue_codes(result)
+        assert result['cross_agent_release_authorized'] is False

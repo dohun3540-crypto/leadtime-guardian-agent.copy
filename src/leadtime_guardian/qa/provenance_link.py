@@ -151,6 +151,8 @@ def audit_team2_provenance_link(
             if (not isinstance(manifest_ids, list)
                     or any(not isinstance(fid, str) or not fid.startswith("file_")
                            or not fid[5:].strip() for fid in manifest_ids)
+                    or any(not isinstance(fid, str) or not fid.startswith("file_")
+                           or not fid[5:].strip() for fid in qa_ids)
                     or len(set(manifest_ids)) != len(manifest_ids)
                     or len(qa_ids) != len(manifest_ids)
                     or set(qa_ids) != set(manifest_ids)):

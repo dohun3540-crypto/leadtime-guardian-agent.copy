@@ -168,21 +168,49 @@ def audit_stage_evidence(manifest: Any, raw_artifacts: dict[str, Any]) -> dict:
         for field in ("config_id", "config_version"):
             if field in binding:
                 expected[field] = binding[field]
-        containers = [("$", parsed)]
+        envelopes = [("$", parsed)]
+        value, path = parsed, "$"
+        document_key = ("normalized_documents"
+                        if stage == "IndependentQA_Input" else "documents")
+        wrappers = (("input", "content") if stage == "IndependentQA_Input"
+                    else ("output", "content"))
+        # Follow only the same bounded, documented payload path as the
+        # document reader. A wrapper must not hide another Native identity.
+        for _ in range(8):
+            if isinstance(value, str):
+                try:
+                    value = load_json_strict(value)
+                except (ValueError, TypeError, UnicodeError, RecursionError):
+                    break  # The document reader reports malformed payloads.
+                if isinstance(value, dict):
+                    envelopes.append((path, value))
+                continue
+            if not isinstance(value, dict) or document_key in value:
+                break
+            forms = [key for key in wrappers if key in value]
+            if len(forms) != 1:
+                break
+            path += "." + forms[0]
+            value = value[forms[0]]
+            if isinstance(value, dict):
+                envelopes.append((path, value))
+        containers = list(envelopes)
         valid = True
-        for name in ("metadata", "additional_values"):
-            if name not in parsed:
-                continue
-            metadata = parsed[name]
-            if not isinstance(metadata, dict):
-                note("RAW_STAGE_METADATA_INVALID:" + name, stage, "ERROR")
-                valid = False
-                continue
-            containers.append((name, metadata))
-            if ("status" in metadata
-                    and metadata["status"] not in ("completed", "COMPLETED")):
-                note("RAW_STAGE_EXECUTION_NOT_COMPLETED:" + name, stage, "ERROR")
-                valid = False
+        for envelope_path, envelope in envelopes:
+            for name in ("metadata", "additional_values"):
+                if name not in envelope:
+                    continue
+                location = name if envelope_path == "$" else envelope_path + "." + name
+                metadata = envelope[name]
+                if not isinstance(metadata, dict):
+                    note("RAW_STAGE_METADATA_INVALID:" + location, stage, "ERROR")
+                    valid = False
+                    continue
+                containers.append((location, metadata))
+                if ("status" in metadata
+                        and metadata["status"] not in ("completed", "COMPLETED")):
+                    note("RAW_STAGE_EXECUTION_NOT_COMPLETED:" + location, stage, "ERROR")
+                    valid = False
         for name, value in containers:
             for field, wanted in expected.items():
                 if field in value and (
