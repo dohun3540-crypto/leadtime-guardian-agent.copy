@@ -1,0 +1,4 @@
+# Downloaded Studio artifacts must retain their original bytes on Windows checkouts.
+configs/studio_native/*.json -text
+data/results/studio_runs/** -text
+data/results/python_safety_v6/** -text

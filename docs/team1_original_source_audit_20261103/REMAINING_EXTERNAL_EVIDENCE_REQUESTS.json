@@ -1,0 +1,97 @@
+{
+  "requests_not_sent": true,
+  "requested_only_after_original_and_copy_audit": true,
+  "items": [
+    {
+      "owner": "Team1 Studio evidence",
+      "case": "C001",
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "files": [
+        "IndependentQA_Input.original.json",
+        "MergeDocuments.original.json",
+        "ProviderStepTrace.original.json",
+        "UploadReceipt.original.json"
+      ],
+      "required_fields": [
+        "case_id",
+        "agent_id",
+        "config_id",
+        "config_version",
+        "job_execution_id",
+        "step_run_id",
+        "input/output_sha256",
+        "source_file_ids",
+        "uploaded_pdf_sha256"
+      ],
+      "reason": "Saved output/meta exists but exact evaluated input and provider chain do not."
+    },
+    {
+      "owner": "Team1 Studio evidence",
+      "case": "C013",
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "files": [
+        "IndependentQA_Input.original.json",
+        "MergeDocuments.original.json",
+        "ProviderStepTrace.original.json",
+        "UploadReceipt.original.json"
+      ],
+      "required_fields": [
+        "case_id",
+        "job_execution_id",
+        "step_run_id",
+        "config_id/version",
+        "source_file_ids",
+        "original_pdf_sha256"
+      ],
+      "reason": "Same missing live chain; do not reuse C001 or another Job."
+    },
+    {
+      "owner": "Team2",
+      "case": "C001/C013 current target Native",
+      "job_ids": [
+        "job_DkzsPqVpfBkXLSDvScbdgC",
+        "job_aq9eWmd23vb4G6DySyF5sF"
+      ],
+      "files": [
+        "analysis.json",
+        "provenance.json",
+        "run_metadata.json"
+      ],
+      "required_fields": [
+        "export_sha256",
+        "studio_metadata_supplied",
+        "business_validation_status"
+      ],
+      "reason": "Do NOT request historical job_gPmEYKzuJdBA6BmKhVnujs replay again; both originals were recovered. Current target raw SHA differs."
+    },
+    {
+      "owner": "Team3 human reviewer",
+      "case": "C001-C020",
+      "job_id": null,
+      "files": [
+        "human_review.original.xlsx",
+        "gold_approval.original.json"
+      ],
+      "required_fields": [
+        "reviewer",
+        "reviewed_at",
+        "decision",
+        "gold_sha256",
+        "source_pdf_sha256",
+        "gold_version"
+      ],
+      "reason": "20 DRAFT inputs and empty review forms available; no approval record in original branch or PR reviews/comments."
+    }
+  ],
+  "B0_E1_alias_registry_required": {
+    "combinations": [
+      "B0-C001",
+      "B0-C013",
+      "E1-C001",
+      "E1-C013"
+    ],
+    "current_v2_job": "job_RpJUGhdMWSH6iww476BjFJ",
+    "alias": "UNASSIGNED",
+    "missing": "authentic alias/config/job map and four complete bundles"
+  }
+}

@@ -1,3 +1,5 @@
+> 최신 후속 감사: [원본 통합·독립 자기회귀 보고서](../team1_original_source_audit_20261103/REPORT.md). 아래는 PR27 당시 기록으로 보존한다.
+
 # Team1 Full E2E 계약 수정·회귀 검증 — 2026-11-03
 
 **실제 로컬 결함 3개를 수정했다. 전체 Native E2E와 Release는 BLOCKED다.** PR26 고정 HEAD `fdc00f963eec991033904a9675bcdc23a9f7142c`에서 별도 브랜치 `feat/team1-e2e-contract-hardening-20261103-r3`로 작업했다. 기존 PR25/26 및 동결 통합은 수정하지 않았다.

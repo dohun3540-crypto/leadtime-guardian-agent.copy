@@ -1,0 +1,813 @@
+{
+  "source_base_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+  "source_files": [
+    {
+      "path": "src/leadtime_guardian/qa/stage_trace.py",
+      "sha256": "1e4acc291cb480d7d23cd7ccde9d3e2d7a5e0ddb9b798039b437d0e069ee2ce4"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/provenance_link.py",
+      "sha256": "0a9febf90dbe7aaaa40c758a04745197262983b48989e8ada9b7065dab4f09f7"
+    }
+  ],
+  "new_fixed_defects": [
+    {
+      "id": "NESTED_NATIVE_IDENTITY",
+      "reproduction": "Additional output/content wrapper hid another Job ID from Stage intake and let Combined invoke Python.",
+      "red": "1 FAILED",
+      "fix": "Inspect identity along only the same bounded documented wrapper path as document parsing.",
+      "regression": "test_nested_native_identity_conflict_fails_before_python"
+    },
+    {
+      "id": "RECEIPT_FILE_ID_EXCEPTION",
+      "reproduction": "Receipt file_id nested list/object passed through invalid-receipt parsing into set(qa_ids), raising TypeError.",
+      "red": "1 FAILED",
+      "fix": "Validate receipt-side File IDs before hash/set comparisons as well as manifest-side IDs.",
+      "regression": "test_invalid_receipt_source_ids_return_structured_failure"
+    }
+  ],
+  "test_execution": {
+    "baseline-full": {
+      "passed": 762,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/baseline-full.xml",
+      "xml_sha256": "002ce83bfd48b0d2e26748bb5bac53560e42ce050f390275bb8143eab2c6b77b",
+      "log": "self_audit_results/baseline-full.log"
+    },
+    "nested-red": {
+      "passed": 0,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/nested-red.xml",
+      "xml_sha256": "42b12a5eb08c19a207c0286086ea0acc05da2906b5f566051c14a7988db0dc95",
+      "log": "self_audit_results/nested-red.log"
+    },
+    "receipt-red": {
+      "passed": 0,
+      "failed": 1,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/receipt-red.xml",
+      "xml_sha256": "a54adc9e3d7041f920b164ea004302ea0bca2cd063f4c8a5175519dfd811a614",
+      "log": "self_audit_results/receipt-red.log"
+    },
+    "adversarial-green": {
+      "passed": 52,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/adversarial-green.xml",
+      "xml_sha256": "2e5453dcae5e76800a41cc5e69caf596fce741efb365b176c5b0a5cdfcc3a673",
+      "log": "self_audit_results/adversarial-green.log"
+    },
+    "full-final": {
+      "passed": 770,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/full-final.xml",
+      "xml_sha256": "56dcaa3a2c806a2f71f07949f49f61db071391402bda88900f9f014f78654dce",
+      "log": "self_audit_results/full-final.log"
+    },
+    "qa-final": {
+      "passed": 521,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/qa-final.xml",
+      "xml_sha256": "42bf123ba49f4569f05a8e54343dd66d7ec1b8f9864cf6263972a6fa01c498ed",
+      "log": "self_audit_results/qa-final.log"
+    },
+    "integration-full-final": {
+      "passed": 828,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/integration-full-final.xml",
+      "xml_sha256": "4aabbdbd5b4a33505ca4036fc2a68efc0e46e4b6e1e94e781d1ae73a09c3c693",
+      "log": "self_audit_results/integration-full-final.log"
+    },
+    "integration-qa-final": {
+      "passed": 560,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/integration-qa-final.xml",
+      "xml_sha256": "cd17d5b61b2a294f9ebbf8d618270319b7ecc668b2823e935ae4890ea022c555",
+      "log": "self_audit_results/integration-qa-final.log"
+    },
+    "e2e-final": {
+      "passed": 127,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "self_audit_results/e2e-final.xml",
+      "xml_sha256": "48a7248b02070f02fb4f4d8c9521037756c7dad7d18178ed1bd9b2f7f5cc2dc1",
+      "log": "self_audit_results/e2e-final.log"
+    }
+  },
+  "mutation_testing": {
+    "scope": "FIVE_TARGETED_OPERATORS_ONLY_NOT_GLOBAL_MUTATION_COVERAGE",
+    "results": [
+      {
+        "mutation": "disable_identity",
+        "source_path": "src/leadtime_guardian/qa/stage_trace.py",
+        "mutated_sha256": "7ce04f79d10e417d03e6784167c3ec38d79fec92e5093070b4ce00365e9c473e",
+        "existing_test_source_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+        "verdict": "KILLED",
+        "exit_code": 1,
+        "failures": 4,
+        "errors": 0,
+        "failed_test_ids": [
+          "tests.test_qa_stage_trace::test_native_envelope_identity_cannot_be_rebound_by_manifest",
+          "tests.test_qa_stage_trace::test_embedded_metadata_config_version_does_not_equate_true_to_one",
+          "tests.test_qa_stage_trace::test_embedded_additional_values_wrong_step_cannot_be_manifest_rebound",
+          "tests.test_qa_seventh_combined_stage_cli::test_embedded_other_job_fails_before_safety_engine"
+        ],
+        "log": "self_audit_results/mutations/disable_identity.log"
+      },
+      {
+        "mutation": "relax_config_type",
+        "source_path": "src/leadtime_guardian/qa/stage_trace.py",
+        "mutated_sha256": "28a5bd16c2d347c0906dd4ab03bdd317f04e091e9ab8878ec0d9f2d8f528dc99",
+        "existing_test_source_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+        "verdict": "KILLED",
+        "exit_code": 1,
+        "failures": 1,
+        "errors": 0,
+        "failed_test_ids": [
+          "tests.test_qa_stage_trace::test_boolean_stage_config_binding_is_rejected_even_without_embedded_metadata"
+        ],
+        "log": "self_audit_results/mutations/relax_config_type.log"
+      },
+      {
+        "mutation": "bypass_live_evidence",
+        "source_path": "scripts/qa_combined_e2e_check.py",
+        "mutated_sha256": "3aca7813e02c2955f4c15b5b378868d0d62f8078eeb5066c189f3d5c43d055cf",
+        "existing_test_source_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+        "verdict": "KILLED",
+        "exit_code": 1,
+        "failures": 2,
+        "errors": 0,
+        "failed_test_ids": [
+          "tests.test_qa_ninth_live_preflight::test_new_live_without_stage_manifest_never_executes_python",
+          "tests.test_qa_ninth_live_preflight::test_new_live_partial_receipt_set_is_not_silently_accepted"
+        ],
+        "log": "self_audit_results/mutations/bypass_live_evidence.log"
+      },
+      {
+        "mutation": "fail_to_pass",
+        "source_path": "src/leadtime_guardian/qa/stage_trace.py",
+        "mutated_sha256": "63c92e7142abc34c8bf88616abebe8a7425d143c89883662235beaeb8164cc53",
+        "existing_test_source_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+        "verdict": "KILLED",
+        "exit_code": 1,
+        "failures": 15,
+        "errors": 0,
+        "failed_test_ids": [
+          "tests.test_qa_stage_trace::test_cross_job_native_mixing_fails_even_with_matching_values",
+          "tests.test_qa_stage_trace::test_modified_raw_sha_fails_without_coercion",
+          "tests.test_qa_stage_trace::test_strict_duplicate_json_keys_are_not_silently_accepted",
+          "tests.test_qa_stage_trace::test_qa_raw_mismatch_fails_but_different_qa_job_is_allowed",
+          "tests.test_qa_stage_trace::test_mixed_operational_extract_branches_are_rejected",
+          "tests.test_qa_stage_trace::test_false_quantity_is_not_equal_to_numeric_zero_in_qa_input",
+          "tests.test_qa_stage_trace::test_unknown_stage_and_unknown_extract_branch_fail_closed",
+          "tests.test_qa_stage_trace::test_duplicate_job_and_step_run_identity_fails",
+          "tests.test_qa_stage_trace::test_qa_input_report_mixed_sandbox_jobs_fails",
+          "tests.test_qa_stage_trace::test_native_envelope_identity_cannot_be_rebound_by_manifest",
+          "tests.test_qa_stage_trace::test_embedded_metadata_config_version_does_not_equate_true_to_one",
+          "tests.test_qa_stage_trace::test_embedded_additional_values_wrong_step_cannot_be_manifest_rebound",
+          "tests.test_qa_stage_trace::test_boolean_stage_config_binding_is_rejected_even_without_embedded_metadata",
+          "tests.test_qa_seventh_combined_stage_cli::test_bad_stage_sha_is_rejected_before_python_safety_execution",
+          "tests.test_qa_seventh_combined_stage_cli::test_embedded_other_job_fails_before_safety_engine"
+        ],
+        "log": "self_audit_results/mutations/fail_to_pass.log"
+      },
+      {
+        "mutation": "remove_python_block",
+        "source_path": "scripts/qa_combined_e2e_check.py",
+        "mutated_sha256": "4ce464aadb92d2fb4083748321a678f7dd70b63af2f9c5ba3d8f4f5d32e0ebd8",
+        "existing_test_source_sha": "b73dd0159d55a0c771115b83c19ebf1dc9ac330b",
+        "verdict": "KILLED",
+        "exit_code": 1,
+        "failures": 5,
+        "errors": 0,
+        "failed_test_ids": [
+          "tests.test_qa_seventh_combined_stage_cli::test_raw_normalize_diff_from_archived_native_fails",
+          "tests.test_qa_seventh_combined_stage_cli::test_cross_job_stage_manifest_cannot_bind_existing_operational_job",
+          "tests.test_qa_seventh_combined_stage_cli::test_bad_stage_sha_is_rejected_before_python_safety_execution",
+          "tests.test_qa_seventh_combined_stage_cli::test_stage_job_mismatch_is_rejected_before_python_execution",
+          "tests.test_qa_seventh_combined_stage_cli::test_embedded_other_job_fails_before_safety_engine"
+        ],
+        "log": "self_audit_results/mutations/remove_python_block.log"
+      }
+    ],
+    "killed": 5,
+    "survived": 0,
+    "inconclusive": 0,
+    "unmutated_control": {
+      "exit_code": 0,
+      "passed": 47,
+      "test_source": "PR27 existing corpus",
+      "scope": "Same disposable pre-receipt-fix source snapshot with mutation disabled"
+    }
+  },
+  "metamorphic_seed": 20261103,
+  "metamorphic_scope": {
+    "permutations": 24,
+    "identity_paths": 36,
+    "malformed_file_id_positions": 21,
+    "business_boundaries": 9,
+    "determinism_and_input_immutability": true,
+    "minimal_failure_inputs_preserved_in_tests": true
+  },
+  "test_reliability": "Five targeted operators killed by PR27 existing tests; not global mutation adequacy. Two additional counterexamples escaped the old corpus and now have regression coverage.",
+  "new_regression_tests": 8,
+  "original_test_ids_preserved": {
+    "personal": 762,
+    "previous_integration": 820,
+    "original_frozen_integration": 778
+  },
+  "historical_team2_replay": [
+    {
+      "source_original_branch": "codex/teammate-python-safety-v6",
+      "source_original_sha": "e9b9992b593a42d427ff1bbadeb9a9866ca593bd",
+      "path": "source_audit/imports/team2/data/results/python_safety_v6/C001_v4_replay",
+      "classification": "TEAM2_AUTHORED_REPLAY_OF_HISTORICAL_NATIVE_NOT_NEW_RUN",
+      "job_id": "job_gPmEYKzuJdBA6BmKhVnujs",
+      "native_sha256": "88387f8d6aee1421c9f628304c6b91811396b32da297d41b40e3d53c3d98dfea",
+      "sidecar_sha256": "4fba758e1100455ac8180f80c9ce7e3a7ed081d8b99ef42905aa0edd498a6c6c",
+      "sidecar_binds_original_native": true,
+      "regenerated_local_analysis_matches_team2_original": true,
+      "regenerated_local_sidecar_matches_team2_original": true,
+      "missing_latest_v4_run_native_match": false,
+      "latest_v4_native_sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "legacy_run_metadata_config_label": "cfg_SZi6qfyZ6XFoNszpXQK5xQ",
+      "label_semantics": "Config ID string, not an integer provider version; preserve unchanged",
+      "cost": "60500.00",
+      "shortage": 60,
+      "status": "PASS_REPLAY",
+      "release_authorized": false
+    },
+    {
+      "source_original_branch": "codex/teammate-python-safety-v6",
+      "source_original_sha": "e9b9992b593a42d427ff1bbadeb9a9866ca593bd",
+      "path": "source_audit/imports/team2/data/results/python_safety_v6/C001_v4_replay_20261031",
+      "classification": "TEAM2_AUTHORED_REPLAY_OF_HISTORICAL_NATIVE_NOT_NEW_RUN",
+      "job_id": "job_gPmEYKzuJdBA6BmKhVnujs",
+      "native_sha256": "88387f8d6aee1421c9f628304c6b91811396b32da297d41b40e3d53c3d98dfea",
+      "sidecar_sha256": "4fba758e1100455ac8180f80c9ce7e3a7ed081d8b99ef42905aa0edd498a6c6c",
+      "sidecar_binds_original_native": true,
+      "regenerated_local_analysis_matches_team2_original": true,
+      "regenerated_local_sidecar_matches_team2_original": true,
+      "missing_latest_v4_run_native_match": false,
+      "latest_v4_native_sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "legacy_run_metadata_config_label": "cfg_SZi6qfyZ6XFoNszpXQK5xQ",
+      "label_semantics": "Config ID string, not an integer provider version; preserve unchanged",
+      "cost": "60500.00",
+      "shortage": 60,
+      "status": "PASS_REPLAY",
+      "release_authorized": false
+    }
+  ],
+  "synthetic_case_summary": {
+    "COMPLETED": 14,
+    "BLOCKED": 6
+  },
+  "case_details": [
+    {
+      "case_id": "SYN-C001",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "bcf7c693ecb731ade75691aab33194b4b443bd51947e5ec2675cd06bba41aede",
+      "trusted_base_sha256": "601f52d293e0e118cd49723660fa6217473186d1000a7d565eadb21c28c6e7cb",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "60500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C002",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "2bd87f49bcefa198f55eda5ee9825ab5d91ac082564f23e54d1711e1b9083ecb",
+      "trusted_base_sha256": "c03403a73ed1e7cf0f4e321864735a1ae717568418619e45a282b030aa55a758",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 0,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C003",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "a3503aadf13a08b8327a9bcaf0f9c65e56ddb08c038aa2f5335070140b3ab3a1",
+      "trusted_base_sha256": "3d4dc5a601b658f9a1052812566d93429d753978e22731365de31a80faf7a33b",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "60500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C004",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "da1d7d21b34c72a72ed1048e0d1221c4e06b4c880cd077797aedf8aea4426d7f",
+      "trusted_base_sha256": "7c277ac64e84d5058c2644f1029db08c55570f5a2f7b3069b452d15ca3f55fa1",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 0,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C005",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "75b830b03a8a8e92f7960e640f371711fe2f5839d82b688948975dc86a52ffc1",
+      "trusted_base_sha256": "8d5d8881354032416b04371d7fa9b5a09e3c31f2411ee35768967a96c16b898c",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 0,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C006",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "48d4f3fd96f04a44ef10244e2efcaf639af6ac97d7da738ce0e8760875817194",
+      "trusted_base_sha256": "56e788123bc1352c6d4689d81db19b0aef92ca7d13916e7bea9ef5f7b7854ec0",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 0,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C007",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "e3a1716f4c5326fcd1a832c16df9a77345282ecd3e5febde047a0cfb840c5a59",
+      "trusted_base_sha256": "66202744097b853a0106f4a21b9dfeda129f6eac0fa604fc1cd23e794bfd87bc",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 20,
+      "cost": "20500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C008",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "a95fa5a96b7e0ca7e838b100fd25a8739c333efa92d03474e78668f0f5214104",
+      "trusted_base_sha256": "a182ab28de95a76e9c5ad58c83833ae4470b93226af81d9399d59d1db98cd5cb",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 40,
+      "cost": "40500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C009",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "02f41f9a1c7436211b55028d4ec694dd4afef4a81f59d90d0e8d0630b8b7f8d1",
+      "trusted_base_sha256": "3dcabe686cf4c42543e0399c22e5b875dead89909a3bcb24ef181e24d9191135",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 80,
+      "cost": "60500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C010",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "41e4957d611012ddbc3ce48c371ca7526120ae624a79bf4adfed6a25f0b6d374",
+      "trusted_base_sha256": "f24ff71adf9e1915d3037844050305930e88ab259586ad518fd156cb6296c78b",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C011",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "7fd841f4329e8edee12c1463f6c6f72b6da017c01c40e99010ecbd89f66b2b30",
+      "trusted_base_sha256": "99d017deeb639aa23b6c8500180b0deddcef0414dccff7f8579171d9518a1550",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "20500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C012",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "3213f63e2a5745b5125a9505331c7560ac73d67f469ae36140eee783cf753c53",
+      "trusted_base_sha256": "bcfa9298a0f27965a9dd2864bb06a7992af3531f5dcde2e577bd3b6fa57ef84c",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "72500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C013",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "5464e28b6c7e140c28f7e413c19352a326007470254a7da64ff4f8012327953a",
+      "trusted_base_sha256": "77ab8033048aae289cae19416823f25586e115945c7a86be04a64ba8df3ef225",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:ambiguous/unknown receipt: C013-NOTICE"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C014",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "2381f6d1a8d5a3d3d303e961f7541ab52afab19f5d36d72333c97f1826d61850",
+      "trusted_base_sha256": "17200b43100cd2806e792ec3ec0ca3f39aa14f431fc3d67dede74705610f71a3",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:delivery_notice: revised_delivery missing/invalid"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C015",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "5ea5d207dda8d717214d615be1992c8354b480f36032be97257c70d97bf0882e",
+      "trusted_base_sha256": "14b2f4bad232693eabca3e93f0c94b351ad02143aee52d210aadd94cac2f4675",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:quantity: nonnegative integer required"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C016",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "43dbff8e4447e5331612b715270de8aea46425764a8af941fabaa9a15a614e87",
+      "trusted_base_sha256": "4498e6621e30bcaf862f5167265ca59707d97c12293154867d4b9bde5ae76330",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:ambiguous/unknown receipt: C016-NOTICE"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C017",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "3d854133c3755cdfb960f181ec5dbf7996f398c3c90cb57938c58e98fb707b0d",
+      "trusted_base_sha256": "86fd5f779ed07fe5d6b814e18f776fe77318758723cc9259d35867a0af6db2fe",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "60500.00",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C018",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "a645073211523e5ca848efb6830c42ea42a2ffdcfc7294137767608a030f0ed6",
+      "trusted_base_sha256": "e49a93434647a190b294821dbf50d05f69f70d14c403c09b9e239eed1ac3b7ad",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:ambiguous/unknown receipt: C018-NOTICE"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C019",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "de668508b3a480c20da778643020a2666caca413ee9035c12c4e089434d2b9ee",
+      "trusted_base_sha256": "90a65394edad7e55e61d9e02271e1e7d14edf101a52e16bd523affce1f0f01b0",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "COMPLETED",
+      "changed_shortage": 60,
+      "cost": "0",
+      "review_flags": [],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    },
+    {
+      "case_id": "SYN-C020",
+      "classification": "SYNTHETIC_DRAFT_LOCAL_REGRESSION_NOT_HUMAN_GOLD",
+      "original_data_reused": true,
+      "draft_sha256": "3a28ceabcbdeb148960856338efabf9ad41a5147d1398bb3ea9ace5c74bef95f",
+      "trusted_base_sha256": "b4d65609f4873393fac835e7aad3ab3ede60bec34ae750993358501ac3c06549",
+      "pdfs_in_original_manifest": 3,
+      "human_approved": false,
+      "execution_status": "BLOCKED",
+      "changed_shortage": null,
+      "cost": null,
+      "review_flags": [
+        "STUDIO_BOUNDARY:document requires review: C020-NOTICE"
+      ],
+      "source_unmodified": true,
+      "official_accuracy_eligible": false
+    }
+  ],
+  "source_config_v5": {
+    "identity": {
+      "workflowId": "agt_bXRXFSAgFmBayPjZF7VqRQ",
+      "workflowName": "LeadTime Guardian - B+C3 V1",
+      "configId": "cfg_o645qH9hDUgVnkrjw7Vets",
+      "configVer": 5
+    },
+    "sha256": "890e3a9c5fa6dfa05d4df04a7c9b1ab82b1b984baf4a382c406b2ffce7d747e3",
+    "receipt_matches_original_bytes": true,
+    "classification": "USER_SUPPLIED_CONFIG_NOT_EXECUTION_OR_UPLOAD_RECEIPT"
+  },
+  "pdf_machine_inventory": {
+    "passed": 60,
+    "regenerated": 0,
+    "human_approval": false
+  },
+  "source_integrity": {
+    "original_fetched_blobs_exact": 63,
+    "private_data_configs_exact": 12,
+    "cross_platform_hash_check": {
+      "verified": 12,
+      "files": [
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay/normalized_documents.json",
+          "git_blob_sha": "af90a4d3be04e116527f0a18894716733fccf23d",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay/provenance.json",
+          "git_blob_sha": "a41647cf261ce41a9c8d295ee25f1934e1306a25",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay/studio_original.json",
+          "git_blob_sha": "7cf288739302e4579d4be50e1fc5ef39c72ec695",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay/run_metadata.json",
+          "git_blob_sha": "4aad3ad63901454d07d920de82bb2c2d85110958",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay/analysis.json",
+          "git_blob_sha": "4ae6cf3bf0a5f226fb89f14e6be191686cf839d4",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay_20261031/normalized_documents.json",
+          "git_blob_sha": "af90a4d3be04e116527f0a18894716733fccf23d",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay_20261031/provenance.json",
+          "git_blob_sha": "a41647cf261ce41a9c8d295ee25f1934e1306a25",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay_20261031/studio_original.json",
+          "git_blob_sha": "7cf288739302e4579d4be50e1fc5ef39c72ec695",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay_20261031/run_metadata.json",
+          "git_blob_sha": "6d0927fc43de3f246b5f9be81a2e741f9647bff5",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "data/results/python_safety_v6/C001_v4_replay_20261031/analysis.json",
+          "git_blob_sha": "4ae6cf3bf0a5f226fb89f14e6be191686cf839d4",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "configs/studio_native/config_v5.user-supplied.export.json",
+          "git_blob_sha": "6241f67d742f452ab09a06cee4a7f1a84485b9e5",
+          "autocrlf_true_hash_preserved": true
+        },
+        {
+          "path": "configs/studio_native/config_v5.receipt.json",
+          "git_blob_sha": "fd1157d45061fd50e1a5af7ed74b8c32cfc73203",
+          "autocrlf_true_hash_preserved": true
+        }
+      ]
+    }
+  },
+  "functional_correctness": "PASS_REPLAY/PASS_LOCAL for scoped C001/C013 and C001-C020 DRAFT boundaries",
+  "evidence_correctness": "Historical C001 raw/Team2 replay digest link confirmed; current C001/C013 QA input/provider chain NOT_AUTHENTICATED",
+  "stage_matrix": [
+    {
+      "stage": "PDF",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "60 originals hash-verified"
+    },
+    {
+      "stage": "Parse",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Saved C001 archive reused"
+    },
+    {
+      "stage": "Classify",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Saved C001 archive reused"
+    },
+    {
+      "stage": "Extract",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Real original ZIP bare shape parsed locally; no new Step IDs invented"
+    },
+    {
+      "stage": "Merge",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Native merge metadata present; raw Merge absent"
+    },
+    {
+      "stage": "Normalize",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Saved Native available"
+    },
+    {
+      "stage": "IndependentQA_Input",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Missing actual input"
+    },
+    {
+      "stage": "IndependentQA_Output",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Saved outputs separate; not input proof"
+    },
+    {
+      "stage": "Python Adapter/Safety",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "Team2 historical replay result and Sidecar reproduce exactly"
+    },
+    {
+      "stage": "Release Gate",
+      "current_target_status": "BLOCKED_MISSING_AUTHENTICATED_STAGE_OR_HANDOFF",
+      "historical_C001_scope": "BLOCKED"
+    }
+  ],
+  "rates": {
+    "local_checklist_before_ci": {
+      "passed": 9,
+      "total": 10,
+      "percent": 90,
+      "remaining": "New exact-head CI; final post-push attestation supersedes this precommit boundary"
+    },
+    "native_full_chain_target_cases": {
+      "completed": 0,
+      "total": 2,
+      "percent": 0
+    },
+    "official_B0_E1": {
+      "completed": 0,
+      "total": 4,
+      "percent": 0
+    },
+    "approved_human_gold": 0,
+    "overall_release": "BLOCKED",
+    "project_global_percent": "NOT_DEFINED_NO_AGREED_DENOMINATOR"
+  },
+  "task_matrix": [
+    {
+      "task": "A",
+      "previous": "BLOCKED",
+      "current": "BLOCKED",
+      "evidence": "No actual QA Input/raw Merge/provider receipts in original/copy branch inventories or saved packages"
+    },
+    {
+      "task": "B",
+      "previous": "BLOCKED",
+      "current": "BLOCKED",
+      "evidence": "Official0/4; old replay Job is not unassigned v2 or E1"
+    },
+    {
+      "task": "C",
+      "previous": "PASS_LOCAL",
+      "current": "PASS_LOCAL",
+      "evidence": "Existing schema review retained; original data/config contracts checked"
+    },
+    {
+      "task": "D",
+      "previous": "PASS_LOCAL",
+      "current": "PASS_LOCAL",
+      "evidence": "Two further boundary bugs fixed; mutation5/5 and adversarial52 PASS"
+    },
+    {
+      "task": "E",
+      "previous": "PASS_LOCAL",
+      "current": "PASS_REPLAY",
+      "evidence": "Team2 original historical C001 two replay folders reproduce, C013 remains blocked"
+    },
+    {
+      "task": "F",
+      "previous": "PASS_LOCAL",
+      "current": "PASS_LOCAL",
+      "evidence": "770/521 and isolated828/560; all IDs retained"
+    }
+  ],
+  "ci": "NOT_MEASURED_BEFORE_COMMIT; final PR and post-push attestation are authoritative",
+  "new_studio_runs": 0,
+  "gold_approvals": 0,
+  "original_or_frozen_integration_writes": 0,
+  "release_authorized": false,
+  "independent_original_C001_math": {
+    "scope": "INDEPENDENT_DECIMAL_DATE_CALCULATION_FROM_ORIGINAL_TEAM2_NATIVE_AND_TRUSTED_BASE",
+    "demand": 100,
+    "stock": 40,
+    "arrives_before_original": 100,
+    "arrives_before_changed": 0,
+    "baseline_shortage": 0,
+    "changed_shortage": 60,
+    "quote_capacity": 60,
+    "purchase_quantity": 60,
+    "unit_price": "1000.00",
+    "shipping_once": "500",
+    "cost": "60500.00",
+    "matches_engine": true,
+    "human_gold_approved": false
+  }
+}
