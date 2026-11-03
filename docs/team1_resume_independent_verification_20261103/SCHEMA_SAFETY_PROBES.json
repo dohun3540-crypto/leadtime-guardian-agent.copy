@@ -1,0 +1,185 @@
+{
+  "status": "PASS_LOCAL",
+  "probes": [
+    {
+      "probe": "missing_po",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "po_id",
+      "value": null,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:ambiguous/unknown receipt: PO-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "negative_quantity",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.quantity",
+      "value": -1,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:schema: -1 is less than the minimum of 0"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "boolean_quantity",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.quantity",
+      "value": false,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:schema: False is not of type 'integer', 'null'"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "zero_quantity_conflicts_with_trusted",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.quantity",
+      "value": 0,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:document quantity conflicts with inbound: PO-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "bad_original_date",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "original_delivery",
+      "value": "2026-02-30",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:schema: '2026-02-30' is not a 'date'"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "ambiguous_receipt",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.receipt_id",
+      "value": "R999",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:ambiguous/unknown receipt: PO-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "missing_product",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.product_id",
+      "value": null,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:schema: None is not of type 'string'"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "wrong_unit",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "items.0.unit",
+      "value": "KG",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:missing/unsupported unit: PO-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "missing_quote",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote",
+      "value": null,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:missing quote fields: QUOTE-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "bad_currency",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote.currency",
+      "value": "USD",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:unsupported currency: QUOTE-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "negative_price",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote.unit_price",
+      "value": "-1",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:unit_price: finite nonnegative decimal required"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "bad_arrival",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote.arrival_date",
+      "value": "2026-13-01",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:arrival_date: invalid ISO date"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "wrong_capacity",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote.capacity",
+      "value": 61,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:quote product/capacity conflict: QUOTE-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "missing_quote_id",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "quote.quote_id",
+      "value": null,
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:missing quote identifiers: QUOTE-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "review_warning",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "warnings",
+      "value": [
+        "review needed"
+      ],
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:document requires review: PO-DOC"
+      ],
+      "external_action_taken": false
+    },
+    {
+      "probe": "unsupported_other",
+      "provenance": "SYNTHETIC_LOCAL_MUTATION_NOT_NATIVE",
+      "input_field": "document_type",
+      "value": "other",
+      "execution_status": "BLOCKED",
+      "review_flags": [
+        "STUDIO_BOUNDARY:document requires review: PO-DOC"
+      ],
+      "external_action_taken": false
+    }
+  ],
+  "new_pytest_tests": 0,
+  "warning": "16 local boundary probes, not 16 Studio defects or official extraction samples"
+}

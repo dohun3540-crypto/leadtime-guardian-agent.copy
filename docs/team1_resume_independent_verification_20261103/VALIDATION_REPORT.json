@@ -1,0 +1,99 @@
+{
+  "status": "PASS_LOCAL",
+  "python": "3.12.14",
+  "checkpoint_sha": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "adopted_pr25_code_sha": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+  "current_session": {
+    "personal-full": {
+      "passed": 750,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/personal-full.xml",
+      "xml_sha256": "d94b48a4b969059d8ebc66011d8309f754b7d6c84d1a0a1512a3f946e72029a1"
+    },
+    "personal-qa": {
+      "passed": 501,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/personal-qa.xml",
+      "xml_sha256": "9d8545686d51363c4a61313639f1b9a4d50fa6d7cce659d25beb0cd02c262c69"
+    },
+    "adopted-full": {
+      "passed": 754,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/adopted-full.xml",
+      "xml_sha256": "82da4661927982349419a9067a73c9071109ab18caeb3df246b5789934f9445d"
+    },
+    "adopted-qa": {
+      "passed": 505,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/adopted-qa.xml",
+      "xml_sha256": "4b9d19ec555e9da63e4872190c3c7872859921097678b5500befde5c680c5f27"
+    },
+    "team1-e2e": {
+      "passed": 86,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/team1-e2e.xml",
+      "xml_sha256": "4d5004ac069d950191195c046d37d62a30608ffd54b9705d5930396f2323a194"
+    },
+    "overlay-full": {
+      "passed": 812,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/overlay-full.xml",
+      "xml_sha256": "351d175b68083cb62e7030b7908c654441a6c0dc4adce9a774fd9e8de7577809"
+    },
+    "overlay-qa": {
+      "passed": 544,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "xml": "results/overlay-qa.xml",
+      "xml_sha256": "459a3e7420d2af2be466c4e91c5b7ded0ad8f606eb8b08369aeca711ab3d4224"
+    }
+  },
+  "scope_notes": {
+    "personal-full": "750 on original checkpoint tree before adopting existing PR25 tools",
+    "adopted-full": "754 on verified existing PR25 code, original750 plus its4 tests; no new tests by this supplemental review",
+    "team1-e2e": "86 tests across five E2E/contract/provenance files on unchanged checkpoint core",
+    "overlay-full": "812 on isolated integration base67b9329 plus exact preserved5-path patch; PR25 tools not included",
+    "qa_subsets": "Not additive to full counts",
+    "schema_safety_probes": "16 synthetic local mutations, excluded from pytest count, all safely blocked"
+  },
+  "ruff": {
+    "adopted": "PASS",
+    "isolated_overlay": "PASS"
+  },
+  "archive": "PASS_LOCAL",
+  "archive_replay": "PASS_LOCAL",
+  "local_integration_gate": "PASS_LOCAL; overall BLOCKED",
+  "preflight": {
+    "status": "BLOCKED",
+    "invalid_inputs": [],
+    "release_authorized": false
+  },
+  "pdf_inventory": {
+    "status": "PASS_MACHINE_ONLY",
+    "passed": 60,
+    "human_approved": false
+  },
+  "studio_native_e2e": "BLOCKED",
+  "B0_E1_formal": "BLOCKED_0_OF_4",
+  "official_metrics": "NOT_MEASURED",
+  "new_studio_jobs": 0,
+  "release_authorized": false,
+  "ci": {
+    "checkpoint_41610223172": "SUCCESS observed",
+    "existing_pr25_41614855340": "SUCCESS observed",
+    "new_supplemental_head": "NOT_MEASURED_BEFORE_COMMIT; post-push attestation follows"
+  }
+}

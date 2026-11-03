@@ -1,0 +1,66 @@
+{
+  "status": "PASS_LOCAL",
+  "base_repository": "dohun3540-crypto/yuseok_integration",
+  "base_sha": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "source_checkpoint_sha": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "patch_sha256": "fe0dfa9b0dd51ff5024cb3256247c8cdbbc8808d9950813f40a90375ae337524",
+  "selected_paths": [
+    {
+      "path": "scripts/team1_e2e_preflight.py",
+      "operation": "ADDED",
+      "base_blob_sha": null,
+      "overlay_blob_sha": "7968fffbe93be4e67175baa09786dccbe751cdde",
+      "overlay_sha256": "f50e52fee4d3ee7057780175614be4064481a59f242ed7100b993582391d4652",
+      "matches_personal_checkpoint_file": true
+    },
+    {
+      "path": "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+      "operation": "ADDED",
+      "base_blob_sha": null,
+      "overlay_blob_sha": "d6b66339f192f8edbc4d822b6070e13d41caeab5",
+      "overlay_sha256": "9554b0f13eb1fcb0835c9e24cf1e3bb1a6723e57c19b3e03231f39d8e41c515c",
+      "matches_personal_checkpoint_file": true
+    },
+    {
+      "path": "src/leadtime_guardian/qa/studio_contract.py",
+      "operation": "MODIFIED",
+      "base_blob_sha": "08b23233ce12575c1c18f654e3ae296b8efa3e7c",
+      "overlay_blob_sha": "535dfdb1180ee199921564bbdb14db3d332dd214",
+      "overlay_sha256": "6946ed74aa6096dd2b4abaecb8ea42f26549ac8f8ec61fe5ef6544f22ce476ec",
+      "matches_personal_checkpoint_file": true
+    },
+    {
+      "path": "tests/test_qa_parallel_e2e_bundle.py",
+      "operation": "ADDED",
+      "base_blob_sha": null,
+      "overlay_blob_sha": "f5e8d9362be52983f1783890dedc268d6c228d83",
+      "overlay_sha256": "19e56d21fb5f573115f8786c3200e7dfaeb940d5ffb9bde55ac70b15a49828bd",
+      "matches_personal_checkpoint_file": true
+    },
+    {
+      "path": "tests/test_qa_studio_contract.py",
+      "operation": "MODIFIED",
+      "base_blob_sha": "99f40c2e9caa7dccdfc04e96b7180b03cd915feb",
+      "overlay_blob_sha": "024dcf34d3e159b591e5196ac3f1e23817347b22",
+      "overlay_sha256": "7145a6c492880746c09d69c5825b040ef19641cf60eba4e3894b67ffbdbeb5c1",
+      "matches_personal_checkpoint_file": true
+    }
+  ],
+  "untouched_base_blobs_verified": 334,
+  "all_other_base_files_preserved": true,
+  "original_test_ids": 778,
+  "overlay_test_ids": 812,
+  "original_test_ids_preserved": 778,
+  "missing_original_test_ids": [],
+  "remote_integration_written": false,
+  "protected_core": [
+    "strict_json.py",
+    "engine.py",
+    "studio_adapter.py",
+    "qa/audit.py",
+    "qa/input_delivery.py",
+    "data/cases/",
+    "gold/"
+  ],
+  "important": "The 812 overlay is the original five-path checkpoint integration, not the later PR25 two CLI tools/four tests. PR25 local verification is separate. Integration owner must review and push."
+}
