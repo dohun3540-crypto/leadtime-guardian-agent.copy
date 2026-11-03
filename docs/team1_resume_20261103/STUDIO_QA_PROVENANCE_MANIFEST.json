@@ -1,0 +1,460 @@
+{
+  "schema_version": "team1-native-evidence/v1",
+  "observed_at_kst": "2026-11-03T19:00:40.650314+09:00",
+  "new_studio_runs_started": 0,
+  "native_e2e_status": "BLOCKED",
+  "release_authorized": false,
+  "active_ui_agent_id": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+  "v2_ui_observation": {
+    "config_version": 2,
+    "config_id_from_preserved_export": "cfg_bXh7dAFikuFp3rajaSWGgb",
+    "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+    "created_at_ui_kst": "2026-11-01 18:23",
+    "source": "Studio Web",
+    "status": "completed",
+    "pdf_count": 3,
+    "qa_output_verdict": "NOT_VERIFIED",
+    "qa_output_issue": "NORMALIZED_OUTPUT_NOT_PROVIDED",
+    "actual_qa_input_verified": false,
+    "warning": "Current exported config and static edge cannot establish historical input delivery"
+  },
+  "artifacts": [
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/C001_NormalizeDocuments.native.json",
+      "size_bytes": 3493,
+      "sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": "4e66c576-79b8-55b4-82bc-4c73bd20976a",
+      "source_files": [
+        {
+          "file_id": "file_f39UYtCStw6bEyA2xiCdGd",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_bTCPvpTgUJnW27ptpD35WF",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_9hhGkPuetCxieFD8XzvrDi",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/C001_IndependentQA.native.json",
+      "size_bytes": 11605,
+      "sha256": "9b374f8fe8eeb3d50458382c3e6a5ae30cfca886c74419d938235c07f17efb2f",
+      "job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "step_run_id": "210e5946-631f-5d5c-9eeb-ff946e2fa7b0",
+      "source_files": [
+        {
+          "file_id": "file_f39UYtCStw6bEyA2xiCdGd",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_bTCPvpTgUJnW27ptpD35WF",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_9hhGkPuetCxieFD8XzvrDi",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/C013_NormalizeDocuments.native.json",
+      "size_bytes": 3943,
+      "sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb",
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": "549446cb-fc93-5425-8399-88d678c9da25",
+      "source_files": [
+        {
+          "file_id": "file_JZx7ighkx5Cz8zGB2D5Z7H",
+          "file_name": "SYN-C013_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_oRF4oajrEzZnKMcexA6suY",
+          "file_name": "SYN-C013_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_ZbUH3wb6Z7AA5kXu7HfvUL",
+          "file_name": "SYN-C013_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/C013_IndependentQA.native.json",
+      "size_bytes": 10158,
+      "sha256": "53c2e15979bc802a6bf4f8f6b9ee32c97b8cc19da516c3818e7cec7db35555c9",
+      "job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "step_run_id": "376b80b3-95f0-553f-96b4-8d4b70815e78",
+      "source_files": [
+        {
+          "file_id": "file_JZx7ighkx5Cz8zGB2D5Z7H",
+          "file_name": "SYN-C013_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_oRF4oajrEzZnKMcexA6suY",
+          "file_name": "SYN-C013_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_ZbUH3wb6Z7AA5kXu7HfvUL",
+          "file_name": "SYN-C013_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/Config_v1.export.json",
+      "size_bytes": 83763,
+      "sha256": "05efb96f0c236c4f89e56d0cd49a8ab85b9b78a5b46dbfe4025fda84fc1b2c78",
+      "job_id": null,
+      "step_run_id": null,
+      "source_files": null,
+      "config_export_identity": {
+        "workflowId": "agt_oMuHCjkGkVUkyyxjVDJda4",
+        "workflowName": "LeadTime Guardian — v4",
+        "configId": "cfg_mokhkXae6d5U7CfgpL7ffw",
+        "configVer": 1
+      },
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v2/studio_originals/B0E1_agent_Config_v2.export.json",
+      "size_bytes": 80689,
+      "sha256": "a11e13ad73e166b601feabadb6c6eb3a271b5a87cd0590b3c561602d9ddc11b2",
+      "job_id": null,
+      "step_run_id": null,
+      "source_files": null,
+      "config_export_identity": {
+        "workflowId": "agt_NMzLzoiRQz8DZJ4Ymsf8PL",
+        "workflowName": "LeadTime Guardian — B0·E1 격리 실험",
+        "configId": "cfg_bXh7dAFikuFp3rajaSWGgb",
+        "configVer": 2
+      },
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v3/studio_originals/B0_candidate_C001_NormalizeDocuments.native.json",
+      "size_bytes": 3493,
+      "sha256": "9a6c08b147ada532a09965bf772ec62786356df304b08b43e3b96e5439bc800f",
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": "289f5090-2ff0-598b-a648-9bcd6526d25c",
+      "source_files": [
+        {
+          "file_id": "file_KukLWFisyVqpwjGSkY9RKg",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_MyeAybJWxVPhexgPyQmBq8",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_7z5ZnWirnE4JBCzo5HJQZ7",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v3/studio_originals/B0_candidate_C001_IndependentQA.native.json",
+      "size_bytes": 9607,
+      "sha256": "5abb5f38e3b941f26a577272b6050decf8e5aae2bb09f6ff4fd1195b47c6ad3b",
+      "job_id": "job_NCik8shwrgM93PDnNNYukT",
+      "step_run_id": "76e5bbc5-6e6c-596e-9e42-f3a09b1aa9e2",
+      "source_files": [
+        {
+          "file_id": "file_KukLWFisyVqpwjGSkY9RKg",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_MyeAybJWxVPhexgPyQmBq8",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_7z5ZnWirnE4JBCzo5HJQZ7",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v3/studio_originals/B0_candidate_Config_v1.export.json",
+      "size_bytes": 80527,
+      "sha256": "63b3545f6d0708f453b95e0ee9e63229a68403a386ed86d606a2778da6388b12",
+      "job_id": null,
+      "step_run_id": null,
+      "source_files": null,
+      "config_export_identity": {
+        "workflowId": "agt_HdtUJPQPXir9rGKgPWSyZG",
+        "workflowName": "LeadTime Guardian - Independent QA Sandbox (사본)",
+        "configId": "cfg_X2xXakDtmDTHh2RoqVysvL",
+        "configVer": 1
+      },
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "evidence/verification_v3/studio_originals/UNASSIGNED_v2_C001_IndependentQA.native.json",
+      "size_bytes": 11808,
+      "sha256": "020197ad535a4e05ee3355c70df24bb8424076cecf8025b17565d9f0023d7414",
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": "625c93c8-0e6d-55ea-a07f-64b115c8c8e5",
+      "source_files": [
+        {
+          "file_id": "file_auX5V2rs3L6kzJK4eaXCd9",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_aqrdBjqhScb8QR87yXVaTZ",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_BPgsKEaNZov4AksuQGoYCR",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": false,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    },
+    {
+      "path_in_private_package": "new_evidence/studio_originals/UNASSIGNED_v2_C001_NormalizeDocuments.native.json",
+      "size_bytes": 3493,
+      "sha256": "6223e5ce21e39da70bd62c4c0a2a3d9641b30fa2bb9de04f5e276d8551156eca",
+      "job_id": "job_RpJUGhdMWSH6iww476BjFJ",
+      "step_run_id": "224abf17-51e8-5c24-9279-6f25518c9596",
+      "source_files": [
+        {
+          "file_id": "file_auX5V2rs3L6kzJK4eaXCd9",
+          "file_name": "SYN-C001_purchase_order.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_aqrdBjqhScb8QR87yXVaTZ",
+          "file_name": "SYN-C001_delivery_notice.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        {
+          "file_id": "file_BPgsKEaNZov4AksuQGoYCR",
+          "file_name": "SYN-C001_quotation.pdf",
+          "page_ranges": [
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      ],
+      "config_export_identity": null,
+      "raw_native_config_id": null,
+      "raw_native_config_version": null,
+      "newly_retrieved_this_session": true,
+      "new_execution_this_session": false,
+      "source": "PROVIDER_UI_ORIGINAL_DOWNLOAD",
+      "runtime_config_binding": "NOT_ATTESTED_BY_EXPORT_OR_FILENAME"
+    }
+  ],
+  "missing_authenticated_evidence": [
+    "actual IndependentQA input bytes",
+    "raw Merge output with provider step-run joins",
+    "original upload receipts tied to PDF SHA/File IDs",
+    "immutable execution config/prompt binding",
+    "authenticated experiment alias registry",
+    "Team2-authored result+sidecar for identical Native SHA",
+    "human-approved Gold and original reviewed XLSX"
+  ]
+}
