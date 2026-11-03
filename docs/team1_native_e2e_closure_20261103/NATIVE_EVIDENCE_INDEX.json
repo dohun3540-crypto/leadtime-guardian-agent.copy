@@ -1,0 +1,136 @@
+{
+  "base_head": "9225c06b33328b275fcf8c8a6f57b85ccf26ab8e",
+  "branch": "feat/team1-native-e2e-closure-20261103-r5",
+  "fresh_config_export_sha256": "27838d25736c47a9bda98cbe10bdff71725e11bc5252761559f5426cdd123e11",
+  "fresh_config_identity": {
+    "workflowId": "agt_oMuHCjkGkVUkyyxjVDJda4",
+    "workflowName": "LeadTime Guardian — v4",
+    "configId": "cfg_mokhkXae6d5U7CfgpL7ffw",
+    "configVer": 1
+  },
+  "workflow_config_matches_retained_v1": true,
+  "config_export_kind": "studio.workflow-config-draft",
+  "runtime_config_authenticated": false,
+  "original_143_file_snapshot_verified": true,
+  "cases": [
+    {
+      "case_id": "C001",
+      "historical_job_id": "job_DkzsPqVpfBkXLSDvScbdgC",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "normalize_step_run_id": "4e66c576-79b8-55b4-82bc-4c73bd20976a",
+      "qa_step_run_id": "210e5946-631f-5d5c-9eeb-ff946e2fa7b0",
+      "normalize_original_sha256": "c12214d52929549272c1e81594399616c659e022694a95b7ae6605cc134441c7",
+      "qa_native_original_sha256": "9b374f8fe8eeb3d50458382c3e6a5ae30cfca886c74419d938235c07f17efb2f",
+      "qa_report_content_sha256": "19af43916180fcdb9bee275de4b9f51bebebcdeec20fcc66609d081954a05731",
+      "native_pair_local_binding": "PASS_LOCAL",
+      "qa_report_contract": "PASS_LOCAL",
+      "document_qa_status": "NOT_VERIFIED",
+      "cross_agent_status": "BLOCKED",
+      "python_safety_status": "PASS_LOCAL",
+      "python_summary": {
+        "case_id": "SYN-C001",
+        "execution_status": "COMPLETED",
+        "review_flags": [],
+        "baseline_shortage_quantity": 0,
+        "changed_shortage_quantity": 60,
+        "estimated_quote_cost_krw": "60500.00",
+        "evidence_verified_against_pdf": false
+      },
+      "sidecar_authorship": "TEAM1_EXECUTED_UNMODIFIED_TEAM2_ENGINE_LOCAL_REPLAY",
+      "actual_qa_input_present": false,
+      "new_studio_runs": 0,
+      "stage_status": "BLOCKED",
+      "release_preflight_status": "BLOCKED",
+      "missing_inputs": [
+        "human_gold",
+        "operational_pdf_receipt",
+        "qa_pdf_receipt",
+        "stage.Extract",
+        "stage.Extract.delivery_notice",
+        "stage.Extract.purchase_order",
+        "stage.Extract.quotation",
+        "stage.IndependentQA_Input",
+        "stage.MergeDocuments",
+        "team2_provenance"
+      ],
+      "full_native_e2e_status": "BLOCKED",
+      "official_gold_accuracy": "NOT_MEASURED",
+      "runtime_config_authenticated": false,
+      "release_authorized": false
+    },
+    {
+      "case_id": "C013",
+      "historical_job_id": "job_aq9eWmd23vb4G6DySyF5sF",
+      "agent_id": "agt_oMuHCjkGkVUkyyxjVDJda4",
+      "config_id": "cfg_mokhkXae6d5U7CfgpL7ffw",
+      "config_version": 1,
+      "normalize_step_run_id": "549446cb-fc93-5425-8399-88d678c9da25",
+      "qa_step_run_id": "376b80b3-95f0-553f-96b4-8d4b70815e78",
+      "normalize_original_sha256": "6babf817ebb45823d964cef97a938f6c3e32df14a0177dffb6cd6204fdf1d2fb",
+      "qa_native_original_sha256": "53c2e15979bc802a6bf4f8f6b9ee32c97b8cc19da516c3818e7cec7db35555c9",
+      "qa_report_content_sha256": "cfa2dc1d617bb753b1ee05f5604a3973da1f3107842d9daa72f82a916ad97428",
+      "native_pair_local_binding": "PASS_LOCAL",
+      "qa_report_contract": "PASS_LOCAL",
+      "document_qa_status": "NEEDS_REVIEW",
+      "cross_agent_status": "FAIL",
+      "python_safety_status": "SAFELY_BLOCKED_LOCAL",
+      "python_summary": {
+        "case_id": "SYN-C013",
+        "execution_status": "BLOCKED",
+        "review_flags": [
+          "STUDIO_BOUNDARY:document requires review: C013-NOTICE"
+        ],
+        "baseline_shortage_quantity": null,
+        "changed_shortage_quantity": null,
+        "estimated_quote_cost_krw": null,
+        "evidence_verified_against_pdf": false
+      },
+      "sidecar_authorship": "TEAM1_EXECUTED_UNMODIFIED_TEAM2_ENGINE_LOCAL_REPLAY",
+      "actual_qa_input_present": false,
+      "new_studio_runs": 0,
+      "stage_status": "BLOCKED",
+      "release_preflight_status": "BLOCKED",
+      "missing_inputs": [
+        "human_gold",
+        "operational_pdf_receipt",
+        "qa_pdf_receipt",
+        "stage.Extract",
+        "stage.Extract.delivery_notice",
+        "stage.Extract.purchase_order",
+        "stage.Extract.quotation",
+        "stage.IndependentQA_Input",
+        "stage.MergeDocuments",
+        "team2_provenance"
+      ],
+      "full_native_e2e_status": "BLOCKED",
+      "official_gold_accuracy": "NOT_MEASURED",
+      "runtime_config_authenticated": false,
+      "release_authorized": false
+    }
+  ],
+  "c013_provider_pdfs": [
+    {
+      "filename": "SYN-C013_quotation.pdf",
+      "sha256": "590a11d68814d8e35ba1dee1734a71791b703b464dd87f3661fab8ea5bdbd735",
+      "repository_byte_match": true
+    },
+    {
+      "filename": "SYN-C013_purchase_order.pdf",
+      "sha256": "8616adc32f2a12495586c674020011174d2c97812b3bced9638bc91f221ee2d9",
+      "repository_byte_match": true
+    },
+    {
+      "filename": "SYN-C013_delivery_notice.pdf",
+      "sha256": "f4d7446b540c7dd2a50cf566ba47982cc4fcc8ce1230743d8175239eac9d2bfb",
+      "repository_byte_match": true
+    }
+  ],
+  "new_studio_runs": 0,
+  "paid_actions": 0,
+  "formal_comparison_bundles": 0,
+  "approved_human_gold": 0,
+  "ui_observation_scope": "Current Studio Job details and grouped file download; observation is NOT original upload receipt or actual QA input.",
+  "qa_root_cause": "NOT_ESTABLISHED; Normalize output present and QA claim missing normalized output coexist. No input trace proves transport loss versus contextual format recognition."
+}

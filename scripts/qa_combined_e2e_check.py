@@ -116,8 +116,8 @@ def audit_combined_bytes(
         docs = documents_from_export(
             operational, expected_job_id=operational_job_id
         )
-        if case_id == "C001":
-            # C001 is a three-document case, not three independent Job outputs
+        if case_id in ("C001", "C013"):
+            # Each is a three-document case, not three independent Job outputs
             # or a one-document extract paired to a trusted base case.
             expected = {"purchase_order", "delivery_notice", "quotation"}
             source_rows = metadata.get("source_files")
@@ -127,7 +127,7 @@ def audit_combined_bytes(
                     or len(source_rows) != 3
                     or any(not isinstance(x, dict) for x in source_rows)
                     or len({x.get("file_id") for x in source_rows}) != 3):
-                record("C001_NOT_SINGLE_THREE_DOCUMENT_JOB", "operational_native")
+                record(case_id + "_NOT_SINGLE_THREE_DOCUMENT_JOB", "operational_native")
                 return result
             result["single_case_grouping_status"] = "NATIVE_THREE_DOCUMENT_CONTRACT_PASS"
         python_result = analyze_studio_documents(base, docs, schema)
@@ -171,20 +171,29 @@ def audit_combined_bytes(
             result["sha256"]["qa_report"] = hashlib.sha256(
                 qa_report_bytes
             ).hexdigest()
+            original_report = load_json_strict(qa_report_bytes)
+            report_case = original_report.get("case_id") if isinstance(original_report, dict) else None
+            allowed_cases = ((case_id, "SYN-" + case_id)
+                             if case_id in ("C001", "C013") else (case_id,))
+            if report_case not in allowed_cases:
+                raise ValueError("QA report case differs from the explicit operational case")
             manifest = build_studio_raw_handoff(
-                qa_native_bytes, qa_report_bytes, case_id=case_id,
+                qa_native_bytes, qa_report_bytes, case_id=report_case,
                 agent_id=qa_agent_id, config_id=qa_config_id,
                 config_version=qa_config_version,
                 github_sha=github_sha, execution_kind=execution_kind,
             )
-            if case_id == "C001":
+            result["qa_case_binding"] = {
+                "canonical_case_id": case_id, "original_report_case_id": report_case,
+            }
+            if case_id in ("C001", "C013"):
                 qa_raw = load_json_strict(qa_native_bytes)
                 qa_docs = load_json_strict(qa_raw["content"])["documents"]
                 expected = {"purchase_order", "delivery_notice", "quotation"}
                 if (len(qa_docs) != 3
                         or {d.get("document_type") for d in qa_docs} != expected
                         or len(qa_raw["metadata"]["source_files"]) != 3):
-                    record("QA_C001_NATIVE_CASE_INCOMPLETE", "qa_native")
+                    record("QA_" + case_id + "_NATIVE_CASE_INCOMPLETE", "qa_native")
                     return result
             verdict = audit_cross_agent_handoff(
                 manifest, native_bytes=qa_native_bytes,
