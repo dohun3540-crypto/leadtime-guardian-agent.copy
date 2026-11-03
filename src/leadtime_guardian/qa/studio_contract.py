@@ -62,7 +62,7 @@ def audit_native_envelope(
         return report()
     try:
         decoded = load_json_strict(content)
-    except (ValueError, TypeError, UnicodeDecodeError):
+    except (ValueError, TypeError, UnicodeDecodeError, RecursionError):
         fail("INVALID_OR_DUPLICATE_NATIVE_JSON", "content")
         return report()
     if not isinstance(decoded, dict) or set(decoded) != {"documents"}:

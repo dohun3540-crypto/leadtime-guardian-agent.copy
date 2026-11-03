@@ -1,0 +1,8 @@
+{
+  "evidence_matrix_rows": 40,
+  "approval_state_counts": {
+    "PENDING": 40
+  },
+  "candidate_human_reviewed": false,
+  "current_reviewed_xlsx": "NOT_SUPPLIED"
+}

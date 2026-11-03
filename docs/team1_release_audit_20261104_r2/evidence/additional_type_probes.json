@@ -1,0 +1,152 @@
+[
+  {
+    "field": "case_id",
+    "bad": null,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "case_id",
+    "bad": false,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "case_id",
+    "bad": 0,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "case_id",
+    "bad": [],
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "case_id",
+    "bad": {},
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "operational_job_id",
+    "bad": null,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "operational_job_id",
+    "bad": false,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "operational_job_id",
+    "bad": 0,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "operational_job_id",
+    "bad": [],
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "operational_job_id",
+    "bad": {},
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_id",
+    "bad": null,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_id",
+    "bad": false,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_id",
+    "bad": 0,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_id",
+    "bad": [],
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_id",
+    "bad": {},
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_version",
+    "bad": null,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_version",
+    "bad": false,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_version",
+    "bad": 0,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_version",
+    "bad": [],
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "config_version",
+    "bad": {},
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "sources",
+    "bad": null,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "sources",
+    "bad": false,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "sources",
+    "bad": 0,
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "sources",
+    "bad": [],
+    "status": "FAIL",
+    "release_authorized": false
+  },
+  {
+    "field": "sources",
+    "bad": {},
+    "status": "BLOCKED",
+    "release_authorized": false
+  }
+]

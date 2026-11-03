@@ -1,0 +1,84 @@
+{
+  "schema_version": "team1-selective-integration/v1",
+  "protected_personal_parent": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+  "read_only_integration_head": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "source_branch": "feat/team1-final-e2e-release-audit-20261104-r2",
+  "new_head_location": "new Draft PR exact HEAD / delivery CI_ATTESTATION.json",
+  "transfer_order": [
+    "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+    "scripts/team1_e2e_preflight.py",
+    "tests/test_qa_parallel_e2e_bundle.py",
+    "src/leadtime_guardian/qa/studio_contract.py",
+    "tests/test_qa_studio_contract.py"
+  ],
+  "files": [
+    {
+      "path": "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+      "source_parent_commit": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "parent_blob_sha": "d6b66339f192f8edbc4d822b6070e13d41caeab5",
+      "audited_result_blob_sha": "d6b66339f192f8edbc4d822b6070e13d41caeab5",
+      "integrated_existing_blob_sha": null,
+      "operation": "ADD",
+      "source_commit": "new audit Draft PR HEAD for modified files; PR21 HEAD for unchanged files"
+    },
+    {
+      "path": "scripts/team1_e2e_preflight.py",
+      "source_parent_commit": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "parent_blob_sha": "7968fffbe93be4e67175baa09786dccbe751cdde",
+      "audited_result_blob_sha": "7968fffbe93be4e67175baa09786dccbe751cdde",
+      "integrated_existing_blob_sha": null,
+      "operation": "ADD",
+      "source_commit": "new audit Draft PR HEAD for modified files; PR21 HEAD for unchanged files"
+    },
+    {
+      "path": "tests/test_qa_parallel_e2e_bundle.py",
+      "source_parent_commit": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "parent_blob_sha": "1cd238e9973622c6620c925b760731feef47dd07",
+      "audited_result_blob_sha": "f5e8d9362be52983f1783890dedc268d6c228d83",
+      "integrated_existing_blob_sha": null,
+      "operation": "ADD",
+      "source_commit": "new audit Draft PR HEAD for modified files; PR21 HEAD for unchanged files"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/studio_contract.py",
+      "source_parent_commit": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "parent_blob_sha": "08b23233ce12575c1c18f654e3ae296b8efa3e7c",
+      "audited_result_blob_sha": "535dfdb1180ee199921564bbdb14db3d332dd214",
+      "integrated_existing_blob_sha": "08b23233ce12575c1c18f654e3ae296b8efa3e7c",
+      "operation": "MINIMAL_PATCH",
+      "source_commit": "new audit Draft PR HEAD for modified files; PR21 HEAD for unchanged files"
+    },
+    {
+      "path": "tests/test_qa_studio_contract.py",
+      "source_parent_commit": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+      "parent_blob_sha": "99f40c2e9caa7dccdfc04e96b7180b03cd915feb",
+      "audited_result_blob_sha": "024dcf34d3e159b591e5196ac3f1e23817347b22",
+      "integrated_existing_blob_sha": "99f40c2e9caa7dccdfc04e96b7180b03cd915feb",
+      "operation": "MINIMAL_PATCH",
+      "source_commit": "new audit Draft PR HEAD for modified files; PR21 HEAD for unchanged files"
+    }
+  ],
+  "additional_dependencies": [],
+  "imports": [
+    ".audit.load_json_strict",
+    ".release_inventory.audit_release_folder",
+    ".studio_contract.audit_native_envelope",
+    ".experiment_compare.audit_b0_e1_readiness"
+  ],
+  "new_module_paths_absent_at_integration": true,
+  "existing_tests_preserved": 778,
+  "actual_overlay_test_count": 812,
+  "do_not_overwrite": [
+    "src/leadtime_guardian/strict_json.py",
+    "src/leadtime_guardian/qa/audit.py",
+    "src/leadtime_guardian/qa/input_delivery.py",
+    "src/leadtime_guardian/engine.py",
+    "src/leadtime_guardian/studio_adapter.py",
+    "qa/inventory.py",
+    "data/",
+    "qa/gold_candidates/",
+    ".github/workflows/"
+  ],
+  "remote_integration_mutated": false,
+  "official_metrics_eligible": false
+}

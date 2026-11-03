@@ -1,0 +1,202 @@
+[
+  {
+    "path": "Extract_purchase_order.po_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].quote_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].product_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].capacity",
+    "type": "integer",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].arrival_date",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].unit_price",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].shipping_cost",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_purchase_order.quote[].currency",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.po_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].quote_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].product_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].capacity",
+    "type": "integer",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].arrival_date",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].unit_price",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].shipping_cost",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_delivery_notice.quote[].currency",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.po_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].quote_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].product_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].capacity",
+    "type": "integer",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].arrival_date",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].unit_price",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].shipping_cost",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_quotation.quote[].currency",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.po_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].quote_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].supplier_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].product_id",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].capacity",
+    "type": "integer",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].arrival_date",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].unit_price",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].shipping_cost",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  },
+  {
+    "path": "Extract_other.quote[].currency",
+    "type": "string",
+    "scope": "static own-description null contradiction"
+  }
+]

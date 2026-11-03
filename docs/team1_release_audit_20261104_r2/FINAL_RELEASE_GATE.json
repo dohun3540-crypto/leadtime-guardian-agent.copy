@@ -1,0 +1,70 @@
+{
+  "schema_version": "team1-release-audit/v1",
+  "audit_date_kst": "2026-11-03",
+  "handoff_date": "2026-11-04",
+  "protected_personal_sha": "edab2040430e2159399ee61073fe70e5bdf6cba2",
+  "read_only_integration_sha": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "candidate_branch": "feat/team1-final-e2e-release-audit-20261104-r2",
+  "gates": {
+    "TEAM1_CODE_COMPLETE": "PASS_LOCAL",
+    "TEAM1_E2E_PREFLIGHT_READY": "PASS_LOCAL",
+    "INDEPENDENT_QA_GATE": "PASS_LOCAL",
+    "CROSS_AGENT_GATE": "PASS_LOCAL",
+    "DATA_QUALITY_GATE": "PENDING",
+    "SCHEMA_CONSISTENCY_GATE": "PENDING",
+    "PROVENANCE_GATE": "BLOCKED",
+    "B0_E1_GATE": "BLOCKED",
+    "C1_COUNTERFACTUAL_GATE": "PASS_LOCAL",
+    "C2_EVIDENCE_GATE": "PASS_LOCAL",
+    "C3_PARTIAL_DELIVERY_GATE": "PASS_LOCAL",
+    "INTEGRATION_COMPATIBILITY_GATE": "PASS_LOCAL",
+    "INTEGRATION_REGRESSION_GATE": "PASS_LOCAL",
+    "STUDIO_LIVE_GATE": "BLOCKED",
+    "PYTHON_V6_LIVE_GATE": "BLOCKED",
+    "HUMAN_GOLD_GATE": "PENDING",
+    "OVERALL_RELEASE_GATE": "BLOCKED"
+  },
+  "local_counts": {
+    "personal_full": 750,
+    "personal_qa_subset": 501,
+    "integrated_overlay_full": 812,
+    "integrated_qa_subset": 544,
+    "baseline_preserved": 778,
+    "pdf_pass": 60,
+    "failures": 0,
+    "skips": 0
+  },
+  "new_defects": {
+    "identified": 1,
+    "fixed": 1,
+    "known_unfixed_team1_mandatory_code_defects": 0
+  },
+  "static_studio_null_conflict_candidates": {
+    "existing_top_level_checker": 8,
+    "recursive_explicit_own_field_including_top_level": 40,
+    "confirmed_live_execution_failures_from_this_count": null
+  },
+  "integration_simulation": {
+    "status": "PASS_LOCAL",
+    "method": "API Git Blob verified runnable full-tree restoration + selective overlay",
+    "remote_integration_ci_for_overlay": "NOT_RUN",
+    "remote_repository_mutated": false
+  },
+  "new_head_ci": "recorded after commit in new Draft PR and delivery CI_ATTESTATION.json; do not reuse parent SUCCESS",
+  "data_scope": {
+    "all_pdf_machine_and_parsed_identity": 60,
+    "selected_pdf_ai_visual_review": 12,
+    "human_gold_approved": false,
+    "candidate_matrix_pending": 40
+  },
+  "studio_runs_started": 0,
+  "official_metrics_eligible": false,
+  "release_authorized": false,
+  "merge_authorized": false,
+  "external_blockers": [
+    "Authentic B0/E1 x C001/C013 complete source/stage/receipt/config/job/step bundles",
+    "Same-native-SHA Team2 original V6 result and sidecar",
+    "Human-reviewed original XLSX and approved frozen Gold",
+    "Confirm/fix current Studio null declarations before new authorized live trials"
+  ]
+}
