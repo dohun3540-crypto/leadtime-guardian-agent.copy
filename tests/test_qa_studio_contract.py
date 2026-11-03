@@ -42,6 +42,14 @@ def test_native_without_expected_run_is_not_verified():
     assert result["qa_status"] == "NOT_VERIFIED"
 
 
+def test_native_deeply_nested_content_returns_failure_instead_of_recursion_error():
+    raw = original()
+    raw["content"] = "[" * 100000 + "0" + "]" * 100000
+    result = checked(raw)
+    assert result["qa_status"] == "FAIL"
+    assert "INVALID_OR_DUPLICATE_NATIVE_JSON" in codes(result)
+
+
 @pytest.mark.parametrize(("part", "field", "value", "expected"), [
     ("metadata", "job_execution_id", "job_old_other", "CROSS_JOB_MISMATCH"),
     ("metadata", "step_run_id", "step-old", "CROSS_STEP_MISMATCH"),

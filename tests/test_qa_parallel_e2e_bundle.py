@@ -114,6 +114,23 @@ def test_no_origins_never_authenticates_or_invents_gold(tmp_path):
     assert report["improvement_status"] == "NOT_MEASURED"
 
 
+def test_deeply_nested_native_content_fails_closed_through_cli(tmp_path):
+    manifest = make_bundle(tmp_path)
+    update_json(
+        tmp_path / "operational_native.json",
+        lambda value: value.update({"content": "[" * 100000 + "0" + "]" * 100000}),
+    )
+    result = subprocess.run(
+        [sys.executable, str(CLI), "--manifest", str(manifest)],
+        cwd=ROOT, capture_output=True, text=True, timeout=40, check=False,
+    )
+    assert result.returncode == 1, result.stderr
+    report = json.loads(result.stdout)
+    assert report["status"] == "FAIL"
+    assert report["release_authorized"] is False
+    assert "OPERATIONAL_NATIVE_CONTRACT_FAILED" in codes(report)
+
+
 def test_matching_local_receipts_sidecar_and_native_never_grant_live(tmp_path):
     manifest = make_bundle(tmp_path)
     originals = {p.name: p.read_bytes() for p in tmp_path.iterdir()}
