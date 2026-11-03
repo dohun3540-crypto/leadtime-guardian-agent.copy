@@ -1,0 +1,102 @@
+{
+  "schema_version": "team1-selective-integration-validated/v2",
+  "source_checkpoint": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "integration_base": "67b93291c1f32acaf43e45815d2d1119480b652a",
+  "integration_repo_modified": false,
+  "patch_file": "PRESERVED_FIVE_PATH_OVERLAY.patch (unchanged from checkpoint)",
+  "patch_sha256": "fe0dfa9b0dd51ff5024cb3256247c8cdbbc8808d9950813f40a90375ae337524",
+  "patch_dry_run": "PASS",
+  "patch_apply": "PASS",
+  "files": [
+    {
+      "path": "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+      "operation": "ADD",
+      "integration_before_blob_sha": null,
+      "candidate_blob_sha": "d6b66339f192f8edbc4d822b6070e13d41caeab5",
+      "candidate_sha256": "9554b0f13eb1fcb0835c9e24cf1e3bb1a6723e57c19b3e03231f39d8e41c515c",
+      "same_as_personal_checkpoint": true
+    },
+    {
+      "path": "scripts/team1_e2e_preflight.py",
+      "operation": "ADD",
+      "integration_before_blob_sha": null,
+      "candidate_blob_sha": "7968fffbe93be4e67175baa09786dccbe751cdde",
+      "candidate_sha256": "f50e52fee4d3ee7057780175614be4064481a59f242ed7100b993582391d4652",
+      "same_as_personal_checkpoint": true
+    },
+    {
+      "path": "tests/test_qa_parallel_e2e_bundle.py",
+      "operation": "ADD",
+      "integration_before_blob_sha": null,
+      "candidate_blob_sha": "f5e8d9362be52983f1783890dedc268d6c228d83",
+      "candidate_sha256": "19e56d21fb5f573115f8786c3200e7dfaeb940d5ffb9bde55ac70b15a49828bd",
+      "same_as_personal_checkpoint": true
+    },
+    {
+      "path": "src/leadtime_guardian/qa/studio_contract.py",
+      "operation": "MINIMAL_PATCH",
+      "integration_before_blob_sha": "08b23233ce12575c1c18f654e3ae296b8efa3e7c",
+      "candidate_blob_sha": "535dfdb1180ee199921564bbdb14db3d332dd214",
+      "candidate_sha256": "6946ed74aa6096dd2b4abaecb8ea42f26549ac8f8ec61fe5ef6544f22ce476ec",
+      "same_as_personal_checkpoint": true
+    },
+    {
+      "path": "tests/test_qa_studio_contract.py",
+      "operation": "MINIMAL_PATCH",
+      "integration_before_blob_sha": "99f40c2e9caa7dccdfc04e96b7180b03cd915feb",
+      "candidate_blob_sha": "024dcf34d3e159b591e5196ac3f1e23817347b22",
+      "candidate_sha256": "7145a6c492880746c09d69c5825b040ef19641cf60eba4e3894b67ffbdbeb5c1",
+      "same_as_personal_checkpoint": true
+    }
+  ],
+  "protected_files": [
+    {
+      "path": "src/leadtime_guardian/strict_json.py",
+      "before_blob_sha": "afa56a5f201af250eeb28a20580bd0188fe5cb51",
+      "after_blob_sha": "afa56a5f201af250eeb28a20580bd0188fe5cb51"
+    },
+    {
+      "path": "src/leadtime_guardian/engine.py",
+      "before_blob_sha": "bc0ecdc3df55c0ad95dc8195f1631579aa95d866",
+      "after_blob_sha": "bc0ecdc3df55c0ad95dc8195f1631579aa95d866"
+    },
+    {
+      "path": "src/leadtime_guardian/studio_adapter.py",
+      "before_blob_sha": "cd24c70f06869a8646e3e56c3ec2e0461727feef",
+      "after_blob_sha": "cd24c70f06869a8646e3e56c3ec2e0461727feef"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/audit.py",
+      "before_blob_sha": "8de0aaaf7b1911d361bd85c9b970d978a126daac",
+      "after_blob_sha": "8de0aaaf7b1911d361bd85c9b970d978a126daac"
+    },
+    {
+      "path": "src/leadtime_guardian/qa/input_delivery.py",
+      "before_blob_sha": "f838759de7f188b1330a3c93a466f8cfab344e2a",
+      "after_blob_sha": "f838759de7f188b1330a3c93a466f8cfab344e2a"
+    },
+    {
+      "path": "qa/inventory.py",
+      "before_blob_sha": "6bdb6f6d710066e491451bdc21c6233a5965a19d",
+      "after_blob_sha": "6bdb6f6d710066e491451bdc21c6233a5965a19d"
+    }
+  ],
+  "base_blob_count_verified": 336,
+  "dependencies_already_at_base": [
+    "qa.audit.load_json_strict",
+    "qa.release_inventory.audit_release_folder",
+    "qa.experiment_compare.audit_b0_e1_readiness",
+    "qa.studio_contract.audit_native_envelope"
+  ],
+  "baseline_node_ids": 778,
+  "candidate_node_ids": 812,
+  "missing_baseline_ids": [],
+  "prior_812_ids_exactly_preserved": true,
+  "full_pytest_passed": 812,
+  "qa_pytest_passed": 544,
+  "ruff": "PASS_LOCAL",
+  "local_gate": "PASS_LOCAL",
+  "overall_release": "BLOCKED",
+  "new_demo_tools_required_for_operational_patch": false,
+  "remote_application": "NOT_PERFORMED; integration maintainer only"
+}

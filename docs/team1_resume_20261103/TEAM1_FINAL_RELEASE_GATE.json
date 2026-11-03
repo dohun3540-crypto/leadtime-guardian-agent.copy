@@ -1,0 +1,97 @@
+{
+  "schema_version": "team1-resume-release-gate/v1",
+  "created_at_kst": "2026-11-03T19:00:40.650314+09:00",
+  "checkpoint": "8b671d4a67cd649b08c4e6603a457f607342c3d7",
+  "validated_code_commit": "6929ea1dc29e1ad6c1d1c604dd1180968ef7ec1a",
+  "task_status": {
+    "A": {
+      "status": "BLOCKED",
+      "done": "Recovered previously missing candidate v2 Normalize original; same Job/source rows and 3-document contract verified locally",
+      "remaining": "Actual QA input, raw Merge/complete step trace and upload receipts; same-input Team2 original handoff; approved Gold"
+    },
+    "B": {
+      "status": "BLOCKED",
+      "done": "Preserved B0/candidate identities without assigning an unauthenticated E1 alias",
+      "remaining": "0/4 complete authenticated B0-C001/E1-C001/B0-C013/E1-C013 bundles"
+    },
+    "C": {
+      "status": "PASS_LOCAL",
+      "done": "Exact 40 candidates classified: 36 POTENTIAL_CONFLICT, 4 NOT_VERIFIED; live defects 0 confirmed",
+      "remaining": "Provider null runtime/import validation; no unverified schema patch applied"
+    },
+    "D": {
+      "status": "PASS_LOCAL",
+      "done": "Existing missing-input diagnostic completion preserved; preflight BLOCKED, invalid_inputs=[], no exception",
+      "remaining": "Full Native E2E acceptance remains BLOCKED"
+    },
+    "E": {
+      "status": "PASS_LOCAL",
+      "done": "Runnable C001/C013 Native replay CLI, C008/C017 synthetic demos, evaluation and manual",
+      "remaining": "Live demo and official accuracy NOT_MEASURED without approved Gold"
+    },
+    "F": {
+      "status": "PASS_LOCAL",
+      "done": "Five-path patch applied in isolation to exact integration base; 812/544 tests, prior 778 and 812 nodeIDs preserved, Ruff/archive/local gate/PDF60 PASS_LOCAL",
+      "remaining": "Maintainer-only remote integration and new integration CI; no integration push performed"
+    }
+  },
+  "code_gate": "PASS",
+  "schema_classification": "PASS_LOCAL",
+  "demo": "PASS_LOCAL",
+  "integration_patch": "PASS_LOCAL",
+  "studio_native_e2e": "BLOCKED",
+  "provenance_gate": "BLOCKED",
+  "human_gold": "BLOCKED",
+  "formal_experiment_bundles": 0,
+  "required_experiment_bundles": 4,
+  "b0_e1_metrics": "NOT_MEASURED",
+  "overall_release_gate": "BLOCKED",
+  "release_authorized": false,
+  "new_studio_runs_started": 0,
+  "original_repo_modified": false,
+  "integration_repo_modified": false,
+  "main_merged": false,
+  "force_push": false,
+  "test_counts": {
+    "personal_full": {
+      "tests": 754,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "personal_qa": {
+      "tests": 505,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "team1_e2e": {
+      "tests": 106,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration_full": {
+      "tests": 812,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "integration_qa": {
+      "tests": 544,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "remaining_evidence": [
+    "actual IndependentQA input bytes",
+    "raw Merge output with provider step-run joins",
+    "original upload receipts tied to PDF SHA/File IDs",
+    "immutable execution config/prompt binding",
+    "authenticated experiment alias registry",
+    "Team2-authored result+sidecar for identical Native SHA",
+    "human-approved Gold and original reviewed XLSX"
+  ],
+  "final_document_commit_ci": "SEE_POST_PUSH_ATTESTATION; not yet observed when this file was committed"
+}
