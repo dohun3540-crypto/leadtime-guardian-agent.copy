@@ -1,0 +1,120 @@
+{
+  "personal": {
+    "tracked_files": 358,
+    "changed_or_missing": [],
+    "extra_files": [],
+    "git_metadata": "NO_DOT_GIT; reconstructed exact API blobs, local branch/HEAD not available"
+  },
+  "integration": {
+    "tracked_files": 336,
+    "changed_or_missing": [],
+    "extra_files": [],
+    "git_metadata": "NO_DOT_GIT; reconstructed exact API blobs, local branch/HEAD not available"
+  },
+  "overlay_delta": [
+    {
+      "path": "docs/team1_final_hardening_20261103/CROSS_TEAM_COMPATIBILITY_REPORT.md",
+      "change": "ADDED",
+      "sha256": "cdf5197aa1799d38f86bec6eec9a527532340592ceb873095ca41b11e303f7c8",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_final_hardening_20261103/DATA_QUALITY_AUDIT.md",
+      "change": "ADDED",
+      "sha256": "f30e15d80430503788cfd3dee762f227be102ae8a37a6c3201417225620f595c",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_final_hardening_20261103/FINAL_E2E_HARDENING_REPORT.md",
+      "change": "ADDED",
+      "sha256": "af8f7ef26a3029f79db767fe6047f1d0f011e5713279582522c42b31c46c2567",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_final_hardening_20261103/FINAL_REGRESSION_AND_CI_REPORT.md",
+      "change": "ADDED",
+      "sha256": "b99543b6678e6f315d36da1b9105ad4ba36ab62412c496984874d0aa389a26fc",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_final_hardening_20261103/INTEGRATION_HANDOFF.md",
+      "change": "ADDED",
+      "sha256": "3c561aa12391b41dd2cff923043a35bc8f1b0844aedacb044fb86d6528238bb4",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_parallel_readiness_20261103/FINAL_REGRESSION_REPORT.md",
+      "change": "ADDED",
+      "sha256": "58b7a22c43c5ffc2e8e5bbaca943b72524b13209f1a71f8f0a4ea320c2e4deb0",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_parallel_readiness_20261103/INTEGRATION_CHANGESET_MANIFEST.json",
+      "change": "ADDED",
+      "sha256": "b716274ebdeda52dc279d044eda6c0eac8adaad96ff6a4d9c7fb936747b13495",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "docs/team1_parallel_readiness_20261103/README.md",
+      "change": "ADDED",
+      "sha256": "a2f14de1e64c9fb6012f22260bf047caf8ba49723c657c00c1ada6ad3a015990",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "scripts/team1_e2e_preflight.py",
+      "change": "ADDED",
+      "sha256": "f50e52fee4d3ee7057780175614be4064481a59f242ed7100b993582391d4652",
+      "team1_five_path_selection": true
+    },
+    {
+      "path": "src/leadtime_guardian/qa/e2e_bundle_preflight.py",
+      "change": "ADDED",
+      "sha256": "9554b0f13eb1fcb0835c9e24cf1e3bb1a6723e57c19b3e03231f39d8e41c515c",
+      "team1_five_path_selection": true
+    },
+    {
+      "path": "src/leadtime_guardian/qa/studio_contract.py",
+      "change": "MODIFIED",
+      "sha256": "6946ed74aa6096dd2b4abaecb8ea42f26549ac8f8ec61fe5ef6544f22ce476ec",
+      "team1_five_path_selection": true
+    },
+    {
+      "path": "src/leadtime_guardian_agent.egg-info/PKG-INFO",
+      "change": "ADDED",
+      "sha256": "7f2d3aae8f948fa2fa7a4c0a26eb530b43955a73f5256ce9b2d0d73cadd6585e",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "src/leadtime_guardian_agent.egg-info/SOURCES.txt",
+      "change": "ADDED",
+      "sha256": "5d4393093048efc53fccd6d24e107a0266681195493761535f5dcf7522005585",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "src/leadtime_guardian_agent.egg-info/dependency_links.txt",
+      "change": "ADDED",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "src/leadtime_guardian_agent.egg-info/top_level.txt",
+      "change": "ADDED",
+      "sha256": "7d48fb6ea15bea480cdaabc09a1e2cebab8784a50fc691af5f03ddf69627494f",
+      "team1_five_path_selection": false
+    },
+    {
+      "path": "tests/test_qa_parallel_e2e_bundle.py",
+      "change": "ADDED",
+      "sha256": "19e56d21fb5f573115f8786c3200e7dfaeb940d5ffb9bde55ac70b15a49828bd",
+      "team1_five_path_selection": true
+    },
+    {
+      "path": "tests/test_qa_studio_contract.py",
+      "change": "MODIFIED",
+      "sha256": "7145a6c492880746c09d69c5825b040ef19641cf60eba4e3894b67ffbdbeb5c1",
+      "team1_five_path_selection": true
+    }
+  ],
+  "new_analysis_code_changes_this_third_run": [],
+  "running_validation_commands": "NONE; prior exec calls completed; no test/Studio job launched by third run"
+}
