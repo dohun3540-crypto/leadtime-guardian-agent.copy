@@ -1,0 +1,135 @@
+{
+  "checkpoint_time_kst": "2026-11-03T18:19:34+09:00",
+  "repository": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy",
+  "branch": "checkpoint/team1-e2e-resume-20261103",
+  "head_sha": "fc974f9589dfc1d56d407e2482c6294b6603e2a9",
+  "commit_sha": "NOT_VERIFIED",
+  "draft_pr_url": "NOT_VERIFIED",
+  "commit_field_note": "Pre-commit repository document. The final delivered ZIP CHECKPOINT_STATUS.json and PR body contain post-push commit/PR attestation; do not confuse base SHA with checkpoint commit.",
+  "workspace": "/workspace/scratch/28d256eab1b7",
+  "local_git_state": "No .git in API-restored personal/integration/overlay trees. git status/diff/cached cannot report a local branch. All358 personal and336 integration tracked blobs matched pinned remote source; no source modifications. Remote new checkpoint branch created from base.",
+  "completed_tasks": [
+    "D (local diagnostic scope only; completed before pause)"
+  ],
+  "in_progress_tasks": [
+    "C",
+    "F"
+  ],
+  "blocked_tasks": [
+    "A",
+    "B"
+  ],
+  "not_started_tasks": [
+    "E"
+  ],
+  "task_states": {
+    "A": {
+      "status": "BLOCKED",
+      "completed": "v4 C001/C013 Normalize/QA/Parse/Classify originals recovered previously; source rows and Job equality checked; C001 provider PDF3 SHA match",
+      "next": "Obtain actual IndependentQA input bytes and provider step input/output trace, Merge raw and original upload receipts; compare input with Normalize bytes without using QA verdict as input"
+    },
+    "B": {
+      "status": "BLOCKED",
+      "completed": "NEW: B0 recorded NCik Job verified in UI; Config cfg_X2/v1 and Normalize/QA/Parse/Classify/Extract zip downloaded. NEW: candidate cfg_bX/v2 QA downloaded; structural config diff preserved",
+      "next": "Authenticate alias registry and PDF-byte equality; retrieve candidate v2 Normalize failed sync; complete four bundles. No paid run"
+    },
+    "C": {
+      "status": "IN_PROGRESS",
+      "completed": "Prior recursive audit lists40 static null/type candidates and raw declarations, no reproduced live failure; candidate patch is unvalidated and NOT applied",
+      "next": "Finish40-row classification with required/nullable/prompt/observed-native/reproduction/risk/owner fields. Account for actual addNullTypeToNumericTypes flag; do not equate declaration mismatch with runtime failure"
+    },
+    "D": {
+      "status": "COMPLETED",
+      "scope": "Existing-evidence local preflight diagnostic only, not authenticated live E2E",
+      "completed": "Prior C001 actual source Preflight returned BLOCKED with invalid_inputs=[] and no exception. C013 actual Native local Combined/V6 safely blocked; manifests preserved",
+      "next": "Revalidate only after new authentic evidence; do not force C001-only preflight on C013"
+    },
+    "E": {
+      "status": "NOT_STARTED",
+      "completed": "Prior C001/C013 local replay outputs available; no new runnable demo/manual created in interrupted third task",
+      "next": "Create reproducible C00160500KRW and C013 conflict-block demo/manual using existing CLI. Label LOCAL_REPLAY, no formal accuracy without Gold"
+    },
+    "F": {
+      "status": "IN_PROGRESS",
+      "completed": "Prior full overlay812 and original778 nodeIDs preserved. Existing five selected paths conserved as patch for this checkpoint, not newly applied/tested",
+      "next": "Validate selective patch on exact integration base in isolation, preserve strict_json/engine/adapter/QA guards; only maintainer may push integration. No repeat full tests merely to save checkpoint"
+    }
+  },
+  "modified_files": [
+    "docs/team1_resume_checkpoint_20261103/WORK_RESUME_HANDOFF.md",
+    "docs/team1_resume_checkpoint_20261103/CHECKPOINT_STATUS.json",
+    "docs/team1_resume_checkpoint_20261103/RESUME_WORK_PROMPT.md",
+    "docs/team1_resume_checkpoint_20261103/EVIDENCE_INDEX.json",
+    "docs/team1_resume_checkpoint_20261103/SOURCE_STATE.json"
+  ],
+  "code_changes_this_interrupted_run": [],
+  "deleted_source_files": [],
+  "unsaved_editor_buffers": "NONE_OBSERVED; tool-generated files are on disk",
+  "running_commands": "NONE_OBSERVED; no validation process launched in interrupted third run",
+  "saved_artifacts": [
+    {
+      "name": "LeadTime_Guardian_Team1_Resume_Checkpoint_20261103.zip",
+      "library_file_id": "libfile_a5a7ed79e6c0819198e51e4e5bf5c607",
+      "url": "https://chatgpt.com/library?file_id=libfile_a5a7ed79e6c0819198e51e4e5bf5c607&account_id=personal",
+      "private_subpackage": "PRIVATE_EVIDENCE_SNAPSHOT.zip",
+      "originals_and_logs": 143
+    }
+  ],
+  "test_results": {
+    "checkpoint_local_full_regression": "NOT_RUN_AFTER_CHECKPOINT",
+    "checkpoint_local_qa": "NOT_RUN_AFTER_CHECKPOINT",
+    "checkpoint_local_ruff": "NOT_RUN_AFTER_CHECKPOINT",
+    "reason": "No production/test changes; user requested immediate preservation. Reused results explicitly bound to unchanged source below.",
+    "previous_actual_personal": {
+      "head": "fc974f9589dfc1d56d407e2482c6294b6603e2a9",
+      "full_passed": 750,
+      "qa_passed": 501,
+      "failed": 0,
+      "skipped": 0,
+      "log": "verification_v2/evidence/personal.log",
+      "xml": "verification_v2/evidence/personal.xml"
+    },
+    "previous_actual_overlay": {
+      "base": "67b93291c1f32acaf43e45815d2d1119480b652a",
+      "selection": "PR20/PR21/PR23 five-path Team1 overlay",
+      "full_passed": 812,
+      "qa_passed": 544,
+      "failed": 0,
+      "skipped": 0,
+      "original_test_ids_preserved": 778,
+      "log": "verification_v2/evidence/integrated-overlay-serial.log",
+      "xml": "verification_v2/evidence/integrated-overlay-serial.xml",
+      "earlier_concurrent_failure": "811 pass/1 fail in 0.05s SDK timeout fixture; isolated retry passed and serial full812 passed without assertion/code/timeout change; retain original failure log"
+    },
+    "previous_pdf_machine": {
+      "passed": 60,
+      "failed": 0,
+      "human_review_approved": false
+    },
+    "previous_ruff": "PASS"
+  },
+  "ci_status": {
+    "checkpoint_new_ci": "NOT_VERIFIED_BEFORE_DRAFT_PR",
+    "existing_pr23": "completed SUCCESS; freshly rechecked at stop",
+    "existing_pr23_head": "fc974f9589dfc1d56d407e2482c6294b6603e2a9",
+    "existing_pr23_run": "https://github.com/dohun3540-crypto/leadtime-guardian-agent.copy/actions/runs/41599142645",
+    "existing_pr23_counts": "750 full /501 QA; actual logs already saved",
+    "checkout_note": "Prior CI used synthetic merge e7ee5cba39fb4c4c567a0e3800c0427aa017b108; tree equals candidate tree5b3bb2c8c8f1a0fe1dba1901f37ca51e4c74ce22, commits differ.",
+    "integration_existing": "https://github.com/dohun3540-crypto/yuseok_integration/actions/runs/41465445285",
+    "integration_existing_head": "67b93291c1f32acaf43e45815d2d1119480b652a",
+    "integration_existing_counts": "778; not overlay812 remote CI"
+  },
+  "release_gate": {
+    "overall": "BLOCKED",
+    "release_authorized": false,
+    "formal_b0_e1_completed": 0,
+    "required": 4,
+    "code": "PASS",
+    "readiness_index_unofficial": 74.375,
+    "code_local_components_satisfied": 9,
+    "component_denominator": 16,
+    "human_gold_approved": false
+  },
+  "next_priority_action": "Resume Task A: obtain actual QA input and explicit step trace, starting with already saved v4 originals; if unavailable finish independent C/F/E work without new paid execution.",
+  "protected_assets": "PR19/20/21/23, personal main and whole integration repository unchanged; no merge/force-push/Gold approval/paid run"
+}
